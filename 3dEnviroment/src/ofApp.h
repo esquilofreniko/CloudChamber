@@ -23,10 +23,16 @@ class ofApp : public ofBaseApp{
 		ofCamera cam;
 		ofVec3f campos;
 		ofPlanePrimitive plane1;
+		ofPlanePrimitive plane2;
+		ofPlanePrimitive plane3;
+		ofPlanePrimitive plane4;
+		ofPlanePrimitive plane5;
+		ofPlanePrimitive plane6;
 
 		int numcols = 100;
 		int numrows = 100;
+		int height = 100;
 		int camx = 0;
 		int camy = 0;
-		int camz = 4;
+		int camz = 10;
 };
