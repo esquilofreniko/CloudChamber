@@ -2,9 +2,10 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-  ofEnableDepthTest();
-  ofBackground(0);
-  cam.tilt(90);
+  ofSetFullscreen(true);
+  ofSetBackgroundAuto(false);
+  ofBackground(0,5);
+  cam.tilt(180);
   cam.setPosition(camx,camy,camz);
   plane1.set(numcols,numrows);
   plane1.setPosition(0,0,0);
@@ -32,6 +33,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+  timer += ballspeed;
   campos = cam.getPosition();
   if(campos.x<(-numcols/2)+10){
     cam.setPosition((-numcols/2)+10,campos.y,campos.z);
@@ -56,7 +58,8 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
   cam.begin();
-  ofSetColor(127);
+  ofBackground(0,0,0,5);
+  ofSetColor(25);
   ofFill();
   plane1.drawWireframe();
   plane2.drawWireframe();
@@ -64,6 +67,11 @@ void ofApp::draw(){
   plane4.drawWireframe();
   plane5.drawWireframe();
   plane6.drawWireframe();
+
+  for (int i=0;i<100;i++){
+    balls[i].draw(((ofNoise(timer+(i*balls[i].randx))*100)-50),((ofNoise(timer+(i*balls[i].randy))*100)-50),((ofNoise(timer+(i*balls[i].randz))*100)));
+    ofDrawLine(balls[i].pos.x,balls[i].pos.y,balls[i].pos.z,balls[(i+1)%101].pos.x,balls[(i+1)%101].pos.y,balls[(i+1)%101].pos.z);
+  }
   cam.end();
 }
 
@@ -86,6 +94,12 @@ void ofApp::keyPressed(int key){
   }
   else if(key == 'q'){
     cam.tilt(-1);
+  }
+  if(key == '+'){
+    ballspeed += 0.00001;
+  }
+  else if(key == '-'){
+    ballspeed -= 0.00001;
   }
 }
 
