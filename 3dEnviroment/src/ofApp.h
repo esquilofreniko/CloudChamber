@@ -1,24 +1,6 @@
 #pragma once
-
 #include "ofMain.h"
-
-class Ball {
-	public:
-		float randx = ofRandom(0,250);
-		float randy = ofRandom(0,250);
-		float randz = ofRandom(0,250);
-		float size = 0.1;
-		ofVec3f pos;
-		void draw(float x, float y, float z){
-			ofSpherePrimitive ballgen;
-			ofFill();
-			ofSetColor(250,125);
-			ballgen.setRadius(size);
-			ballgen.setPosition(x,y,z);
-			pos = ballgen.getPosition();
-			ballgen.draw();
-		};
-};
+#include "stuff.h"
 
 class ofApp : public ofBaseApp{
 	public:
@@ -38,22 +20,24 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		ofCamera cam;
-		ofVec3f campos;
-		ofPlanePrimitive plane1;
-		ofPlanePrimitive plane2;
-		ofPlanePrimitive plane3;
-		ofPlanePrimitive plane4;
-		ofPlanePrimitive plane5;
-		ofPlanePrimitive plane6;
-		Ball balls [100];
-
 		int numcols = 100;
 		int numrows = 100;
 		int height = 100;
+		int bgreset = 0;
+		int bgresetmax = 128;
 		int camx = 0;
 		int camy = 0;
 		int camz = 10;
 		float timer = 0;
-		float ballspeed = 0.001;
+		float speed = 0.0001;
+		float randx [1000];
+		float randy [1000];
+		float randz [1000];
+
+		ofCamera cam;
+		ofVec3f campos;
+		ofPlanePrimitive planes [6];
+		Points points;
+		Lines lines [4];
+		Shapes shapes [4];
 };

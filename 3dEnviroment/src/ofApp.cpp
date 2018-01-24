@@ -7,33 +7,46 @@ void ofApp::setup(){
   ofBackground(0,5);
   cam.tilt(180);
   cam.setPosition(camx,camy,camz);
-  plane1.set(numcols,numrows);
-  plane1.setPosition(0,0,0);
-  plane1.setResolution(numcols,numrows);
-  plane2.set(numcols,numrows);
-  plane2.setPosition(0,0,height);
-  plane2.setResolution(numcols,numrows);
-  plane3.set(numcols,numrows);
-  plane3.setPosition(0,numrows/2,height/2);
-  plane3.setResolution(numcols,numrows);
-  plane3.rotate(90,1,0,0);
-  plane4.set(numcols,numrows);
-  plane4.setPosition(0,-numrows/2,height/2);
-  plane4.setResolution(numcols,numrows);
-  plane4.rotate(90,1,0,0);
-  plane5.set(numcols,numrows);
-  plane5.setPosition(numcols/2,0,height/2);
-  plane5.setResolution(numcols,numrows);
-  plane5.rotate(90,0,1,0);
-  plane6.set(numcols,numrows);
-  plane6.setPosition(-numcols/2,0,height/2);
-  plane6.setResolution(numcols,numrows);
-  plane6.rotate(90,0,1,0);
+  planes[0].set(numcols,numrows);
+  planes[0].setPosition(0,0,0);
+  planes[0].setResolution(numcols,numrows);
+  planes[1].set(numcols,numrows);
+  planes[1].setPosition(0,0,height);
+  planes[1].setResolution(numcols,numrows);
+  planes[2].set(numcols,numrows);
+  planes[2].setPosition(0,numrows/2,height/2);
+  planes[2].setResolution(numcols,numrows);
+  planes[2].rotate(90,1,0,0);
+  planes[3].set(numcols,numrows);
+  planes[3].setPosition(0,-numrows/2,height/2);
+  planes[3].setResolution(numcols,numrows);
+  planes[3].rotate(90,1,0,0);
+  planes[4].set(numcols,numrows);
+  planes[4].setPosition(numcols/2,0,height/2);
+  planes[4].setResolution(numcols,numrows);
+  planes[4].rotate(90,0,1,0);
+  planes[5].set(numcols,numrows);
+  planes[5].setPosition(-numcols/2,0,height/2);
+  planes[5].setResolution(numcols,numrows);
+  planes[5].rotate(90,0,1,0);
+
+  points.nvert = 1000;
+  lines[0].nvert = 1000;
+  lines[1].nvert = 250;
+  shapes[0].nvert = 1000;
+  shapes[1].nvert = 1000;
+
+  for (int i=0;i<1000;i++){
+    randx[i] = ofRandom(0,1000);
+    randy[i] = ofRandom(0,1000);
+    randz[i] = ofRandom(0,1000);
+  }
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-  timer += ballspeed;
+  timer += speed;
+
   campos = cam.getPosition();
   if(campos.x<(-numcols/2)+10){
     cam.setPosition((-numcols/2)+10,campos.y,campos.z);
@@ -53,30 +66,62 @@ void ofApp::update(){
   if(campos.z>height-10){
     cam.setPosition(campos.x,campos.y,height-10);
   }
+
+  for (int i=0;i<points.nvert;i++){
+    points.vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
+    points.vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
+    points.vertices[i].z = ofNoise(timer+randz[i])*height;
+  }
+  for (int i=0;i<lines[0].nvert;i++){
+    lines[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
+    lines[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
+    lines[0].vertices[i].z = ofNoise(timer+randz[i])*height;
+  }
+  for (int i=0;i<lines[1].nvert;i++){
+    lines[1].vertices[i].x = ofNoise(timer+randx[i])*(numcols/4)-(numcols/8);
+    lines[1].vertices[i].y = ofNoise(timer+randy[i])*(numrows/4)-(numrows/8);
+    lines[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
+  }
+  for (int i=0;i<shapes[0].nvert;i++){
+    shapes[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
+    shapes[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
+    shapes[0].vertices[i].z = ofNoise(timer+randz[i])*height;
+  }
+  for (int i=0;i<shapes[1].nvert;i++){
+    shapes[1].vertices[i].x = ofNoise(timer+randx[i])*(numcols/4)-(numcols/8);
+    shapes[1].vertices[i].y = ofNoise(timer+randy[i])*(numrows/4)-(numrows/8);
+    shapes[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
+  }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
   cam.begin();
-  ofBackground(0,0,0,5);
+  bgresetmax = 1;
+  bgreset += 1;
+  bgreset %= bgresetmax;
+  if(bgreset == 0){
+    ofBackground(0,0,0,5);
+  }
+
   ofSetColor(25);
   ofFill();
-  plane1.drawWireframe();
-  plane2.drawWireframe();
-  plane3.drawWireframe();
-  plane4.drawWireframe();
-  plane5.drawWireframe();
-  plane6.drawWireframe();
-
-  for (int i=0;i<100;i++){
-    balls[i].draw(((ofNoise(timer+(i*balls[i].randx))*100)-50),((ofNoise(timer+(i*balls[i].randy))*100)-50),((ofNoise(timer+(i*balls[i].randz))*100)));
-    ofDrawLine(balls[i].pos.x,balls[i].pos.y,balls[i].pos.z,balls[(i+1)%101].pos.x,balls[(i+1)%101].pos.y,balls[(i+1)%101].pos.z);
+  for (int i=0;i<6;i++){
+    planes[i].drawWireframe();
   }
+
+  points.draw(250,200);
+  lines[0].draw(250,100);
+  shapes[0].draw(0,10);
+  shapes[1].draw(200,5);
+  lines[1].draw(0,100);
+
   cam.end();
 }
 
 //--------------------------------------------------¬------------
 void ofApp::keyPressed(int key){
+  ofBackground(0,0,0,5);
   if(key == 'w'){
     cam.dolly(-1);
   }
@@ -96,10 +141,17 @@ void ofApp::keyPressed(int key){
     cam.tilt(-1);
   }
   if(key == '+'){
-    ballspeed += 0.00001;
+    speed += 0.00001;
   }
   else if(key == '-'){
-    ballspeed -= 0.00001;
+    speed -= 0.00001;
+  }
+  if(key == ' '){
+    for (int i=0;i<1000;i++){
+      randx[i] = ofRandom(0,1000);
+      randy[i] = ofRandom(0,1000);
+      randz[i] = ofRandom(0,1000);
+    }
   }
 }
 

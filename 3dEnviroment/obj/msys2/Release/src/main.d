@@ -1,5 +1,5 @@
 obj/msys2/Release/src/main.o: \
- E:/ofxmsys/apps/myApps/3dEnviroment/src/main.cpp \
+ E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/main.cpp \
  E:/ofxmsys/libs/openFrameworks/ofMain.h \
  E:/ofxmsys/libs/openFrameworks/utils/ofConstants.h \
  E:/ofxmsys/libs/glu/include/glu.h \
@@ -103,7 +103,8 @@ obj/msys2/Release/src/main.o: \
  E:/ofxmsys/libs/openFrameworks/video/ofDirectShowPlayer.h \
  E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h \
  E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h \
- E:/ofxmsys/apps/myApps/3dEnviroment/src/ofApp.h
+ E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/ofApp.h \
+ E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/stuff.h
 
 E:/ofxmsys/libs/openFrameworks/ofMain.h:
 
@@ -311,4 +312,6 @@ E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h:
 
 E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h:
 
-E:/ofxmsys/apps/myApps/3dEnviroment/src/ofApp.h:
+E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/ofApp.h:
+
+E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/stuff.h:
