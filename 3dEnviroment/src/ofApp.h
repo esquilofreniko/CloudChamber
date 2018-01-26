@@ -1,0 +1,44 @@
+#pragma once
+#include "ofMain.h"
+#include "stuff.h"
+
+class ofApp : public ofBaseApp{
+	public:
+		void setup();
+		void update();
+		void draw();
+
+		void keyPressed(int key);
+		void keyReleased(int key);
+		void mouseMoved(int x, int y);
+		void mouseDragged(int x, int y, int button);
+		void mousePressed(int x, int y, int button);
+		void mouseReleased(int x, int y, int button);
+		void mouseEntered(int x, int y);
+		void mouseExited(int x, int y);
+		void windowResized(int w, int h);
+		void dragEvent(ofDragInfo dragInfo);
+		void gotMessage(ofMessage msg);
+
+		int numcols = 100;
+		int numrows = 100;
+		int height = 100;
+		int bgreset = 0;
+		int bgresetmax = 128;
+		int camx = 0;
+		int camy = 0;
+		int camz = 10;
+		float timer = 0;
+		float speed = 0.0001;
+		float randx [1000];
+		float randy [1000];
+		float randz [1000];
+
+		ofCamera cam;
+		ofVec3f campos;
+		ofPlanePrimitive planes [6];
+		Points points;
+		Lines lines [4];
+		Shapes shapes [4];
+		ofLight light;
+};
