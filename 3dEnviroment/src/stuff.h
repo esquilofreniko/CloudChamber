@@ -42,3 +42,22 @@ public:
 		shapegen.draw();
 	}
 };
+
+class Mesh {
+	public:
+		int nvert = 16;
+		ofMesh meshgen;
+		void init(int xmin, int ymin, int zmin, int xmax,int ymax,int zmax){
+			meshgen.clear();
+			for (int i = 0; i<nvert; i++){
+					meshgen.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+					meshgen.addVertex(ofPoint(ofRandom(xmin,xmax),ofRandom(ymin,ymax),ofRandom(zmin,zmax)));
+					meshgen.addIndex(i);
+				}
+			}
+			void draw(int c,int a){
+			ofSetColor(c,a);
+			ofFill();
+			meshgen.draw();
+		}
+};

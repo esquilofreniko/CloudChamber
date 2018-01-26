@@ -7,9 +7,27 @@ void ofApp::setup(){
   ofBackground(0,5);
 
   // ofEnableLighting();
-  // ofColor purple(255,0,255);
-  // light.setPointLight();
-  // light.setDiffuseColor(purple);
+  // ofColor white(255,255,255,255);
+  // ofColor red(255,0,0,255);
+  // ofColor green(0,255,0,255);
+  // ofColor blue(0,0,255,255);
+  // ofColor purple(255,0,255,255);
+  // light[0].setPointLight();
+  // light[0].setDiffuseColor(white);
+  // light[0].setPosition(0,0,0);
+  // light[0].enable();
+  // light[1].setDirectional();
+  // light[1].setDiffuseColor(white);
+  // light[1].setPosition(0,0,100);
+  // light[1].enable();
+  // light[2].setPointLight();
+  // light[2].setDiffuseColor(white);
+  // light[2].setPosition(0,0,50);
+  // light[2].enable();
+  // light[3].setPointLight();
+  // light[3].setDiffuseColor(white);
+  // light[3].setPosition(0,0,50);
+  // light[3].enable();
 
   cam.tilt(180);
   cam.setPosition(camx,camy,camz);
@@ -41,6 +59,9 @@ void ofApp::setup(){
   lines[1].nvert = 250;
   shapes[0].nvert = 1000;
   shapes[1].nvert = 1000;
+
+  mesh.nvert = 16;
+  mesh.init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
 
   for (int i=0;i<1000;i++){
     randx[i] = ofRandom(0,1000);
@@ -103,7 +124,6 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
   cam.begin();
-  // light.enable();
   bgresetmax = 1;
   bgreset += 1;
   bgreset %= bgresetmax;
@@ -122,6 +142,8 @@ void ofApp::draw(){
   shapes[0].draw(0,10);
   shapes[1].draw(200,5);
   lines[1].draw(0,100);
+  
+  mesh.draw(127,50);
 
   cam.end();
 }
@@ -153,12 +175,15 @@ void ofApp::keyPressed(int key){
   else if(key == '-'){
     speed -= 0.00001;
   }
-  if(key == ' '){
+  if(key == 'n'){
     for (int i=0;i<1000;i++){
       randx[i] = ofRandom(0,1000);
       randy[i] = ofRandom(0,1000);
       randz[i] = ofRandom(0,1000);
     }
+  }
+  if(key == ' '){
+    mesh.init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
   }
 }
 
