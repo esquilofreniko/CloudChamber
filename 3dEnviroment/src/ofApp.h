@@ -40,4 +40,5 @@ class ofApp : public ofBaseApp{
 		Points points;
 		Lines lines [4];
 		Shapes shapes [4];
+		ofLight light;
 };

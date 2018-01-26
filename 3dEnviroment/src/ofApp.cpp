@@ -5,6 +5,12 @@ void ofApp::setup(){
   ofSetFullscreen(true);
   ofSetBackgroundAuto(false);
   ofBackground(0,5);
+
+  // ofEnableLighting();
+  // ofColor purple(255,0,255);
+  // light.setPointLight();
+  // light.setDiffuseColor(purple);
+
   cam.tilt(180);
   cam.setPosition(camx,camy,camz);
   planes[0].set(numcols,numrows);
@@ -31,7 +37,7 @@ void ofApp::setup(){
   planes[5].rotate(90,0,1,0);
 
   points.nvert = 1000;
-  lines[0].nvert = 1000;
+  lines[0].nvert = 500;
   lines[1].nvert = 250;
   shapes[0].nvert = 1000;
   shapes[1].nvert = 1000;
@@ -67,11 +73,11 @@ void ofApp::update(){
     cam.setPosition(campos.x,campos.y,height-10);
   }
 
-  for (int i=0;i<points.nvert;i++){
-    points.vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
-    points.vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
-    points.vertices[i].z = ofNoise(timer+randz[i])*height;
-  }
+  // for (int i=0;i<points.nvert;i++){
+  //   points.vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
+  //   points.vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
+  //   points.vertices[i].z = ofNoise(timer+randz[i])*height;
+  // }
   for (int i=0;i<lines[0].nvert;i++){
     lines[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
     lines[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
@@ -97,6 +103,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
   cam.begin();
+  // light.enable();
   bgresetmax = 1;
   bgreset += 1;
   bgreset %= bgresetmax;
@@ -104,13 +111,13 @@ void ofApp::draw(){
     ofBackground(0,0,0,5);
   }
 
-  ofSetColor(25);
+  ofSetColor(250,10);
   ofFill();
   for (int i=0;i<6;i++){
     planes[i].drawWireframe();
   }
 
-  points.draw(250,200);
+  // points.draw(250,200);
   lines[0].draw(250,100);
   shapes[0].draw(0,10);
   shapes[1].draw(200,5);
