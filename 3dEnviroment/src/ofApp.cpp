@@ -54,7 +54,7 @@ void ofApp::setup(){
   planes[5].setResolution(numcols,numrows);
   planes[5].rotate(90,0,1,0);
 
-  points.nvert = 1000;
+  points.nvert = 1;
   lines[0].nvert = 500;
   lines[1].nvert = 250;
   shapes[0].nvert = 1000;
@@ -94,11 +94,12 @@ void ofApp::update(){
     cam.setPosition(campos.x,campos.y,height-10);
   }
 
-  // for (int i=0;i<points.nvert;i++){
-  //   points.vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
-  //   points.vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
-  //   points.vertices[i].z = ofNoise(timer+randz[i])*height;
-  // }
+  points.vertices[points.nvert].x = ofRandom(-numcols/2,numcols/2);
+  points.vertices[points.nvert].y = ofRandom(-numrows/2,numrows/2);
+  points.vertices[points.nvert].z = ofRandom(0,height);
+  points.nvert += 1;
+  points.nvert %= 1000;
+
   for (int i=0;i<lines[0].nvert;i++){
     lines[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
     lines[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
@@ -137,13 +138,13 @@ void ofApp::draw(){
     planes[i].drawWireframe();
   }
 
-  // points.draw(250,200);
+  points.draw(250,200);
   lines[0].draw(250,100);
   shapes[0].draw(0,10);
   shapes[1].draw(200,5);
   lines[1].draw(0,100);
-  
-  mesh.draw(127,50);
+
+  // mesh.draw(250,75);
 
   cam.end();
 }
