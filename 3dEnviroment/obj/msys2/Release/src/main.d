@@ -1,5 +1,5 @@
 obj/msys2/Release/src/main.o: \
- E:/ofxmsys/apps/cloudchamber/3denviroment/src/main.cpp \
+ E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/main.cpp \
  E:/ofxmsys/libs/openFrameworks/ofMain.h \
  E:/ofxmsys/libs/openFrameworks/utils/ofConstants.h \
  E:/ofxmsys/libs/glu/include/glu.h \
@@ -103,8 +103,35 @@ obj/msys2/Release/src/main.o: \
  E:/ofxmsys/libs/openFrameworks/video/ofDirectShowPlayer.h \
  E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h \
  E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h \
- E:/ofxmsys/apps/cloudchamber/3denviroment/src/ofApp.h \
- E:/ofxmsys/apps/cloudchamber/3denviroment/src/stuff.h
+ E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/ofApp.h \
+ E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/stuff.h \
+ E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/clifford.h \
+ E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/synth.h \
+ E:/ofxmsys/addons/ofxSuperCollider/src/ofxSuperCollider.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOsc.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscArg.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscMessage.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscSender.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscException.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscBundle.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscReceiver.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h \
+ E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCResourceAllocator.h \
+ E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCServer.h \
+ E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCNode.h \
+ E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCSynth.h \
+ E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCGroup.h \
+ E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBus.h \
+ E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBuffer.h \
+ E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/movingAverage.h
 
 E:/ofxmsys/libs/openFrameworks/ofMain.h:
 
@@ -312,6 +339,60 @@ E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h:
 
 E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h:
 
-E:/ofxmsys/apps/cloudchamber/3denviroment/src/ofApp.h:
+E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/ofApp.h:
 
-E:/ofxmsys/apps/cloudchamber/3denviroment/src/stuff.h:
+E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/stuff.h:
+
+E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/clifford.h:
+
+E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/synth.h:
+
+E:/ofxmsys/addons/ofxSuperCollider/src/ofxSuperCollider.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOsc.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscArg.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscMessage.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscSender.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscException.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscBundle.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscReceiver.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h:
+
+E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCResourceAllocator.h:
+
+E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCServer.h:
+
+E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCNode.h:
+
+E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCSynth.h:
+
+E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCGroup.h:
+
+E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBus.h:
+
+E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBuffer.h:
+
+E:/ofxmsys/apps/CloudChamber/3dEnviroment/src/movingAverage.h:

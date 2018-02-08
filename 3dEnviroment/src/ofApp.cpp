@@ -2,6 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+
+
   ofSetFullscreen(true);
   ofSetBackgroundAuto(false);
   ofBackground(0,5);
@@ -68,6 +70,10 @@ void ofApp::setup(){
     randy[i] = ofRandom(0,1000);
     randz[i] = ofRandom(0,1000);
   }
+
+  //audio
+    genA.init(-1.4, 1.6, 1.0, 0.7);
+    synthA.setup("sine_drone"); // load synthdef
 }
 
 //--------------------------------------------------------------
@@ -120,6 +126,15 @@ void ofApp::update(){
     shapes[1].vertices[i].y = ofNoise(timer+randy[i])*(numrows/4)-(numrows/8);
     shapes[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
   }
+
+  //audio
+    genA.iterate();
+    avg.update(genA.x[counter]);
+    std::cout << counter << "  |  " << genA.x[counter] << '\n';
+    ++counter;
+    if (counter == 256) {
+        counter = 0;
+    }
 }
 
 //--------------------------------------------------------------
@@ -205,7 +220,17 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+  //audio
+    genA.iterate();
+    //float f = abs(genA.x * 100) + 100; // temporary scaling
+    //float a = abs(genA.y) * 0.2;       // of generative output
+    float f = ofRandom(400,800);
+    float a = ofRandom(0.1, 1);
+    synthA.play(f, 0.5);
+    std::cout << ofGetMouseX() * 0.01 << '\n';
+    std::cout << "voice: " << synthA.currentVoice << " | frequency: " << f << '\n'; // temporary logging
 }
+
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
