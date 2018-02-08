@@ -74,11 +74,30 @@ void ofApp::setup(){
   //audio
     genA.init(-1.4, 1.6, 1.0, 0.7);
     synthA.setup("sine_drone"); // load synthdef
+    synthB.setup("fmhat");
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
   timer += speed;
+  timerint = abs(timer*100);
+  timerint %= 8;
+  if(timerint == 0 && otimerint == 1){
+    otimerint = 0;
+    points.vertices[points.nvert].x = ofRandom(-numcols/2,numcols/2);
+    points.vertices[points.nvert].y = ofRandom(-numrows/2,numrows/2);
+    points.vertices[points.nvert].z = ofRandom(0,height);
+    points.nvert += 1;
+    points.nvert %= 1000;
+    synthB.shot(0.01);
+  };
+  if(timerint > 0){
+    otimerint = 1;
+  };
+  ++counter;
+  if (counter >= 64) {
+    counter = 0;
+  };
 
   campos = cam.getPosition();
   if(campos.x<(-numcols/2)+10){
@@ -99,12 +118,6 @@ void ofApp::update(){
   if(campos.z>height-10){
     cam.setPosition(campos.x,campos.y,height-10);
   }
-
-  points.vertices[points.nvert].x = ofRandom(-numcols/2,numcols/2);
-  points.vertices[points.nvert].y = ofRandom(-numrows/2,numrows/2);
-  points.vertices[points.nvert].z = ofRandom(0,height);
-  points.nvert += 1;
-  points.nvert %= 1000;
 
   for (int i=0;i<lines[0].nvert;i++){
     lines[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
@@ -130,11 +143,6 @@ void ofApp::update(){
   //audio
     genA.iterate();
     avg.update(genA.x[counter]);
-    std::cout << counter << "  |  " << genA.x[counter] << '\n';
-    ++counter;
-    if (counter == 256) {
-        counter = 0;
-    }
 }
 
 //--------------------------------------------------------------

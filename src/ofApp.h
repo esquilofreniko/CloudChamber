@@ -33,6 +33,8 @@ class ofApp : public ofBaseApp{
 		int camx = 0;
 		int camy = 0;
 		int camz = 10;
+		int timerint = 0;
+		int otimerint = 1;
 		float timer = 0;
 		float speed = 0.0001;
 		float randx [1000];
@@ -54,6 +56,7 @@ class ofApp : public ofBaseApp{
     std::string text;
     int counter;
     Synth synthA;
+		Synth synthB;
     Clifford genA;
     MovingAverage avg;
 };

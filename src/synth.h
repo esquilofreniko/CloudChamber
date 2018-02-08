@@ -14,15 +14,21 @@ class Synth {
             synth[i] = new ofxSCSynth(name);
         }
     }
-    
+
     std::string name = "default";
     void setup(int numVoices, std::string name);
     void play(float freq, float amp);
     void modulate(std::string param, float value);
+    void shot(float amp){
+      currentVoice %= numVoices-1;
+      synth[currentVoice]->set("amp", amp);
+      synth[currentVoice]->create();
+      ++currentVoice;
+    };
 
     int currentVoice;
     ofxSCSynth *synth[MAXVOICES+1];
     Synth();
 };
-    
+
 #endif

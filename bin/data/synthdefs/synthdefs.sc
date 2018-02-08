@@ -20,3 +20,25 @@ SynthDef(\sine_drone, {
 	Out.ar(0, Pan2.ar(osc, pan));
 }).store;
 )
+
+(
+SynthDef(\fmhat, {
+	arg dec=0.05,moddec=0.25,maxfreq=200,maxfm=800,amp=0.25,reverb=0;
+	var sig,harmon,modind,modenv,ampenv,freq,fm,close;
+	modenv = EnvGen.kr(Env([1,0],[moddec]),doneAction:2);
+	ampenv = EnvGen.kr(Env([1,0],[dec]));
+	freq = Rand(0,maxfreq);
+	fm = Rand(100,maxfm);
+	harmon = freq*fm;
+	modind = harmon * modenv;
+	harmon = (SinOsc.ar(harmon)*modind);
+	sig = freq + harmon;
+	sig = SinOsc.ar(sig);
+	sig = FreeVerb.ar(sig,reverb,0.5,0.5);
+	sig = sig*ampenv*amp;
+	Out.ar(0,sig);
+	Out.ar(1,sig);
+}).store
+)
+
+Synth(\fmhat);
