@@ -58,7 +58,7 @@ class ofApp : public ofBaseApp{
         MovingAverage avg;
 
         // clock
-        Clock masterClock;
+        //Clock masterClock;
 
 
 

@@ -69,23 +69,30 @@ void ofApp::setup() {
     randz[i] = ofRandom(0,1000);
   }
 
+    genA.init(-1.4, 1.6, 1.0, 0.7);
     sineDrone.setup("sine_drone"); // load synthdef
+    
 }
 
 void ofApp::update() {
+    
+  ++counter;
+  if (counter >= 128) {
+      counter = 0;
+  };
 
   // masterClock.update();
   genA.iterate();
-  float f = abs(genA.x[masterClock.tick-1] * 200) + 200;
-  float a = abs(genA.y[masterClock.tick-1] * 0.5);
-  sineDrone.play(f, a);
+  if (counter % 16 == 1) {
+      float f = abs(genA.x[counter-1] * 300) + 100;
+      float a = abs(genA.y[counter-1] * 0.5);
+      sineDrone.play(f, a);
+  }
 
   timer += speed;
 
-  ++counter;
-  if (counter >= 64) {
-    counter = 0;
-  };
+
+    
 
   campos = cam.getPosition();
   if(campos.x<(-numcols/2)+10){
@@ -219,12 +226,8 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-  // this code iterates through a generative algorithm, and maps the output to the frequency and amplitude of synth voices
-  // intended functionality later on is to improve scaling and mapping to create a more dynamic system in terms of code structure
-  // the finished code will not rely upon the mousePressed function, instead relying upon a clock function
+    
 
-
-  //std::cout << "voice: " << sineDrone.currentVoice << " | frequency: " << f << '\n'; // temporary logging
 }
 
 //--------------------------------------------------------------
