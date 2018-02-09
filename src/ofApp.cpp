@@ -84,8 +84,8 @@ void ofApp::update() {
     
     masterClock.update();
     genA.iterate();
-    float f = abs(genA.x[masterClock.tick-1] * 100) + 100;
-    float a = abs(genA.y[masterClock.tick-1] * 0.1);
+    float f = abs(genA.x[masterClock.tick-1] * 200) + 200;
+    float a = abs(genA.y[masterClock.tick-1] * 0.5);
     sineDrone.play(f, a);
 
     timer += speed;
