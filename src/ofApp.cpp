@@ -68,41 +68,11 @@ void ofApp::setup() {
     randy[i] = ofRandom(0,1000);
     randz[i] = ofRandom(0,1000);
   }
-    
-    sineDrone.setup("sine_drone"); // load synthdef
 
+    sineDrone.setup("sine_drone"); // load synthdef
 }
 
-
-
-
-
-
 void ofApp::update() {
-
-    /*
-    masterClock.update();
-    genA.iterate();
-    float f = abs(genA.x[masterClock.tick-1] * 200) + 200;
-    float a = abs(genA.y[masterClock.tick-1] * 0.5);
-    sineDrone.play(f, a);
-     */
-
-    timer += speed;
-    timerint = abs(timer*100);
-    timerint %= 8;
-    if(timerint == 0 && otimerint == 1){
-        otimerint = 0;
-        points.vertices[points.nvert].x = ofRandom(-numcols/2,numcols/2);
-        points.vertices[points.nvert].y = ofRandom(-numrows/2,numrows/2);
-        points.vertices[points.nvert].z = ofRandom(0,height);
-        points.nvert += 1;
-        points.nvert %= 1000;
-  };
-  if(timerint > 0){
-    otimerint = 1;
-  };
-    
 
   // masterClock.update();
   genA.iterate();
@@ -164,6 +134,7 @@ void ofApp::update() {
   // points.nvert += 1;
   // points.nvert %= 1000;
 }
+
 
 //--------------------------------------------------------------
 void ofApp::draw(){
@@ -248,20 +219,12 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-<<<<<<< HEAD
-    
-
-    
-=======
-
-    // this code iterates through a generative algorithm, and maps the output to the frequency and amplitude of synth voices
-    // intended functionality later on is to improve scaling and mapping to create a more dynamic system in terms of code structure
-    // the finished code will not rely upon the mousePressed function, instead relying upon a clock function
+  // this code iterates through a generative algorithm, and maps the output to the frequency and amplitude of synth voices
+  // intended functionality later on is to improve scaling and mapping to create a more dynamic system in terms of code structure
+  // the finished code will not rely upon the mousePressed function, instead relying upon a clock function
 
 
-    //std::cout << "voice: " << sineDrone.currentVoice << " | frequency: " << f << '\n'; // temporary logging
-
->>>>>>> 5b12affb1d18db423e38c6484278fd5dccfa7e3e
+  //std::cout << "voice: " << sineDrone.currentVoice << " | frequency: " << f << '\n'; // temporary logging
 }
 
 //--------------------------------------------------------------
