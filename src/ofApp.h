@@ -35,14 +35,12 @@ class ofApp : public ofBaseApp{
 		int camx = 0;
 		int camy = 0;
 		int camz = 10;
-		int timerint = 0;
-		int otimerint = 1;
 		float timer = 0;
 		float speed = 0.0001;
 		float randx [1000];
 		float randy [1000];
 		float randz [1000];
-    
+
         int counter;
 
 		ofCamera cam;
@@ -58,10 +56,10 @@ class ofApp : public ofBaseApp{
         Synth sineDrone;
         Clifford genA;
         MovingAverage avg;
-    
+
         // clock
         Clock masterClock;
-    
 
-    
+
+
 };

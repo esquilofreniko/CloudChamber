@@ -69,8 +69,6 @@ void ofApp::setup() {
     randz[i] = ofRandom(0,1000);
   }
     
-    //masterClock.bpm = 60;
-    //genA.init(-1.4, 1.6, 1.0, 0.7);
     sineDrone.setup("sine_drone"); // load synthdef
 
 }
@@ -81,7 +79,7 @@ void ofApp::setup() {
 
 
 void ofApp::update() {
-    
+
     /*
     masterClock.update();
     genA.iterate();
@@ -105,12 +103,19 @@ void ofApp::update() {
     otimerint = 1;
   };
     
+
+  // masterClock.update();
+  genA.iterate();
+  float f = abs(genA.x[masterClock.tick-1] * 200) + 200;
+  float a = abs(genA.y[masterClock.tick-1] * 0.5);
+  sineDrone.play(f, a);
+
+  timer += speed;
+
   ++counter;
   if (counter >= 64) {
     counter = 0;
   };
-    
-
 
   campos = cam.getPosition();
   if(campos.x<(-numcols/2)+10){
@@ -153,8 +158,11 @@ void ofApp::update() {
     shapes[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
   }
 
-
-    
+  // points.vertices[points.nvert].x = ofRandom(-numcols/2,numcols/2);
+  // points.vertices[points.nvert].y = ofRandom(-numrows/2,numrows/2);
+  // points.vertices[points.nvert].z = ofRandom(0,height);
+  // points.nvert += 1;
+  // points.nvert %= 1000;
 }
 
 //--------------------------------------------------------------
@@ -240,9 +248,20 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+<<<<<<< HEAD
     
 
     
+=======
+
+    // this code iterates through a generative algorithm, and maps the output to the frequency and amplitude of synth voices
+    // intended functionality later on is to improve scaling and mapping to create a more dynamic system in terms of code structure
+    // the finished code will not rely upon the mousePressed function, instead relying upon a clock function
+
+
+    //std::cout << "voice: " << sineDrone.currentVoice << " | frequency: " << f << '\n'; // temporary logging
+
+>>>>>>> 5b12affb1d18db423e38c6484278fd5dccfa7e3e
 }
 
 //--------------------------------------------------------------
