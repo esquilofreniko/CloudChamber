@@ -1,8 +1,6 @@
 #include "ofApp.h"
 
-//--------------------------------------------------------------
-void ofApp::setup(){
-
+void ofApp::setup() {
 
   ofSetFullscreen(true);
   ofSetBackgroundAuto(false);
@@ -73,8 +71,7 @@ void ofApp::setup(){
 
   //audio
     genA.init(-1.4, 1.6, 1.0, 0.7);
-    synthA.setup("sine_drone"); // load synthdef
-    synthB.setup("fmhat");
+    sineDrone.setup("sine_drone"); // load synthdef
 }
 
 //--------------------------------------------------------------
@@ -89,7 +86,6 @@ void ofApp::update(){
     points.vertices[points.nvert].z = ofRandom(0,height);
     points.nvert += 1;
     points.nvert %= 1000;
-    synthB.shot(0.01);
   };
   if(timerint > 0){
     otimerint = 1;
@@ -228,15 +224,18 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-  //audio
+    
+    // this code iterates through a generative algorithm, and maps the output to the frequency and amplitude of synth voices
+    // intended functionality later on is to improve scaling and mapping to create a more dynamic system in terms of code structure
+    // the finished code will not rely upon the mousePressed function, instead relying upon a clock function
+    
     genA.iterate();
-    //float f = abs(genA.x * 100) + 100; // temporary scaling
-    //float a = abs(genA.y) * 0.2;       // of generative output
-    float f = ofRandom(400,800);
-    float a = ofRandom(0.1, 1);
-    synthA.play(f, 0.5);
+    float f = abs(genA.x[counter] * 100) + 100;
+    float a = abs(genA.y[counter] * 0.2);
+    sineDrone.play(f, 0.5);
     std::cout << ofGetMouseX() * 0.01 << '\n';
-    std::cout << "voice: " << synthA.currentVoice << " | frequency: " << f << '\n'; // temporary logging
+    std::cout << "voice: " << sineDrone.currentVoice << " | frequency: " << f << '\n'; // temporary logging
+    
 }
 
 

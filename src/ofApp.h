@@ -40,6 +40,8 @@ class ofApp : public ofBaseApp{
 		float randx [1000];
 		float randy [1000];
 		float randz [1000];
+    
+        int counter;
 
 		ofCamera cam;
 		ofVec3f campos;
@@ -51,12 +53,7 @@ class ofApp : public ofBaseApp{
 		Mesh mesh;
 
 		//audio
-		ofTrueTypeFont defaultFont;
-    vector <std::string> textLines;
-    std::string text;
-    int counter;
-    Synth synthA;
-		Synth synthB;
-    Clifford genA;
-    MovingAverage avg;
+        Synth sineDrone;
+        Clifford genA;
+        MovingAverage avg;
 };
