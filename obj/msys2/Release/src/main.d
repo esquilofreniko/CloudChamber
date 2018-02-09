@@ -131,7 +131,8 @@ obj/msys2/Release/src/main.o: \
  E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCGroup.h \
  E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBus.h \
  E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBuffer.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/movingAverage.h
+ E:/ofxmsys/apps/myApps/CloudChamber/src/movingAverage.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/clock.h
 
 E:/ofxmsys/libs/openFrameworks/ofMain.h:
 
@@ -396,3 +397,5 @@ E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBus.h:
 E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBuffer.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/movingAverage.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/clock.h:
