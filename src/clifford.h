@@ -1,8 +1,8 @@
 #ifndef clifford_h
 #define clifford_h
 
-#include "ofMain.h"
 #include <vector>
+#include <cmath>
 
 class Clifford {
     public:

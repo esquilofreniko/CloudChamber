@@ -1,18 +1,20 @@
 #pragma once
+
 #include "ofMain.h"
 #include "stuff.h"
 #include "clifford.h"
 #include "synth.h"
 #include "movingAverage.h"
+#include "clock.h"
 
 
 class ofApp : public ofBaseApp{
 	public:
 		void setup();
 		void update();
+        void play();
 		void draw();
 		void info();
-
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y);
@@ -52,8 +54,14 @@ class ofApp : public ofBaseApp{
 		ofLight light[4];
 		Mesh mesh;
 
-		//audio
+		// audio
         Synth sineDrone;
         Clifford genA;
         MovingAverage avg;
+    
+        // clock
+        Clock masterClock;
+    
+
+    
 };

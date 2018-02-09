@@ -68,32 +68,47 @@ void ofApp::setup() {
     randy[i] = ofRandom(0,1000);
     randz[i] = ofRandom(0,1000);
   }
-
-  //audio
+    
+    masterClock.bpm = 60;
     genA.init(-1.4, 1.6, 1.0, 0.7);
     sineDrone.setup("sine_drone"); // load synthdef
+
 }
 
-//--------------------------------------------------------------
-void ofApp::update(){
-  timer += speed;
-  timerint = abs(timer*100);
-  timerint %= 8;
-  if(timerint == 0 && otimerint == 1){
-    otimerint = 0;
-    points.vertices[points.nvert].x = ofRandom(-numcols/2,numcols/2);
-    points.vertices[points.nvert].y = ofRandom(-numrows/2,numrows/2);
-    points.vertices[points.nvert].z = ofRandom(0,height);
-    points.nvert += 1;
-    points.nvert %= 1000;
+
+
+
+
+
+void ofApp::update() {
+    
+    masterClock.update();
+    genA.iterate();
+    float f = abs(genA.x[masterClock.tick-1] * 100) + 100;
+    float a = abs(genA.y[masterClock.tick-1] * 0.1);
+    sineDrone.play(f, a);
+
+    timer += speed;
+    timerint = abs(timer*100);
+    timerint %= 8;
+    if(timerint == 0 && otimerint == 1){
+        otimerint = 0;
+        points.vertices[points.nvert].x = ofRandom(-numcols/2,numcols/2);
+        points.vertices[points.nvert].y = ofRandom(-numrows/2,numrows/2);
+        points.vertices[points.nvert].z = ofRandom(0,height);
+        points.nvert += 1;
+        points.nvert %= 1000;
   };
   if(timerint > 0){
     otimerint = 1;
   };
+    
   ++counter;
   if (counter >= 64) {
     counter = 0;
   };
+    
+
 
   campos = cam.getPosition();
   if(campos.x<(-numcols/2)+10){
@@ -136,9 +151,8 @@ void ofApp::update(){
     shapes[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
   }
 
-  //audio
-    genA.iterate();
-    avg.update(genA.x[counter]);
+
+    
 }
 
 //--------------------------------------------------------------
@@ -229,12 +243,8 @@ void ofApp::mousePressed(int x, int y, int button){
     // intended functionality later on is to improve scaling and mapping to create a more dynamic system in terms of code structure
     // the finished code will not rely upon the mousePressed function, instead relying upon a clock function
     
-    genA.iterate();
-    float f = abs(genA.x[counter] * 100) + 100;
-    float a = abs(genA.y[counter] * 0.2);
-    sineDrone.play(f, 0.5);
-    std::cout << ofGetMouseX() * 0.01 << '\n';
-    std::cout << "voice: " << sineDrone.currentVoice << " | frequency: " << f << '\n'; // temporary logging
+
+    //std::cout << "voice: " << sineDrone.currentVoice << " | frequency: " << f << '\n'; // temporary logging
     
 }
 

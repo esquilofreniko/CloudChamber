@@ -21,6 +21,7 @@
 		640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2FAC65C491D4231379F3298 /* ofxOscReceiver.cpp */; };
 		67FE4C7B15C2F0478C8126C2 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B361208CD4107E479F04E7B /* NetworkingUtils.cpp */; };
 		72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65EEFA3DA3526E9CDD9C21F9 /* ofxOscBundle.cpp */; };
+		829CCE7D202DC23200324F5F /* clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829CCE7C202DC23200324F5F /* clock.cpp */; };
 		879A251454401BC0B6E4F238 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9BFFBBF4CC43DEE890B3C3E /* OscTypes.cpp */; };
 		8F5205AEF8861EF234F0651A /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81967292BFC87A0144BD32C6 /* ofxOscSender.cpp */; };
 		9886A45FECEEC9EF860EF6C6 /* ofxSCServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62644EE85085B349005C57BD /* ofxSCServer.cpp */; };
@@ -90,6 +91,8 @@
 		6B65E6930994CC4B2D2B8B33 /* OscPacketListener.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscPacketListener.h; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h; sourceTree = SOURCE_ROOT; };
 		7689F8A0F3D0B7635A8C3104 /* ofxOscArg.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscArg.h; path = ../../../addons/ofxOsc/src/ofxOscArg.h; sourceTree = SOURCE_ROOT; };
 		81967292BFC87A0144BD32C6 /* ofxOscSender.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscSender.cpp; path = ../../../addons/ofxOsc/src/ofxOscSender.cpp; sourceTree = SOURCE_ROOT; };
+		829CCE7C202DC23200324F5F /* clock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = clock.cpp; sourceTree = "<group>"; };
+		829CCE7E202DC24400324F5F /* clock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = clock.h; sourceTree = "<group>"; };
 		8353EE2FF873C1AEBE1653A8 /* ofxSCResourceAllocator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSCResourceAllocator.h; path = ../../../addons/ofxSuperCollider/src/ofxSCResourceAllocator.h; sourceTree = SOURCE_ROOT; };
 		85F079FD4EC3B38CE8B8D34F /* stuff.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = stuff.h; path = src/stuff.h; sourceTree = SOURCE_ROOT; };
 		8692427C3B9EAEDFB32AF20B /* mapping.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = mapping.h; path = src/mapping.h; sourceTree = SOURCE_ROOT; };
@@ -296,6 +299,8 @@
 				85F079FD4EC3B38CE8B8D34F /* stuff.h */,
 				F601C2BFDC950B1628844235 /* synth.cpp */,
 				195D1274EA465DEC37EAA988 /* synth.h */,
+				829CCE7C202DC23200324F5F /* clock.cpp */,
+				829CCE7E202DC24400324F5F /* clock.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -423,6 +428,7 @@
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				26AB88635F3BFC5698360FF9 /* clifford.cpp in Sources */,
 				2593C6B09A5526E4B00DBECB /* movingAverage.cpp in Sources */,
+				829CCE7D202DC23200324F5F /* clock.cpp in Sources */,
 				A55D19EBD755548FD6C3ADA5 /* synth.cpp in Sources */,
 				72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */,
 				5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */,
