@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "space.h"
+#include "lightning.h"
 #include "shapes.h"
 #include "clifford.h"
 #include "synth.h"
@@ -32,20 +34,15 @@ class ofApp : public ofBaseApp{
 		int height = 100;
 		int bgreset = 0;
 		int bgresetmax = 128;
-		int camx = 0;
-		int camy = 0;
-		int camz = 10;
+
 		float timer = 0;
 		float speed = 0.0001;
 		float randx [1000];
 		float randy [1000];
 		float randz [1000];
+    int counter;
 
-        int counter;
-
-		ofCamera cam;
-		ofVec3f campos;
-		ofPlanePrimitive planes [6];
+		Space space;
 		Points points [4];
 		Lines lines [4];
 		Shapes shapes [4];

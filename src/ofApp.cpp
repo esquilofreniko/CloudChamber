@@ -1,66 +1,19 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
-
   ofSetFullscreen(true);
   ofSetBackgroundAuto(false);
   ofBackground(0,5);
 
-  // ofEnableLighting();
-  // ofColor white(255,255,255,255);
-  // ofColor red(255,0,0,255);
-  // ofColor green(0,255,0,255);
-  // ofColor blue(0,0,255,255);
-  // ofColor purple(255,0,255,255);
-  // light[0].setPointLight();
-  // light[0].setDiffuseColor(white);
-  // light[0].setPosition(0,0,0);
-  // light[0].enable();
-  // light[1].setDirectional();
-  // light[1].setDiffuseColor(white);
-  // light[1].setPosition(0,0,100);
-  // light[1].enable();
-  // light[2].setPointLight();
-  // light[2].setDiffuseColor(white);
-  // light[2].setPosition(0,0,50);
-  // light[2].enable();
-  // light[3].setPointLight();
-  // light[3].setDiffuseColor(white);
-  // light[3].setPosition(0,0,50);
-  // light[3].enable();
-
-  cam.tilt(180);
-  cam.setPosition(camx,camy,camz);
-  planes[0].set(numcols,numrows);
-  planes[0].setPosition(0,0,0);
-  planes[0].setResolution(numcols,numrows);
-  planes[1].set(numcols,numrows);
-  planes[1].setPosition(0,0,height);
-  planes[1].setResolution(numcols,numrows);
-  planes[2].set(numcols,numrows);
-  planes[2].setPosition(0,numrows/2,height/2);
-  planes[2].setResolution(numcols,numrows);
-  planes[2].rotate(90,1,0,0);
-  planes[3].set(numcols,numrows);
-  planes[3].setPosition(0,-numrows/2,height/2);
-  planes[3].setResolution(numcols,numrows);
-  planes[3].rotate(90,1,0,0);
-  planes[4].set(numcols,numrows);
-  planes[4].setPosition(numcols/2,0,height/2);
-  planes[4].setResolution(numcols,numrows);
-  planes[4].rotate(90,0,1,0);
-  planes[5].set(numcols,numrows);
-  planes[5].setPosition(-numcols/2,0,height/2);
-  planes[5].setResolution(numcols,numrows);
-  planes[5].rotate(90,0,1,0);
+  space.init(numcols,numrows,height);
 
   points[0].nvert = 512;
   lines[0].nvert = 500;
   lines[1].nvert = 250;
   shapes[0].nvert = 1000;
   shapes[1].nvert = 1000;
-
   mesh[0].nvert = 16;
+  
   mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
 
   for (int i=0;i<1000;i++){
@@ -81,6 +34,8 @@ void ofApp::update() {
       counter = 0;
   };
 
+  timer += speed;
+
   // masterClock.update();
   genA.iterate();
   if (counter % 16 == 1) {
@@ -89,30 +44,7 @@ void ofApp::update() {
       sineDrone.play(f, a);
   }
 
-  timer += speed;
-
-
-
-
-  campos = cam.getPosition();
-  if(campos.x<(-numcols/2)+10){
-    cam.setPosition((-numcols/2)+10,campos.y,campos.z);
-  }
-  if (campos.x>(numcols/2)-10){
-    cam.setPosition((numcols/2)-10,campos.y,campos.z);
-  }
-  if(campos.y<(-numrows/2)+10){
-    cam.setPosition(campos.x,(-numrows/2)+10,campos.z);
-  }
-  if (campos.y>(numrows/2)-10){
-    cam.setPosition(campos.x,(numrows/2)-10,campos.z);
-  }
-  if (campos.z<0+10){
-    cam.setPosition(campos.x,campos.y,0+10);
-  }
-  if(campos.z>height-10){
-    cam.setPosition(campos.x,campos.y,height-10);
-  }
+  space.update();
 
   //update shape positions
   for (int i=0;i<1000;i++){
@@ -147,7 +79,7 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-  cam.begin();
+  space.cam.begin();
   bgresetmax = 1;
   bgreset += 1;
   bgreset %= bgresetmax;
@@ -158,7 +90,7 @@ void ofApp::draw(){
   ofSetColor(250,10);
   ofFill();
   for (int i=0;i<6;i++){
-    planes[i].drawWireframe();
+    space.planes[i].drawWireframe();
   }
 
   points[0].draw(255,255);
@@ -170,29 +102,29 @@ void ofApp::draw(){
 
   mesh[0].draw(250,75);
 
-  cam.end();
+  space.cam.end();
 }
 
 //--------------------------------------------------¬------------
 void ofApp::keyPressed(int key){
   ofBackground(0,0,0,5);
   if(key == 'w'){
-    cam.dolly(-1);
+    space.cam.dolly(-1);
   }
   else if(key == 's'){
-    cam.dolly(1);
+    space.cam.dolly(1);
   }
   if(key == 'a'){
-    cam.pan(4);
+    space.cam.pan(4);
   }
   else if(key == 'd'){
-    cam.pan(-4);
+    space.cam.pan(-4);
   }
   if(key == 'e'){
-    cam.tilt(1);
+    space.cam.tilt(1);
   }
   else if(key == 'q'){
-    cam.tilt(-1);
+    space.cam.tilt(-1);
   }
   if(key == '+'){
     speed += 0.00001;

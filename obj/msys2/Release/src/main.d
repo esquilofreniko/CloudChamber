@@ -104,6 +104,8 @@ obj/msys2/Release/src/main.o: \
  E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h \
  E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/ofApp.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/space.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/lightning.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/synth.h \
@@ -341,6 +343,10 @@ E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h:
 E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/ofApp.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/space.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/lightning.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h:
 
