@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "stuff.h"
+#include "shapes.h"
 #include "clifford.h"
 #include "synth.h"
 #include "movingAverage.h"
@@ -12,7 +12,7 @@ class ofApp : public ofBaseApp{
 	public:
 		void setup();
 		void update();
-        void play();
+    void play();
 		void draw();
 		void info();
 		void keyPressed(int key);
@@ -46,11 +46,11 @@ class ofApp : public ofBaseApp{
 		ofCamera cam;
 		ofVec3f campos;
 		ofPlanePrimitive planes [6];
-		Points points;
+		Points points [4];
 		Lines lines [4];
 		Shapes shapes [4];
 		ofLight light[4];
-		Mesh mesh;
+		Mesh mesh [4];
 
 		// audio
         Synth sineDrone;

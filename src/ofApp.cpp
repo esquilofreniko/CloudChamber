@@ -54,14 +54,14 @@ void ofApp::setup() {
   planes[5].setResolution(numcols,numrows);
   planes[5].rotate(90,0,1,0);
 
-  points.nvert = 1;
+  points[0].nvert = 512;
   lines[0].nvert = 500;
   lines[1].nvert = 250;
   shapes[0].nvert = 1000;
   shapes[1].nvert = 1000;
 
-  mesh.nvert = 16;
-  mesh.init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
+  mesh[0].nvert = 16;
+  mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
 
   for (int i=0;i<1000;i++){
     randx[i] = ofRandom(0,1000);
@@ -71,11 +71,11 @@ void ofApp::setup() {
 
     genA.init(-1.4, 1.6, 1.0, 0.7);
     sineDrone.setup("sine_drone"); // load synthdef
-    
+
 }
 
 void ofApp::update() {
-    
+
   ++counter;
   if (counter >= 128) {
       counter = 0;
@@ -92,7 +92,7 @@ void ofApp::update() {
   timer += speed;
 
 
-    
+
 
   campos = cam.getPosition();
   if(campos.x<(-numcols/2)+10){
@@ -114,32 +114,34 @@ void ofApp::update() {
     cam.setPosition(campos.x,campos.y,height-10);
   }
 
-  for (int i=0;i<lines[0].nvert;i++){
-    lines[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
-    lines[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
-    lines[0].vertices[i].z = ofNoise(timer+randz[i])*height;
+  //update shape positions
+  for (int i=0;i<1000;i++){
+    if(i<lines[0].nvert){
+      lines[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
+      lines[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
+      lines[0].vertices[i].z = ofNoise(timer+randz[i])*height;
+    }
+    if(i<lines[1].nvert){
+      lines[1].vertices[i].x = ofNoise(timer+randx[i])*(numcols/4)-(numcols/8);
+      lines[1].vertices[i].y = ofNoise(timer+randy[i])*(numrows/4)-(numrows/8);
+      lines[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
+    }
+    if(i<shapes[0].nvert){
+      shapes[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
+      shapes[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
+      shapes[0].vertices[i].z = ofNoise(timer+randz[i])*height;
+    }
+    if(i<shapes[1].nvert){
+      shapes[1].vertices[i].x = ofNoise(timer+randx[i])*(numcols/4)-(numcols/8);
+      shapes[1].vertices[i].y = ofNoise(timer+randy[i])*(numrows/4)-(numrows/8);
+      shapes[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
+    }
+    if(i<points[0].nvert){
+      points[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
+      points[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
+      points[0].vertices[i].z = ofNoise(timer+randz[i])*height;
+    }
   }
-  for (int i=0;i<lines[1].nvert;i++){
-    lines[1].vertices[i].x = ofNoise(timer+randx[i])*(numcols/4)-(numcols/8);
-    lines[1].vertices[i].y = ofNoise(timer+randy[i])*(numrows/4)-(numrows/8);
-    lines[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
-  }
-  for (int i=0;i<shapes[0].nvert;i++){
-    shapes[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
-    shapes[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
-    shapes[0].vertices[i].z = ofNoise(timer+randz[i])*height;
-  }
-  for (int i=0;i<shapes[1].nvert;i++){
-    shapes[1].vertices[i].x = ofNoise(timer+randx[i])*(numcols/4)-(numcols/8);
-    shapes[1].vertices[i].y = ofNoise(timer+randy[i])*(numrows/4)-(numrows/8);
-    shapes[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
-  }
-
-  // points.vertices[points.nvert].x = ofRandom(-numcols/2,numcols/2);
-  // points.vertices[points.nvert].y = ofRandom(-numrows/2,numrows/2);
-  // points.vertices[points.nvert].z = ofRandom(0,height);
-  // points.nvert += 1;
-  // points.nvert %= 1000;
 }
 
 
@@ -159,13 +161,14 @@ void ofApp::draw(){
     planes[i].drawWireframe();
   }
 
-  points.draw(250,200);
-  lines[0].draw(250,100);
-  shapes[0].draw(0,10);
-  shapes[1].draw(200,5);
-  lines[1].draw(0,100);
+  points[0].draw(255,255);
 
-  // mesh.draw(250,75);
+  // lines[0].draw(250,100);
+  // shapes[0].draw(0,10);
+  // shapes[1].draw(200,5);
+  // lines[1].draw(0,100);
+
+  mesh[0].draw(250,75);
 
   cam.end();
 }
@@ -205,7 +208,7 @@ void ofApp::keyPressed(int key){
     }
   }
   if(key == ' '){
-    mesh.init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
+    mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
   }
 }
 
@@ -226,7 +229,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    
+
 
 }
 
