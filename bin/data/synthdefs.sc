@@ -11,3 +11,8 @@ SynthDef(\sine_drone, {
 	Out.ar(0, output);
 }).store;
 )
+
+(
+SynthDef(\wavetable, {
+	arg
+}

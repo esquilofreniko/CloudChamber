@@ -106,6 +106,7 @@ obj/msys2/Release/src/main.o: \
  E:/ofxmsys/apps/myApps/CloudChamber/src/ofApp.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/space.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/attractor.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/synth.h \
  E:/ofxmsys/addons/ofxSuperCollider/src/ofxSuperCollider.h \
@@ -346,6 +347,8 @@ E:/ofxmsys/apps/myApps/CloudChamber/src/ofApp.h:
 E:/ofxmsys/apps/myApps/CloudChamber/src/space.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/attractor.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h:
 

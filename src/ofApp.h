@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "space.h"
 #include "shapes.h"
+#include "attractor.h"
 #include "clifford.h"
 #include "synth.h"
 #include "movingAverage.h"
@@ -28,18 +29,23 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		int numcols = 100;
-		int numrows = 100;
-		int height = 100;
+		int numcols = 400;
+		int numrows = 400;
+		int height = 400;
 		int bgreset = 0;
 		int bgresetmax = 128;
 
+		int counter;
 		float timer = 0;
 		float speed = 0.0001;
 		float randx [1000];
 		float randy [1000];
 		float randz [1000];
-    int counter;
+
+		float wtxarray [512];
+		float wtyarray [512];
+		float wtzarray [512];
+		Attractor attractor[9];
 
 		Space space;
 		Points points [4];
@@ -49,12 +55,13 @@ class ofApp : public ofBaseApp{
 		Mesh mesh [4];
 
 		// audio
-        Synth sineDrone;
-        Clifford genA;
-        MovingAverage avg;
+    Synth sineDrone;
+		Synth wtx;
+    Clifford genA;
+    MovingAverage avg;
 
-        // clock
-        //Clock masterClock;
+    // clock
+    //Clock masterClock;
 
 
 

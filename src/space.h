@@ -9,10 +9,10 @@ class Space {
     int numcols;
     int numrows;
     int height;
-    void init(int numcol, int numrow, int heigh){
-      numcols = numcol;
-      numrows = numrow;
-      height = heigh;
+    void init(int _numcols, int _numrows, int _height){
+      numcols = _numcols;
+      numrows = _numrows;
+      height = _height;
       cam.tilt(180);
       cam.setPosition(camx,camy,camz);
       planes[0].set(numcols,numrows);
