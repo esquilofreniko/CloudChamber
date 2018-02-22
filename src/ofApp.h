@@ -2,7 +2,6 @@
 
 #include "ofMain.h"
 #include "space.h"
-#include "lightning.h"
 #include "shapes.h"
 #include "clifford.h"
 #include "synth.h"

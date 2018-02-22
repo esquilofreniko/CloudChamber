@@ -13,7 +13,7 @@ void ofApp::setup() {
   shapes[0].nvert = 1000;
   shapes[1].nvert = 1000;
   mesh[0].nvert = 16;
-  
+
   mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
 
   for (int i=0;i<1000;i++){
@@ -100,7 +100,7 @@ void ofApp::draw(){
   // shapes[1].draw(200,5);
   // lines[1].draw(0,100);
 
-  mesh[0].draw(250,75);
+  // mesh[0].draw(250,75);
 
   space.cam.end();
 }
