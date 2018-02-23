@@ -1,13 +1,21 @@
 class Attractor{
   public:
+    int nvert = 128;
     ofVec3f pos;
-    ofSpherePrimitive sphere;
-    void draw(int c,int a,int r){
-      sphere.setPosition(pos);
-      sphere.setRadius(r);
-      ofColor(c,a);
+    ofMesh mesh;
+    ofVec3f vertices [128];
+    float f;
+    void update(int i){
+      int rad = (f*25) + 5;
+      vertices[i].set(pos.x + ofRandom(-rad,rad),pos.y + ofRandom(-rad,rad),pos.z + ofRandom(-rad,rad));
+    }
+    void draw(int r, int g, int b, int a){
+      ofSetColor(r,g,b,a);
       ofFill();
-      sphere.draw();
+      mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+      mesh.clearVertices();
+      mesh.addVertices(vertices,nvert);
+      mesh.draw();
     }
 };
 
@@ -38,7 +46,7 @@ public:
     }
     prevpos[i] = vertices[i];
   }
-  void attracted(int i,ofVec3f target){
+  void attracted(int i,ofVec3f target, float f, int numattractors){
     ofVec3f force = target - vertices[i];
     float dsquared = pow(force.length(),2);
     if(dsquared<25){
@@ -49,8 +57,9 @@ public:
     }
     float g = 6.67408;
     float strength = g/dsquared;
-    strength = strength * 0.01;
+    strength = (strength * 0.01)/numattractors;
     force.limit(strength);
+    force *= f;
     acc[i] += force;
   }
   void draw(int c, int a){

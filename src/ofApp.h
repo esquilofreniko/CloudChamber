@@ -5,7 +5,6 @@
 #include "shapes.h"
 #include "attractor.h"
 #include "clifford.h"
-#include "synth.h"
 #include "movingAverage.h"
 #include "clock.h"
 
@@ -32,6 +31,7 @@ class ofApp : public ofBaseApp{
 		int numcols = 400;
 		int numrows = 400;
 		int height = 400;
+		int numattractors = 9;
 		int bgreset = 0;
 		int bgresetmax = 128;
 
@@ -54,9 +54,6 @@ class ofApp : public ofBaseApp{
 		ofLight light[4];
 		Mesh mesh [4];
 
-		// audio
-    Synth sineDrone;
-		Synth wtx;
     Clifford genA;
     MovingAverage avg;
 

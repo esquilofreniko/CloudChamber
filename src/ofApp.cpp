@@ -25,15 +25,18 @@ void ofApp::setup() {
       randvel.set(0,0,0);
       points[0].init(i,randx[i],randy[i],randz[i],randvel);
     }
+    if(i<numattractors){
+      attractor[i].f = ofRandom(-1,1);
+      attractor[i].pos.set(randx[i],randy[i],randz[i]);
+    }
   }
 
   genA.init(-1.4, 1.6, 1.0, 0.7);
-  sineDrone.setup("sine_drone"); // load synthdef
-  wtx.setup("WTX");
 
 }
 
 void ofApp::update() {
+  space.update();
 
   ++counter;
   if (counter >= 128) {
@@ -47,10 +50,7 @@ void ofApp::update() {
   if (counter % 16 == 1) {
       float f = abs(genA.x[counter-1] * 300) + 100;
       float a = abs(genA.y[counter-1] * 0.5);
-      sineDrone.play(f, a);
   }
-
-  space.update();
 
   //update shape positions
   for (int i=0;i<1000;i++){
@@ -74,16 +74,17 @@ void ofApp::update() {
       shapes[1].vertices[i].y = ofNoise(timer+randy[i])*(numrows/4)-(numrows/8);
       shapes[1].vertices[i].z = ofNoise(timer+randz[i])*(height/2) + (height/4);
     }
-    if(i<8){
-      attractor[i].pos.set(randx[i],randy[i],randz[i]);
+    for(int j=0;j<numattractors;j++){
+      if(i<attractor[j].nvert){
+        attractor[j].update(i);
+      }
+      if(i<points[0].nvert){
+        points[0].attracted(i,attractor[j].pos,attractor[j].f,numattractors);
+      }
     }
     if(i<points[0].nvert){
-      for(int j=0;j<8;j++){
-        points[0].attracted(i,attractor[j].pos);
-      }
       points[0].update(i,numcols,numrows,height);
     }
-
   }
 }
 
@@ -91,23 +92,33 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw(){
   space.cam.begin();
+
   bgresetmax = 1;
   bgreset += 1;
   bgreset %= bgresetmax;
   if(bgreset == 0){
-    ofBackground(0,0,0);
+    ofBackground(0,0,0,5);
   }
 
-  ofSetColor(200,5);
+  ofSetColor(25,100);
   ofFill();
   for (int i=0;i<6;i++){
     space.planes[i].drawWireframe();
   }
 
-  for (int i=0;i<8;i++){
-    attractor[i].draw(255,255,5);
-  }
   points[0].draw(255,255);
+
+  for (int i=0;i<numattractors;i++){
+    if(attractor[i].f==0){
+      attractor[i].draw(0,0,0,attractor[i].f*25);
+    }
+    if(attractor[i].f>0){
+      attractor[i].draw(100,0,175,(attractor[i].f*25)+5);
+    }
+    if(attractor[i].f<0){
+      attractor[i].draw(200,0,0,((attractor[i].f*-1)*25)+5);
+    }
+  }
 
   // lines[0].draw(250,100);
   // shapes[0].draw(0,10);
@@ -154,7 +165,11 @@ void ofApp::keyPressed(int key){
     }
   }
   if(key == ' '){
-    mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
+    for(int i=0;i<9;i++){
+      attractor[i].f = ofRandom(-1,1);
+      attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),(height/4,(height/4)*3));
+    }
+    // mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
   }
 }
 

@@ -17,25 +17,25 @@ class Space {
       cam.setPosition(camx,camy,camz);
       planes[0].set(numcols,numrows);
       planes[0].setPosition(0,0,0);
-      planes[0].setResolution(numcols,numrows);
+      planes[0].setResolution(numcols/8,numrows/8);
       planes[1].set(numcols,numrows);
       planes[1].setPosition(0,0,height);
-      planes[1].setResolution(numcols,numrows);
+      planes[1].setResolution(numcols/8,numrows/8);
       planes[2].set(numcols,numrows);
       planes[2].setPosition(0,numrows/2,height/2);
-      planes[2].setResolution(numcols,numrows);
+      planes[2].setResolution(numcols/8,numrows/8);
       planes[2].rotate(90,1,0,0);
       planes[3].set(numcols,numrows);
       planes[3].setPosition(0,-numrows/2,height/2);
-      planes[3].setResolution(numcols,numrows);
+      planes[3].setResolution(numcols/8,numrows/8);
       planes[3].rotate(90,1,0,0);
       planes[4].set(numcols,numrows);
       planes[4].setPosition(numcols/2,0,height/2);
-      planes[4].setResolution(numcols,numrows);
+      planes[4].setResolution(numcols/8,numrows/8);
       planes[4].rotate(90,0,1,0);
       planes[5].set(numcols,numrows);
       planes[5].setPosition(-numcols/2,0,height/2);
-      planes[5].setResolution(numcols,numrows);
+      planes[5].setResolution(numcols/8,numrows/8);
       planes[5].rotate(90,0,1,0);
     }
     void update(){

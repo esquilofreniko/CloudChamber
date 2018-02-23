@@ -108,31 +108,6 @@ obj/msys2/Release/src/ofApp.o: \
  E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/attractor.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/synth.h \
- E:/ofxmsys/addons/ofxSuperCollider/src/ofxSuperCollider.h \
- E:/ofxmsys/addons/ofxOsc/src/ofxOsc.h \
- E:/ofxmsys/addons/ofxOsc/src/ofxOscArg.h \
- E:/ofxmsys/addons/ofxOsc/src/ofxOscMessage.h \
- E:/ofxmsys/addons/ofxOsc/src/ofxOscSender.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscException.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h \
- E:/ofxmsys/addons/ofxOsc/src/ofxOscBundle.h \
- E:/ofxmsys/addons/ofxOsc/src/ofxOscReceiver.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h \
- E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h \
- E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCResourceAllocator.h \
- E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCServer.h \
- E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCNode.h \
- E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCSynth.h \
- E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCGroup.h \
- E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBus.h \
- E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBuffer.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/movingAverage.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/clock.h
 
@@ -351,56 +326,6 @@ E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h:
 E:/ofxmsys/apps/myApps/CloudChamber/src/attractor.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h:
-
-E:/ofxmsys/apps/myApps/CloudChamber/src/synth.h:
-
-E:/ofxmsys/addons/ofxSuperCollider/src/ofxSuperCollider.h:
-
-E:/ofxmsys/addons/ofxOsc/src/ofxOsc.h:
-
-E:/ofxmsys/addons/ofxOsc/src/ofxOscArg.h:
-
-E:/ofxmsys/addons/ofxOsc/src/ofxOscMessage.h:
-
-E:/ofxmsys/addons/ofxOsc/src/ofxOscSender.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscException.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h:
-
-E:/ofxmsys/addons/ofxOsc/src/ofxOscBundle.h:
-
-E:/ofxmsys/addons/ofxOsc/src/ofxOscReceiver.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h:
-
-E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h:
-
-E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCResourceAllocator.h:
-
-E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCServer.h:
-
-E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCNode.h:
-
-E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCSynth.h:
-
-E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCGroup.h:
-
-E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBus.h:
-
-E:/ofxmsys/addons/ofxSuperCollider/src/ofxSCBuffer.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/movingAverage.h:
 
