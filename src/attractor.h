@@ -60,7 +60,7 @@ public:
     strength = (strength * 0.01)/numattractors;
     force.limit(strength);
     force *= f;
-    acc[i] += force*0.1;
+    acc[i] += force*0.5;
   }
   void draw(int c, int a){
     ofSetColor(c,a);

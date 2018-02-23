@@ -29,7 +29,7 @@ void ofApp::setup() {
       attractor[i].f = ofRandom(-1,1);
       attractor[i].pos.set(randx[i],randy[i],randz[i]);
       if(i==0){
-        attractor[i].f = 1;
+        attractor[0].f = 1;
         attractor[0].pos.set(0,0,height/2);
       }
     }
@@ -110,26 +110,26 @@ void ofApp::draw(){
     space.planes[i].drawWireframe();
   }
 
-  for (int i=0;i<numattractors;i++){
-    if(attractor[i].f==0){
-      attractor[i].draw(0,0,0,attractor[i].f*25);
-    }
-    if(attractor[i].f>0){
-      attractor[i].draw(100,0,175,(attractor[i].f*25)+5);
-    }
-    if(attractor[i].f<0){
-      attractor[i].draw(200,0,0,((attractor[i].f*-1)*25)+5);
-    }
-  }
+  // for (int i=0;i<numattractors;i++){
+  //   if(attractor[i].f==0){
+  //     attractor[i].draw(0,0,0,attractor[i].f*25);
+  //   }
+  //   if(attractor[i].f>0){
+  //     attractor[i].draw(100,0,175,(attractor[i].f*25)+5);
+  //   }
+  //   if(attractor[i].f<0){
+  //     attractor[i].draw(200,0,0,((attractor[i].f*-1)*25)+5);
+  //   }
+  // }
 
   points[0].draw(255,255);
 
-  // lines[0].draw(250,100);
-  shapes[0].draw(0,10);
-  shapes[1].draw(200,5);
-  // lines[1].draw(0,100);
-
   // mesh[0].draw(250,75);
+
+  // lines[0].draw(250,100);
+  shapes[0].draw(0,5);
+  shapes[1].draw(200,2);
+  // lines[1].draw(0,100);
 
   space.cam.end();
 }
