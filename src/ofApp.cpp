@@ -35,11 +35,22 @@ void ofApp::setup() {
     }
   }
 
-  genA.init(-1.4, 1.6, 1.0, 0.7);
+    genA.init(-1.4, 1.6, 1.0, 0.7);
+    
+    sender.setup("localhost", port);
+    
+    
 
 }
 
 void ofApp::update() {
+    ofxOscMessage m;
+    m.setAddress("test");
+    m.addFloatArg(ofRandom(0, 1));
+    sender.sendMessage(m);
+    
+
+    
   space.update();
 
   ++counter;
