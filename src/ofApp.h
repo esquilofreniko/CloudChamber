@@ -31,7 +31,7 @@ class ofApp : public ofBaseApp{
 		int numcols = 400;
 		int numrows = 400;
 		int height = 400;
-		int numattractors = 9;
+		int numattractors = 1;
 		int bgreset = 0;
 		int bgresetmax = 128;
 
