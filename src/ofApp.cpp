@@ -117,17 +117,17 @@ void ofApp::update() {
         wtz[1].addFloatArg(wta[1][i-128].z);
       }
       if(i<384){
-        wta[2][i-256].x = (abs((points[0].vertices[i].x)/(numrows/2))*-1)*0.95;
-        wta[2][i-256].y = (abs((points[0].vertices[i].y)/(numcols/2))*-1)*0.95;
-        wta[2][i-256].z = (abs((points[0].vertices[i].z)/(height))*-1)*0.95;
+        wta[2][i-256].x = (abs((points[0].vertices[i].x)/(numrows/2))*0.95)*-1;
+        wta[2][i-256].y = (abs((points[0].vertices[i].y)/(numcols/2))*0.95)*-1;
+        wta[2][i-256].z = (abs((points[0].vertices[i].z)/(height))*0.95)*-1;
         wtx[2].addFloatArg(wta[2][i-256].x);
         wty[2].addFloatArg(wta[2][i-256].y);
         wtz[2].addFloatArg(wta[2][i-256].z);
       }
       if(i<512){
-        wta[3][i-384].x = (abs((points[0].vertices[i].x)/(numrows/2))*-1)*0.95;
-        wta[3][i-384].y = (abs((points[0].vertices[i].y)/(numcols/2))*-1)*0.95;
-        wta[3][i-384].z = (abs((points[0].vertices[i].z)/(height))*-1)*0.95;
+        wta[3][i-384].x = (abs((points[0].vertices[i].x)/(numrows/2))*0.95)*-1;
+        wta[3][i-384].y = (abs((points[0].vertices[i].y)/(numcols/2))*0.95)*-1;
+        wta[3][i-384].z = (abs((points[0].vertices[i].z)/(height))*0.95)*-1;
         wtx[3].addFloatArg(wta[3][i-384].x);
         wty[3].addFloatArg(wta[3][i-384].y);
         wtz[3].addFloatArg(wta[3][i-384].z);
@@ -161,17 +161,17 @@ void ofApp::draw(){
     space.planes[i].drawWireframe();
   }
 
-  // for (int i=0;i<numattractors;i++){
-  //   if(attractor[i].f==0){
-  //     attractor[i].draw(0,0,0,attractor[i].f*25);
-  //   }
-  //   if(attractor[i].f>0){
-  //     attractor[i].draw(100,0,175,(attractor[i].f*25)+5);
-  //   }
-  //   if(attractor[i].f<0){
-  //     attractor[i].draw(200,0,0,((attractor[i].f*-1)*25)+5);
-  //   }
-  // }
+  for (int i=0;i<numattractors;i++){
+    if(attractor[i].f==0){
+      attractor[i].draw(0,0,0,attractor[i].f*20);
+    }
+    if(attractor[i].f>0){
+      attractor[i].draw(100,0,175,(attractor[i].f*20)+5);
+    }
+    if(attractor[i].f<0){
+      attractor[i].draw(200,0,0,((attractor[i].f*-1)*20)+5);
+    }
+  }
 
   points[0].draw(255,255);
 
@@ -220,10 +220,10 @@ void ofApp::keyPressed(int key){
     }
   }
   if(key == ' '){
-    // for(int i=0;i<9;i++){
-    //   attractor[i].f = ofRandom(-1,1);
-    //   attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),(height/4,(height/4)*3));
-    // }
+    for(int i=0;i<numattractors;i++){
+      attractor[i].f = ofRandom(-1,1);
+      attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),(height/4,(height/4)*3));
+    }
     // mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
   }
 }

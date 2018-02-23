@@ -6,7 +6,7 @@ public:
     ofVec3f vertices [128];
     float f;
     void update(int i) {
-        int rad = (f*25) + 5;
+        int rad = (f*20) + 5;
         vertices[i].set(pos.x + ofRandom(-rad,rad),pos.y + ofRandom(-rad,rad),pos.z + ofRandom(-rad,rad));
     }
     void draw(int r, int g, int b, int a) {
@@ -47,8 +47,8 @@ public:
     void attracted(int i,ofVec3f target, float f, int numattractors) {
         ofVec3f force = target - vertices[i];
         float dsquared = pow(force.length(),2);
-        if(dsquared<25) {
-            dsquared = 25;
+        if(dsquared<5) {
+            dsquared = 5;
         }
         if(dsquared>500) {
             dsquared = 500;

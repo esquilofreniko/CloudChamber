@@ -28,9 +28,9 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    int numcols = 200;
-    int numrows = 200;
-    int height = 200;
+    int numcols = 400;
+    int numrows = 400;
+    int height = 400;
     int numattractors = 1;
     int bgreset = 0;
     int bgresetmax = 128;
