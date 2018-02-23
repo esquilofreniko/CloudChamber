@@ -92,7 +92,6 @@ void ofApp::update() {
   }
 }
 
-
 //--------------------------------------------------------------
 void ofApp::draw(){
   space.cam.begin();
@@ -104,7 +103,7 @@ void ofApp::draw(){
     ofBackground(0,0,0,5);
   }
 
-  ofSetColor(25,100);
+  ofSetColor(25,50);
   ofFill();
   for (int i=0;i<6;i++){
     space.planes[i].drawWireframe();
