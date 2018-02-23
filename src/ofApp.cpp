@@ -36,27 +36,23 @@ void ofApp::setup() {
   }
 
     genA.init(-1.4, 1.6, 1.0, 0.7);
-    
+
     sender.setup("localhost", port);
-    
-    
 
 }
 
 void ofApp::update() {
-    ofxOscMessage m;
-    m.setAddress("test");
-    m.addFloatArg(ofRandom(0, 1));
-    sender.sendMessage(m);
-    
-
-    
   space.update();
 
-  ++counter;
   if (counter >= 128) {
-      counter = 0;
+    counter = 0;
   };
+  ofxOscMessage wtx [4];
+  ofxOscMessage wty [4];
+  ofxOscMessage wtz [4];
+  ofxOscMessage wtreset;
+  wtreset.setAddress("wtreset");
+  sender.sendMessage(wtreset);
 
   timer += speed;
 
@@ -69,6 +65,11 @@ void ofApp::update() {
 
   //update shape positions
   for (int i=0;i<1000;i++){
+    if(i<4){
+      wtx[i].setAddress("wtx" + std::to_string(i));
+      wty[i].setAddress("wty" + std::to_string(i));
+      wtz[i].setAddress("wtz" + std::to_string(i));
+    }
     if(i<lines[0].nvert){
       lines[0].vertices[i].x = ofNoise(timer+randx[i])*numcols-(numcols/2);
       lines[0].vertices[i].y = ofNoise(timer+randy[i])*numrows-(numrows/2);
@@ -99,8 +100,48 @@ void ofApp::update() {
     }
     if(i<points[0].nvert){
       points[0].update(i,numcols,numrows,height);
+      if(i<128){
+        wta[0][i].x = abs((points[0].vertices[i].x)/(numrows/2))*0.95;
+        wta[0][i].y = abs((points[0].vertices[i].y)/(numcols/2))*0.95;
+        wta[0][i].z = abs((points[0].vertices[i].z)/(height))*0.95;
+        wtx[0].addFloatArg(wta[0][i].x);
+        wty[0].addFloatArg(wta[0][i].y);
+        wtz[0].addFloatArg(wta[0][i].z);
+      }
+      if(i<256){
+        wta[1][i-128].x = abs((points[0].vertices[i].x)/(numrows/2))*0.95;
+        wta[1][i-128].y = abs((points[0].vertices[i].y)/(numcols/2))*0.95;
+        wta[1][i-128].z = abs((points[0].vertices[i].z)/(height))*0.95;
+        wtx[1].addFloatArg(wta[1][i-128].x);
+        wty[1].addFloatArg(wta[1][i-128].y);
+        wtz[1].addFloatArg(wta[1][i-128].z);
+      }
+      if(i<384){
+        wta[2][i-256].x = (abs((points[0].vertices[i].x)/(numrows/2))*-1)*0.95;
+        wta[2][i-256].y = (abs((points[0].vertices[i].y)/(numcols/2))*-1)*0.95;
+        wta[2][i-256].z = (abs((points[0].vertices[i].z)/(height))*-1)*0.95;
+        wtx[2].addFloatArg(wta[2][i-256].x);
+        wty[2].addFloatArg(wta[2][i-256].y);
+        wtz[2].addFloatArg(wta[2][i-256].z);
+      }
+      if(i<512){
+        wta[3][i-384].x = (abs((points[0].vertices[i].x)/(numrows/2))*-1)*0.95;
+        wta[3][i-384].y = (abs((points[0].vertices[i].y)/(numcols/2))*-1)*0.95;
+        wta[3][i-384].z = (abs((points[0].vertices[i].z)/(height))*-1)*0.95;
+        wtx[3].addFloatArg(wta[3][i-384].x);
+        wty[3].addFloatArg(wta[3][i-384].y);
+        wtz[3].addFloatArg(wta[3][i-384].z);
+      }
     }
   }
+  if(counter == 0){
+    for(int i=0;i<4;i++){
+      sender.sendMessage(wtx[i]);
+      sender.sendMessage(wty[i]);
+      sender.sendMessage(wtz[i]);
+    }
+  }
+  ++counter;
 }
 
 //--------------------------------------------------------------

@@ -28,22 +28,21 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    int numcols = 400;
-    int numrows = 400;
-    int height = 400;
+    int numcols = 200;
+    int numrows = 200;
+    int height = 200;
     int numattractors = 1;
     int bgreset = 0;
     int bgresetmax = 128;
-    int counter;
+    int counter = -1;
     float timer = 0;
     float speed = 0.0001;
     float randx [1000];
     float randy [1000];
     float randz [1000];
-    float wtxarray [512];
-    float wtyarray [512];
-    float wtzarray [512];
-    
+		ofVec3f wta [4][128];
+
+
     Attractor attractor[9];
     Space space;
     Points points [4];
@@ -53,8 +52,8 @@ public:
     Mesh mesh [4];
     Clifford genA;
     MovingAverage avg;
-    
+
     int port = 7400;
     ofxOscSender sender;
-    
+
 };

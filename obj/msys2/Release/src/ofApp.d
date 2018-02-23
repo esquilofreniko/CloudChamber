@@ -104,6 +104,22 @@ obj/msys2/Release/src/ofApp.o: \
  E:/ofxmsys/libs/openFrameworks/video/ofDirectShowPlayer.h \
  E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h \
  E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOsc.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscArg.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscMessage.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscSender.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscException.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscBundle.h \
+ E:/ofxmsys/addons/ofxOsc/src/ofxOscReceiver.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h \
+ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/space.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/attractor.h \
@@ -318,6 +334,38 @@ E:/ofxmsys/libs/openFrameworks/video/ofDirectShowPlayer.h:
 E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h:
 
 E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOsc.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscArg.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscMessage.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscSender.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscException.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscBundle.h:
+
+E:/ofxmsys/addons/ofxOsc/src/ofxOscReceiver.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h:
+
+E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/space.h:
 

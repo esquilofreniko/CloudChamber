@@ -23,7 +23,6 @@ class Points {
 public:
     int nvert = 1;
     ofVec3f vertices [512];
-    ofVec3f prevpos [512];
     ofVec3f vel [512];
     ofVec3f acc [512];
     ofMesh shapegen;
@@ -35,16 +34,15 @@ public:
         vertices[i] += vel[i];
         vel[i] += acc[i];
         acc[i] = acc[i]*0;
-    if(vertices[i].x>numcols || vertices[i].x<-numcols) {
-        vel[i].x *= -1;
-    }
-    if(vertices[i].y>numrows || vertices[i].y<-numrows) {
-        vel[i].y *= -1;
-    }
-    if(vertices[i].z>height || vertices[i].z<0) {
-        vel[i].z *= -1;
-    }
-        prevpos[i] = vertices[i];
+        if(vertices[i].x>numcols || vertices[i].x<-numcols) {
+            vel[i].x *= -1;
+        }
+        if(vertices[i].y>numrows || vertices[i].y<-numrows) {
+            vel[i].y *= -1;
+        }
+        if(vertices[i].z>height || vertices[i].z<0) {
+            vel[i].z *= -1;
+        }
     }
     void attracted(int i,ofVec3f target, float f, int numattractors) {
         ofVec3f force = target - vertices[i];
@@ -60,7 +58,7 @@ public:
         strength = (strength * 0.01)/numattractors;
         force.limit(strength);
         force *= f;
-        acc[i] += force*0.1;
+        acc[i] += force;
     }
     void draw(int c, int a) {
         ofSetColor(c,a);
