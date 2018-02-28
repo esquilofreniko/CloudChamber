@@ -4,7 +4,9 @@ Clock::Clock() {
     
 }
 
-void Clock::update() {
-    ++tick;
-    std::this_thread::sleep_for(std::chrono::milliseconds(60000 / bpm));
+void Clock::start() {
+    while (true) {
+        beat += 1;
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
 }
