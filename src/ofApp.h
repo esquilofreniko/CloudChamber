@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxOsc.h"
+#include "wtarray.h"
 #include "space.h"
 #include "shapes.h"
 #include "attractor.h"
@@ -38,7 +39,6 @@ public:
     float timer = 0;
     float speed = 0.0001;
     ofVec3f randi [1000];
-		ofVec3f wta [4][128];
 
     Attractor attractor[9];
     Space space;
@@ -49,8 +49,6 @@ public:
     Mesh mesh [4];
     Clifford genA;
     MovingAverage avg;
-
-    int port = 7400;
-    ofxOscSender sender;
+    WtArray wtarray;
     ofxOscReceiver receiver;
 };
