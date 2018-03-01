@@ -161,21 +161,21 @@ void ofApp::draw(){
     space.planes[i].drawWireframe();
   }
 
-  for (int i=0;i<numattractors;i++){
-    if(attractor[i].f==0){
-      attractor[i].draw(0,0,0,attractor[i].f*20);
-    }
-    if(attractor[i].f>0){
-      attractor[i].draw(100,0,175,(attractor[i].f*20)+5);
-    }
-    if(attractor[i].f<0){
-      attractor[i].draw(200,0,0,((attractor[i].f*-1)*20)+5);
-    }
-  }
+  // for (int i=0;i<numattractors;i++){
+  //   if(attractor[i].f==0){
+  //     attractor[i].draw(0,0,0,attractor[i].f*20);
+  //   }
+  //   if(attractor[i].f>0){
+  //     attractor[i].draw(100,0,175,(attractor[i].f*20)+5);
+  //   }
+  //   if(attractor[i].f<0){
+  //     attractor[i].draw(200,0,0,((attractor[i].f*-1)*20)+5);
+  //   }
+  // }
 
   points[0].draw(255,255);
 
-  // mesh[0].draw(250,75);
+  mesh[0].draw(250,75);
 
   // lines[0].draw(250,100);
   shapes[0].draw(0,5);
@@ -220,11 +220,11 @@ void ofApp::keyPressed(int key){
     }
   }
   if(key == ' '){
-    for(int i=0;i<numattractors;i++){
-      attractor[i].f = ofRandom(-1,1);
-      attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),(height/4,(height/4)*3));
-    }
-    // mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
+    // for(int i=0;i<numattractors;i++){
+    //   attractor[i].f = ofRandom(-1,1);
+    //   attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),(height/4,(height/4)*3));
+    // }
+    mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
   }
 }
 
