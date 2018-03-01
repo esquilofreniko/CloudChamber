@@ -37,11 +37,8 @@ public:
     int counter = -1;
     float timer = 0;
     float speed = 0.0001;
-    float randx [1000];
-    float randy [1000];
-    float randz [1000];
+    ofVec3f randi [1000];
 		ofVec3f wta [4][128];
-
 
     Attractor attractor[9];
     Space space;
@@ -55,5 +52,5 @@ public:
 
     int port = 7400;
     ofxOscSender sender;
-
+    ofxOscReceiver receiver;
 };
