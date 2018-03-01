@@ -3,6 +3,7 @@
 void ofApp::setup() {
   ofSetFullscreen(false);
   ofSetBackgroundAuto(false);
+  ofSetFrameRate(200);
   ofBackground(0,0,0);
 
   space.init(numcols,numrows,height);
@@ -78,11 +79,11 @@ void ofApp::update() {
     if(i<points[0].nvert){
       points[0].update(i,numcols,numrows,height);
       if(i<512){
-        wtarray.update(i,counter,numcols,numrows,height,points[0].vertices[i]);
+        wtarray.update(i,numcols,numrows,height,points[0].vertices[i]);
       }
     }
   }
-  wtarray.send(counter);
+  wtarray.send();
 }
 
 //--------------------------------------------------------------
@@ -106,10 +107,10 @@ void ofApp::draw(){
       attractor[i].draw(0,0,0,attractor[i].f*20);
     }
     if(attractor[i].f>0){
-      attractor[i].draw(100,0,175,(attractor[i].f*20)+5);
+      attractor[i].draw(255,255,255,(attractor[i].f*20)+20);
     }
     if(attractor[i].f<0){
-      attractor[i].draw(200,0,0,((attractor[i].f*-1)*20)+5);
+      attractor[i].draw(0,0,0,((attractor[i].f*-1)*20)+20);
     }
   }
 
@@ -118,11 +119,14 @@ void ofApp::draw(){
   // mesh[0].draw(250,75);
 
   // lines[0].draw(250,100);
-  shapes[0].draw(0,5);
-  shapes[1].draw(200,2);
+  // shapes[0].draw(0,5);
+  // shapes[1].draw(200,2);
   // lines[1].draw(0,100);
 
   space.cam.end();
+  ofSetColor(255);
+  ofFill();
+  ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), 10, 15);
 }
 
 //--------------------------------------------------¬------------
@@ -158,6 +162,7 @@ void ofApp::keyPressed(int key){
     }
   }
   if(key == ' '){
+    numattractors = ofRandom(1,5);
     for(int i=0;i<numattractors;i++){
       attractor[i].f = ofRandom(-1,1);
       attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),(height/4,(height/4)*3));

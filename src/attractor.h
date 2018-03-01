@@ -43,6 +43,24 @@ public:
         if(vertices[i].z>height || vertices[i].z<0) {
             vel[i].z *= -1;
         }
+        if(vertices[i].x>numcols){
+          vertices[i].x = numcols;
+        }
+        if(vertices[i].x<-numcols){
+          vertices[i].x = -numcols;
+        }
+        if(vertices[i].y>numrows){
+          vertices[i].y = numrows;
+        }
+        if(vertices[i].y<-numrows){
+          vertices[i].y = -numrows;
+        }
+        if(vertices[i].z > height){
+          vertices[i].z = height;
+        }
+        if(vertices[i].z < 0){
+          vertices[i].z = 0;
+        }
     }
     void attracted(int i,ofVec3f target, float f, int numattractors) {
         ofVec3f force = target - vertices[i];
