@@ -9,7 +9,9 @@ class MovingAverage {
     std::vector<float> values;
     bool active;
     const int maxLength = 1000;
-    void update(float input);
+    int sampleSize = 20;
+    void accum(float input);
+    float avg();
     MovingAverage();
 };
 

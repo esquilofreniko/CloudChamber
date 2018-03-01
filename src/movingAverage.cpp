@@ -6,8 +6,17 @@ MovingAverage::MovingAverage() {
     
 }
 
-void MovingAverage::update(float input) {
-    while(active && values.size() < maxLength) {
-        values.push_back(input);
+void MovingAverage::accum(float input) {
+    values.push_back(input);
+}
+
+float MovingAverage::avg() {
+    float sum = 0;
+    if (values.size() > sampleSize) {
+        for (int x = values.size() - sampleSize; x < values.size(); ++x) {
+            sum += values[x];
+        }
+        return (sum / sampleSize);
     }
+
 }

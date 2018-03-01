@@ -1,6 +1,7 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
+    
   ofSetFullscreen(false);
   ofSetBackgroundAuto(false);
   ofBackground(0,0,0);
@@ -35,34 +36,32 @@ void ofApp::setup() {
     }
   }
 
-    genA.init(-1.4, 1.6, 1.0, 0.7);
-
     sender.setup("localhost", port);
+    clifford.init(-1.4, 1.6, 1.0, 0.7);
 
 }
 
+
 void ofApp::update() {
-  space.update();
+    
+    ++counter;
+    
+    if (counter >= 128) {
+        counter = 0;
+    }
+    
+    ofxOscMessage wtx [4];
+    ofxOscMessage wty [4];
+    ofxOscMessage wtz [4];
+    ofxOscMessage wtreset;
+    
+    space.update();
 
-  if (counter >= 128) {
-    counter = 0;
-  };
-  ofxOscMessage wtx [4];
-  ofxOscMessage wty [4];
-  ofxOscMessage wtz [4];
-  ofxOscMessage wtreset;
-  wtreset.setAddress("wtreset");
-  sender.sendMessage(wtreset);
+    wtreset.setAddress("wtreset");
+    sender.sendMessage(wtreset);
+    timer += speed;
 
-  timer += speed;
-
-  // masterClock.update();
-  genA.iterate();
-  if (counter % 16 == 1) {
-      float f = abs(genA.x[counter-1] * 300) + 100;
-      float a = abs(genA.y[counter-1] * 0.5);
-  }
-
+  
   //update shape positions
   for (int i=0;i<1000;i++){
     if(i<4){
@@ -146,8 +145,8 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    
   space.cam.begin();
-
   bgresetmax = 1;
   bgreset += 1;
   bgreset %= bgresetmax;
@@ -226,55 +225,4 @@ void ofApp::keyPressed(int key){
     // }
     mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
   }
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
 }

@@ -6,15 +6,15 @@ public:
     ofVec3f vertices [128];
     float f;
     void update(int i) {
-        int rad = (f*20) + 5;
-        vertices[i].set(pos.x + ofRandom(-rad,rad),pos.y + ofRandom(-rad,rad),pos.z + ofRandom(-rad,rad));
+        int rad = (f * 20) + 5;
+        vertices[i].set(pos.x + ofRandom(-rad, rad), pos.y + ofRandom(-rad, rad), pos.z + ofRandom(-rad, rad));
     }
     void draw(int r, int g, int b, int a) {
-      ofSetColor(r,g,b,a);
+      ofSetColor(r, g, b, a);
       ofFill();
       mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
       mesh.clearVertices();
-      mesh.addVertices(vertices,nvert);
+      mesh.addVertices(vertices, nvert);
       mesh.draw();
     }
 };
@@ -27,46 +27,46 @@ public:
     ofVec3f acc [512];
     ofMesh shapegen;
     void init(int i, int x, int y, int z, ofVec3f v) {
-        vertices[i].set(x,y,z);
+        vertices[i].set(x, y, z);
         vel[i] = v;
     }
     void update(int i, int numcols, int numrows, int height) {
         vertices[i] += vel[i];
         vel[i] += acc[i];
-        acc[i] = acc[i]*0;
-        if(vertices[i].x>numcols || vertices[i].x<-numcols) {
+        acc[i] = acc[i] * 0;
+        if(vertices[i].x > numcols || vertices[i].x <-numcols) {
             vel[i].x *= -1;
         }
-        if(vertices[i].y>numrows || vertices[i].y<-numrows) {
+        if(vertices[i].y> numrows || vertices[i].y <-numrows) {
             vel[i].y *= -1;
         }
-        if(vertices[i].z>height || vertices[i].z<0) {
+        if(vertices[i].z > height || vertices[i].z < 0) {
             vel[i].z *= -1;
         }
     }
-    void attracted(int i,ofVec3f target, float f, int numattractors) {
+    void attracted(int i, ofVec3f target, float f, int numattractors) {
         ofVec3f force = target - vertices[i];
-        float dsquared = pow(force.length(),2);
-        if(dsquared<5) {
+        float dsquared = pow(force.length(), 2);
+        if(dsquared < 5) {
             dsquared = 5;
         }
-        if(dsquared>500) {
+        if(dsquared > 500) {
             dsquared = 500;
         }
         float g = 6.67408;
-        float strength = g/dsquared;
-        strength = (strength * 0.01)/numattractors;
+        float strength = g / dsquared;
+        strength = (strength * 0.01) / numattractors;
         force.limit(strength);
         force *= f;
         acc[i] += force;
     }
     void draw(int c, int a) {
-        ofSetColor(c,a);
+        ofSetColor(c, a);
         ofFill();
         shapegen.setMode(OF_PRIMITIVE_POINTS);
         glPointSize(1);
         shapegen.clearVertices();
-        shapegen.addVertices(vertices,nvert);
+        shapegen.addVertices(vertices, nvert);
         shapegen.draw();
     }
 };

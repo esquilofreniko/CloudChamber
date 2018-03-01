@@ -6,8 +6,8 @@
 
 class Clock {
     public:
-    void update();
-    int tick;
+    void start();
+    int beat;
     int bpm = 120;
     Clock();
 };
