@@ -1,27 +1,38 @@
 class Attractor {
 public:
-    int nvert = 128;
+    int nvert = 512;
     ofVec3f pos;
-    ofMesh mesh;
-    ofVec3f vertices [128];
+    ofMesh mesh[2];
+    ofVec3f vertices [2][512];
     float f;
-    void update(int i) {
-        int rad = (f*20) + 5;
-        vertices[i].set(pos.x + ofRandom(-rad,rad),pos.y + ofRandom(-rad,rad),pos.z + ofRandom(-rad,rad));
+    ofLight light;
+    void update(int i,float timer, ofVec3f randi) {
+        int rad = 125;
+        vertices[0][i].set(pos.x + (ofNoise(timer+randi.x)*(rad*2)-rad), pos.y + (ofNoise(timer+randi.y)*(rad*2)-rad), pos.z + (ofNoise(timer+randi.z)*(rad*2)-rad));
+        vertices[1][i].set(pos.x + ((ofNoise(timer+randi.x)*(rad*2)-rad)/2), pos.y + ((ofNoise(timer+randi.y)*(rad*2)-rad)/2), pos.z + ((ofNoise(timer+randi.z)*(rad*2)-rad)/2));
+        light.setPointLight();
+        light.setPosition(pos.x,pos.y,pos.z);
     }
-    void draw(int r, int g, int b, int a) {
-      ofSetColor(r,g,b,a);
+    void draw(int c,int a,int c2, int a2) {
+      ofSetColor(c,a);
       ofFill();
-      mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
-      mesh.clearVertices();
-      mesh.addVertices(vertices,nvert);
-      mesh.draw();
+      mesh[0].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+      mesh[0].clearVertices();
+      mesh[0].addVertices(vertices[0],nvert);
+      mesh[0].draw();
+      ofSetColor(c2,a2);
+      ofFill();
+      mesh[1].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+      mesh[1].clearVertices();
+      mesh[1].addVertices(vertices[1],nvert);
+      mesh[1].draw();
+      light.enable();
     }
 };
 
 class Points {
 public:
-    int nvert = 1;
+    int nvert = 512;
     ofVec3f vertices [512];
     ofVec3f vel [512];
     ofVec3f acc [512];

@@ -120,6 +120,11 @@ obj/msys2/Release/src/ofApp.o: \
  E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h \
  E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h \
  E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h \
+ E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpModelLoader.h \
+ E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpMeshHelper.h \
+ E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpTexture.h \
+ E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpAnimation.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/model.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/wtarray.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/space.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h \
@@ -367,6 +372,16 @@ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h:
 E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h:
 
 E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h:
+
+E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpModelLoader.h:
+
+E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpMeshHelper.h:
+
+E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpTexture.h:
+
+E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpAnimation.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/model.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/wtarray.h:
 

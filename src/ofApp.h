@@ -2,6 +2,9 @@
 
 #include "ofMain.h"
 #include "ofxOsc.h"
+#include "ofxAssimpModelLoader.h"
+#include "ofVboMesh.h"
+#include "model.h"
 #include "wtarray.h"
 #include "space.h"
 #include "shapes.h"
@@ -29,9 +32,9 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    int numcols = 400;
-    int numrows = 400;
-    int height = 400;
+    int numcols = 500;
+    int numrows = 500;
+    int height = 500;
     int numattractors = 1;
     int bgreset = 0;
     int bgresetmax = 128;
@@ -40,8 +43,9 @@ public:
     float speed = 0.0001;
     ofVec3f randi [1000];
 
-    Attractor attractor[9];
     Space space;
+    Attractor attractor[8];
+    Model model[2];
     Points points [4];
     Lines lines [4];
     Shapes shapes [4];

@@ -1,12 +1,15 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
+  ofBackground(0,0,0);
+  ofSetFrameRate(200);
   ofSetFullscreen(false);
   ofSetBackgroundAuto(false);
-  ofSetFrameRate(200);
-  ofBackground(0,0,0);
+  ofEnableLighting();
+  ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 
   space.init(numcols,numrows,height);
+  model[0].init("heart.obj",0.5,0.5,0.5);
 
   points[0].nvert = 512;
   lines[0].nvert = 500;
@@ -33,7 +36,6 @@ void ofApp::setup() {
       }
     }
   }
-
     genA.init(-1.4, 1.6, 1.0, 0.7);
     wtarray.sender.setup("localhost", wtarray.port);
 }
@@ -53,8 +55,8 @@ void ofApp::update() {
   space.update();
   wtarray.init();
   genA.iterate();
-
-  //update shape positions
+  model[0].update();
+  model[0].render(0,0,height*0.5);
   for (int i=0;i<1000;i++){
     if(i<lines[0].nvert){
       lines[0].vertices[i].set(ofNoise(timer+randi[i].x)*numcols-(numcols/2),ofNoise(timer+randi[i].y)*numrows-(numrows/2),ofNoise(timer+randi[i].z)*height);
@@ -70,7 +72,7 @@ void ofApp::update() {
     }
     for(int j=0;j<numattractors;j++){
       if(i<attractor[j].nvert){
-        attractor[j].update(i);
+        attractor[j].update(i,timer,randi[i]);
       }
       if(i<points[0].nvert){
         points[0].attracted(i,attractor[j].pos,attractor[j].f,numattractors);
@@ -88,6 +90,7 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+  ofEnableLighting();
   space.cam.begin();
   bgresetmax = 1;
   bgreset += 1;
@@ -96,34 +99,31 @@ void ofApp::draw(){
     ofBackground(0,0,0,5);
   }
 
-  ofSetColor(25,50);
+  ofSetColor(13,50);
   ofFill();
   for (int i=0;i<6;i++){
     space.planes[i].drawWireframe();
   }
 
+  points[0].draw(250,250);
+
   for (int i=0;i<numattractors;i++){
-    if(attractor[i].f==0){
-      attractor[i].draw(0,0,0,attractor[i].f*20);
-    }
-    if(attractor[i].f>0){
-      attractor[i].draw(255,255,255,(attractor[i].f*20)+20);
-    }
-    if(attractor[i].f<0){
-      attractor[i].draw(0,0,0,((attractor[i].f*-1)*20)+20);
-    }
+    attractor[i].draw(0,10,250,6);
   }
 
-  points[0].draw(255,255);
-
+  model[0].draw(250,250,timer);
   // mesh[0].draw(250,75);
 
   // lines[0].draw(250,100);
-  // shapes[0].draw(0,5);
-  // shapes[1].draw(200,2);
+  // shapes[0].draw(0,2);
+  // shapes[1].draw(255,1);
   // lines[1].draw(0,100);
 
+  attractor[0].draw(0,10,250,6);
+
+
   space.cam.end();
+  ofDisableLighting();
   ofSetColor(255);
   ofFill();
   ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), 10, 15);
@@ -162,10 +162,14 @@ void ofApp::keyPressed(int key){
     }
   }
   if(key == ' '){
-    numattractors = ofRandom(1,5);
+    numattractors = ofRandom(2,2);
     for(int i=0;i<numattractors;i++){
-      attractor[i].f = ofRandom(-1,1);
-      attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),(height/4,(height/4)*3));
+      attractor[i].f = ofRandom(0,1);
+      attractor[i].pos.set(ofRandom(-numcols/2,numcols/2),ofRandom(-numrows/2,numrows/2),ofRandom(0,height));
+      if(i==0){
+        attractor[0].f = 1;
+        attractor[0].pos.set(0,0,height/2);
+      }
     }
     // mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
   }

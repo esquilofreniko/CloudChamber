@@ -5,7 +5,7 @@ public:
     ofPlanePrimitive planes [6];
     int camx = 0;
     int camy = 0;
-    int camz = 10;
+    int camz = 0;
     int numcols;
     int numrows;
     int height;
@@ -13,7 +13,11 @@ public:
         numcols = _numcols;
         numrows = _numrows;
         height = _height;
-        cam.tilt(180);
+        camx = 0;
+        camy = -numrows/2;
+        camz = height/2;
+        cam.tilt(90);
+        // cam.rotate(180,1,0,0);
         cam.setPosition(camx,camy,camz);
         planes[0].set(numcols,numrows);
         planes[0].setPosition(0,0,0);
@@ -38,7 +42,7 @@ public:
         planes[5].setResolution(numcols/8,numrows/8);
         planes[5].rotate(90,0,1,0);
     }
-    
+
     void update() {
         campos = cam.getPosition();
         if(campos.x<(-numcols/2)+10) {
@@ -61,26 +65,3 @@ public:
         }
     }
 };
-
-// ofEnableLighting();
-// ofColor white(255,255,255,255);
-// ofColor red(255,0,0,255);
-// ofColor green(0,255,0,255);
-// ofColor blue(0,0,255,255);
-// ofColor purple(255,0,255,255);
-// light[0].setPointLight();
-// light[0].setDiffuseColor(white);
-// light[0].setPosition(0,0,0);
-// light[0].enable();
-// light[1].setDirectional();
-// light[1].setDiffuseColor(white);
-// light[1].setPosition(0,0,100);
-// light[1].enable();
-// light[2].setPointLight();
-// light[2].setDiffuseColor(white);
-// light[2].setPosition(0,0,50);
-// light[2].enable();
-// light[3].setPointLight();
-// light[3].setDiffuseColor(white);
-// light[3].setPosition(0,0,50);
-// light[3].enable();
