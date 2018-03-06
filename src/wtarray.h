@@ -48,14 +48,16 @@ class WtArray{
       }
     }
     void send(){
-      if(counter == 0){
-        for(int i=0;i<4;i++){
-          sender.sendMessage(wtx[i]);
-          sender.sendMessage(wty[i]);
-          sender.sendMessage(wtz[i]);
-        }
+      for(int i=0;i<4;i++){
+        sender.sendMessage(wtx[i]);
+        sender.sendMessage(wty[i]);
+        sender.sendMessage(wtz[i]);
+        wtx[i].clear();
+        wty[i].clear();
+        wtz[i].clear();
+        wtx[i].setAddress("wtx" + std::to_string(i));
+        wty[i].setAddress("wty" + std::to_string(i));
+        wtz[i].setAddress("wtz" + std::to_string(i));
       }
-      counter += 1;
-      counter %= scounter;
     }
 };

@@ -3,7 +3,7 @@
 void ofApp::setup() {
     ofBackground(20, 20, 20);
     ofSetFrameRate(200);
-    ofSetFullscreen(true);
+    ofSetFullscreen(false);
     ofSetBackgroundAuto(false);
     ofEnableLighting();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
@@ -33,14 +33,14 @@ void ofApp::setup() {
   }
     // example of using clifford attractor object and sending its output via osc
     // will later encapsulate this code elsewhere...
-    
-    
+
+
     std::string addresses[16];
 
     for (int i = 0; i < 128; ++i) {
         clifford.iterate();
     }
-    
+
     for (int i = 0; i < 16; ++i) {
         if (i == 0) maxpatch.sendBang("trigger");
         addresses[i] = 'f'+(std::to_string(i+1)); // to_string converts integer to string data type
@@ -48,8 +48,7 @@ void ofApp::setup() {
         std::cout << x << '\n';
         maxpatch.sendFloat(addresses[i], x);
     }
-    
-        wtarray.sender.setup("localhost", wtarray.port);
+    wtarray.sender.setup("localhost", wtarray.port);
 }
 
 void ofApp::update() {
@@ -58,33 +57,33 @@ void ofApp::update() {
     //model[0].update();
     //model[0].render(0,0,height*0.5);
     for (int i = 0; i < 1000; ++i) {
-    if(i<lines[0].nvert){
-      lines[0].vertices[i].set(ofNoise(timer+randi[i].x)*numcols-(numcols/2),ofNoise(timer+randi[i].y)*numrows-(numrows/2),ofNoise(timer+randi[i].z)*height);
-    }
-    if(i<lines[1].nvert){
-      lines[1].vertices[i].set(ofNoise(timer+randi[i].x)*(numcols/4)-(numcols/8),ofNoise(timer+randi[i].y)*(numrows/4)-(numrows/8),ofNoise(timer+randi[i].z)*(height/2) + (height/4));
-    }
-    if(i<shapes[0].nvert){
-      shapes[0].vertices[i].set(ofNoise(timer+randi[i].x)*numcols-(numcols/2),ofNoise(timer+randi[i].y)*numrows-(numrows/2),ofNoise(timer+randi[i].z)*height);
-    }
-    if(i<shapes[1].nvert){
-      shapes[1].vertices[i].set(ofNoise(timer+randi[i].x)*(numcols/4)-(numcols/8),ofNoise(timer+randi[i].y)*(numrows/4)-(numrows/8),ofNoise(timer+randi[i].z)*(height/2) + (height/4));
-    }
-    for(int j=0;j<numattractors;j++){
-      if(i<attractor[j].nvert){
-        attractor[j].update(i,timer,randi[i]);
+      if(i<lines[0].nvert){
+        lines[0].vertices[i].set(ofNoise(timer+randi[i].x)*numcols-(numcols/2),ofNoise(timer+randi[i].y)*numrows-(numrows/2),ofNoise(timer+randi[i].z)*height);
+      }
+      if(i<lines[1].nvert){
+        lines[1].vertices[i].set(ofNoise(timer+randi[i].x)*(numcols/4)-(numcols/8),ofNoise(timer+randi[i].y)*(numrows/4)-(numrows/8),ofNoise(timer+randi[i].z)*(height/2) + (height/4));
+      }
+      if(i<shapes[0].nvert){
+        shapes[0].vertices[i].set(ofNoise(timer+randi[i].x)*numcols-(numcols/2),ofNoise(timer+randi[i].y)*numrows-(numrows/2),ofNoise(timer+randi[i].z)*height);
+      }
+      if(i<shapes[1].nvert){
+        shapes[1].vertices[i].set(ofNoise(timer+randi[i].x)*(numcols/4)-(numcols/8),ofNoise(timer+randi[i].y)*(numrows/4)-(numrows/8),ofNoise(timer+randi[i].z)*(height/2) + (height/4));
+      }
+      for(int j=0;j<numattractors;j++){
+        if(i<attractor[j].nvert){
+          attractor[j].update(i,timer,randi[i]);
+        }
+        if(i<points[0].nvert){
+          points[0].attracted(i,attractor[j].pos,attractor[j].f,numattractors);
+        }
       }
       if(i<points[0].nvert){
-        points[0].attracted(i,attractor[j].pos,attractor[j].f,numattractors);
+        points[0].update(i,numcols,numrows,height);
+        if(i<512){
+          wtarray.update(i,numcols,numrows,height,points[0].vertices[i]);
+        }
       }
     }
-    if(i<points[0].nvert){
-      points[0].update(i,numcols,numrows,height);
-    if(i<512){
-        wtarray.update(i,numcols,numrows,height,points[0].vertices[i]);
-      }
-    }
-  }
     wtarray.send();
 }
 
@@ -105,13 +104,14 @@ void ofApp::draw(){
     for (int i=0;i<numattractors;i++){
         attractor[i].draw(0,10,250,6);
     }
-  //model[0].draw(250,250,timer);
-  // mesh[0].draw(250,75);
 
-  // lines[0].draw(250,100);
-  // shapes[0].draw(0,2);
-  // shapes[1].draw(255,1);
-  // lines[1].draw(0,100);
+    //model[0].draw(250,250,timer);
+    // mesh[0].draw(250,75);
+    // lines[0].draw(250,100);
+    // shapes[0].draw(0,2);
+    // shapes[1].draw(255,1);
+    // lines[1].draw(0,100);
+
     attractor[0].draw(0,10,250,6);
     space.cam.end();
     ofDisableLighting();
@@ -182,7 +182,6 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
 
 }
 
