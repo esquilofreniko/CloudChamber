@@ -1,23 +1,25 @@
 class Space {
-public:
-    ofCamera cam;
-    ofVec3f campos;
-    ofPlanePrimitive planes [6];
+private:
     int camx = 0;
     int camy = 0;
     int camz = 0;
-    int numcols;
-    int numrows;
-    int height;
-    void init(int _numcols, int _numrows, int _height) {
-        numcols = _numcols;
-        numrows = _numrows;
-        height = _height;
+    int numcols = 500;
+    int numrows = 500;
+    int height = 500;
+    ofVec3f campos;
+    ofPlanePrimitive planes [6];
+public:
+    ofCamera cam;
+    void drawWireframe() {
+        for (int i = 0; i < 6; ++i){
+            planes[i].drawWireframe();
+        }
+    }
+    Space() {
         camx = 0;
         camy = -numrows/2;
         camz = height/2;
         cam.tilt(90);
-        // cam.rotate(180,1,0,0);
         cam.setPosition(camx,camy,camz);
         planes[0].set(numcols,numrows);
         planes[0].setPosition(0,0,0);
@@ -42,7 +44,7 @@ public:
         planes[5].setResolution(numcols/8,numrows/8);
         planes[5].rotate(90,0,1,0);
     }
-
+    
     void update() {
         campos = cam.getPosition();
         if(campos.x<(-numcols/2)+10) {

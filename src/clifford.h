@@ -3,20 +3,25 @@
 
 #include <vector>
 #include <cmath>
+#include <iostream>
 
 class Clifford {
-    public:
-    void init(float _a, float _b, float _c, float _d);
-    void iterate();
-    const int maxLength = 256;
-    std::vector <float> x;
-    std::vector <float> y;
+    private:
+    int maxLength;
     int count;
     float a;
     float b;
     float c;
     float d;
+    std::vector<float> x;
+    std::vector<float> y;
+    public:
+    void iterate();
+    void modulate(float _a, float _b, float _c, float _d);
+    float getX(int xIndex);
+    float getY(int yIndex);
     Clifford();
+    ~Clifford();
 };
 
 #endif

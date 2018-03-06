@@ -1,63 +1,63 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
-  ofBackground(0,0,0);
-  ofSetFrameRate(200);
-  ofSetFullscreen(false);
-  ofSetBackgroundAuto(false);
-  ofEnableLighting();
-  ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofBackground(20, 20, 20);
+    ofSetFrameRate(200);
+    ofSetFullscreen(true);
+    ofSetBackgroundAuto(false);
+    ofEnableLighting();
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    points[0].nvert = 512;
+    lines[0].nvert = 500;
+    lines[1].nvert = 250;
+    shapes[0].nvert = 1000;
+    shapes[1].nvert = 1000;
+    mesh[0].nvert = 16;
+    mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
 
-  space.init(numcols,numrows,height);
-  model[0].init("heart.obj",0.5,0.5,0.5);
-
-  points[0].nvert = 512;
-  lines[0].nvert = 500;
-  lines[1].nvert = 250;
-  shapes[0].nvert = 1000;
-  shapes[1].nvert = 1000;
-  mesh[0].nvert = 16;
-
-  mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
-
-  for (int i=0;i<1000;i++){
+    for (int i=0;i<1000;i++){
     randi[i].set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(height/4,(height/4)*3));
-    if(i<points[0].nvert){
-      ofVec3f randvel;
-      randvel.set(0,0,0);
-      points[0].init(i,randi[i].x,randi[i].y,randi[i].z,randvel);
+    if(i < points[0].nvert) {
+        ofVec3f randvel;
+        randvel.set(0,0,0);
+        points[0].init(i,randi[i].x,randi[i].y,randi[i].z,randvel);
     }
-    if(i<numattractors){
-      attractor[i].f = ofRandom(-1,1);
-      attractor[i].pos.set(randi[i].x,randi[i].y,randi[i].z);
-      if(i==0){
+    if(i < numattractors) {
+        attractor[i].f = ofRandom(-1,1);
+        attractor[i].pos.set(randi[i].x,randi[i].y,randi[i].z);
+    if(i == 0){
         attractor[0].f = 1;
         attractor[0].pos.set(0,0,height/2);
       }
     }
   }
-    genA.init(-1.4, 1.6, 1.0, 0.7);
-    wtarray.sender.setup("localhost", wtarray.port);
+    // example of using clifford attractor object and sending its output via osc
+    // will later encapsulate this code elsewhere...
+    
+    
+    std::string addresses[16];
+
+    for (int i = 0; i < 128; ++i) {
+        clifford.iterate();
+    }
+    
+    for (int i = 0; i < 16; ++i) {
+        if (i == 0) maxpatch.sendBang("trigger");
+        addresses[i] = 'f'+(std::to_string(i+1)); // to_string converts integer to string data type
+        float x = map.scale(clifford.getX(i), 100, 50, true);
+        std::cout << x << '\n';
+        maxpatch.sendFloat(addresses[i], x);
+    }
+    
+        wtarray.sender.setup("localhost", wtarray.port);
 }
 
-//--------------------------------------------------------------
 void ofApp::update() {
-  ++counter;
-  timer += speed;
-  if (counter >= 128) {
-    counter = 0;
-  };
-  if (counter % 16 == 1) {
-    float f = abs(genA.x[counter-1] * 300) + 100;
-    float a = abs(genA.y[counter-1] * 0.5);
-  }
-
-  space.update();
-  wtarray.init();
-  genA.iterate();
-  model[0].update();
-  model[0].render(0,0,height*0.5);
-  for (int i=0;i<1000;i++){
+    timer += speed;
+    space.update();
+    //model[0].update();
+    //model[0].render(0,0,height*0.5);
+    for (int i = 0; i < 1000; ++i) {
     if(i<lines[0].nvert){
       lines[0].vertices[i].set(ofNoise(timer+randi[i].x)*numcols-(numcols/2),ofNoise(timer+randi[i].y)*numrows-(numrows/2),ofNoise(timer+randi[i].z)*height);
     }
@@ -80,58 +80,48 @@ void ofApp::update() {
     }
     if(i<points[0].nvert){
       points[0].update(i,numcols,numrows,height);
-      if(i<512){
+    if(i<512){
         wtarray.update(i,numcols,numrows,height,points[0].vertices[i]);
       }
     }
   }
-  wtarray.send();
+    wtarray.send();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-  ofEnableLighting();
-  space.cam.begin();
-  bgresetmax = 1;
-  bgreset += 1;
-  bgreset %= bgresetmax;
-  if(bgreset == 0){
-    ofBackground(0,0,0,5);
-  }
-
-  ofSetColor(13,50);
-  ofFill();
-  for (int i=0;i<6;i++){
-    space.planes[i].drawWireframe();
-  }
-
-  points[0].draw(250,250);
-
-  for (int i=0;i<numattractors;i++){
-    attractor[i].draw(0,10,250,6);
-  }
-
-  model[0].draw(250,250,timer);
+    ofEnableLighting();
+    space.cam.begin();
+    bgresetmax = 1;
+    bgreset += 1;
+    bgreset %= bgresetmax;
+    if(bgreset == 0){
+        ofBackground(0,0,0,5);
+    }
+    ofSetColor(50, 100);
+    ofFill();
+    space.drawWireframe();
+    points[0].draw(250,250);
+    for (int i=0;i<numattractors;i++){
+        attractor[i].draw(0,10,250,6);
+    }
+  //model[0].draw(250,250,timer);
   // mesh[0].draw(250,75);
 
   // lines[0].draw(250,100);
   // shapes[0].draw(0,2);
   // shapes[1].draw(255,1);
   // lines[1].draw(0,100);
-
-  attractor[0].draw(0,10,250,6);
-
-
-  space.cam.end();
-  ofDisableLighting();
-  ofSetColor(255);
-  ofFill();
-  ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), 10, 15);
+    attractor[0].draw(0,10,250,6);
+    space.cam.end();
+    ofDisableLighting();
+    ofSetColor(255);
+    ofFill();
+    ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), 10, 15);
 }
 
 //--------------------------------------------------¬------------
 void ofApp::keyPressed(int key){
-  ofBackground(0,0,0,5);
   if(key == 'w'){
     space.cam.dolly(-1);
   }

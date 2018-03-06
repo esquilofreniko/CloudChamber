@@ -1,33 +1,39 @@
-class Model{
-  public:
-    int counter = 0;
-    int vertexcounter = 0;
-    bool vforward = true;
+class Model {
+public:
+    int counter;
+    int vertexcounter;
+    bool vforward;
     ofxAssimpModelLoader model;
     ofMesh mesh;
     ofMesh omesh;
-    void init(string name,float sx,float sy,float sz){
-      model.loadModel(name, false);
-      model.setScale(sx,sy,sz);
-      mesh = model.getCurrentAnimatedMesh(0);
-    }
-    void clear(){
-      mesh.clear();
-    }
-    void reset(){
-      mesh = model.getCurrentAnimatedMesh(0);
-    }
-    void update(){
-      counter += 1;
-      counter %= 1;
-    }
-    void render(int x, int y, int z){
-      if(counter == 0){
-        model.setPosition(x,y,z);
-        model.update();
+    Model() {
+        counter = 0;
+        vertexcounter = 0;
+        vforward = true;
+        model.loadModel("heart.obj", false);
+        model.setScale(0.5, 0.5, 0.5);
         mesh = model.getCurrentAnimatedMesh(0);
+    }
+                        
+    void clear() {
+        mesh.clear();
+    }
+                        
+    void reset() {
+      mesh = model.getCurrentAnimatedMesh(0);
+    }
+    
+    void update() {
+        counter = (counter + 1) % 1;
+    }
+    
+    void render(int x, int y, int z){
+        if(counter == 0) {
+            model.setPosition(x, y, z);
+            model.update();
+            mesh = model.getCurrentAnimatedMesh(0);
 
-        if(vertexcounter <=0){
+        if(vertexcounter <=0) {
           vforward = true;
         }
         if(vertexcounter >= mesh.getNumVertices()-1){

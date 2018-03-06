@@ -10,16 +10,18 @@
 #include "shapes.h"
 #include "attractor.h"
 #include "clifford.h"
-#include "movingAverage.h"
-#include "clock.h"
+#include "moving_average.h"
+#include "counter.h"
+#include "random.h"
+#include "mapping.h"
+#include "osc.h"
+#include "rhythm.h"
 
 class ofApp : public ofBaseApp {
-public:
+    public:
     void setup();
     void update();
-    void play();
     void draw();
-    void info();
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y);
@@ -31,18 +33,15 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-
     int numcols = 500;
     int numrows = 500;
     int height = 500;
     int numattractors = 1;
     int bgreset = 0;
     int bgresetmax = 128;
-    int counter = -1;
     float timer = 0;
     float speed = 0.0001;
     ofVec3f randi [1000];
-
     Space space;
     Attractor attractor[8];
     Model model[2];
@@ -51,8 +50,13 @@ public:
     Shapes shapes [4];
     ofLight light[4];
     Mesh mesh [4];
-    Clifford genA;
+    Clifford clifford;
     MovingAverage avg;
+    Random rand;
+    Map map;
+    Counter counter;
     WtArray wtarray;
     ofxOscReceiver receiver;
+    OscSender maxpatch;
+    Rhythm rhythm;
 };
