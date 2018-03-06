@@ -3,12 +3,12 @@ private:
     int camx = 0;
     int camy = 0;
     int camz = 0;
-    int numcols = 500;
-    int numrows = 500;
-    int height = 500;
     ofVec3f campos;
     ofPlanePrimitive planes [6];
 public:
+    int numcols = 500;
+    int numrows = 500;
+    int height = 500;
     ofCamera cam;
     void drawWireframe() {
         for (int i = 0; i < 6; ++i){
@@ -44,7 +44,7 @@ public:
         planes[5].setResolution(numcols/8,numrows/8);
         planes[5].rotate(90,0,1,0);
     }
-    
+
     void update() {
         campos = cam.getPosition();
         if(campos.x<(-numcols/2)+10) {

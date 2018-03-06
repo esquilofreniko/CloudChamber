@@ -33,14 +33,13 @@ class ofApp : public ofBaseApp {
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-    int numcols = 500;
-    int numrows = 500;
-    int height = 500;
+
     int numattractors = 1;
     int bgreset = 0;
     int bgresetmax = 128;
     float timer = 0;
     float speed = 0.0001;
+
     ofVec3f randi [1000];
     Space space;
     Attractor attractor[8];
@@ -59,4 +58,8 @@ class ofApp : public ofBaseApp {
     ofxOscReceiver receiver;
     OscSender maxpatch;
     Rhythm rhythm;
+
+    int numcols = space.numcols;
+    int numrows = space.numrows;
+    int height = space.height;
 };

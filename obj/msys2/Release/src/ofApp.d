@@ -130,8 +130,12 @@ obj/msys2/Release/src/ofApp.o: \
  E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/attractor.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/movingAverage.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/clock.h
+ E:/ofxmsys/apps/myApps/CloudChamber/src/moving_average.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/counter.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/random.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/mapping.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/osc.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/rhythm.h
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/ofApp.h:
 
@@ -393,6 +397,14 @@ E:/ofxmsys/apps/myApps/CloudChamber/src/attractor.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h:
 
-E:/ofxmsys/apps/myApps/CloudChamber/src/movingAverage.h:
+E:/ofxmsys/apps/myApps/CloudChamber/src/moving_average.h:
 
-E:/ofxmsys/apps/myApps/CloudChamber/src/clock.h:
+E:/ofxmsys/apps/myApps/CloudChamber/src/counter.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/random.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/mapping.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/osc.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/rhythm.h:
