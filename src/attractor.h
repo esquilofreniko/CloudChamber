@@ -5,16 +5,23 @@ public:
     ofMesh mesh[2];
     ofVec3f vertices [2][512];
     float f;
-    // ofLight light;
+    ofLight light;
+
+    Attractor(){
+      light.setup();
+      light.setPointLight();
+      light.setAttenuation(1,0.000025,0.000025);
+    }
+
     void update(int i,float timer, ofVec3f randi) {
         int rad = 125;
         vertices[0][i].set(pos.x + (ofNoise(timer+randi.x)*(rad*2)-rad), pos.y + (ofNoise(timer+randi.y)*(rad*2)-rad), pos.z + (ofNoise(timer+randi.z)*(rad*2)-rad));
         vertices[1][i].set(pos.x + ((ofNoise(timer+randi.x)*(rad*2)-rad)/2), pos.y + ((ofNoise(timer+randi.y)*(rad*2)-rad)/2), pos.z + ((ofNoise(timer+randi.z)*(rad*2)-rad)/2));
-        // light.setPointLight();
-        // light.setPosition(pos.x,pos.y,pos.z);
+
+        light.setPosition(pos.x,pos.y,pos.z);
+        light.enable();
     }
     void draw(int c,int a,int c2, int a2) {
-      // light.enable();
       ofSetColor(c,a);
       ofFill();
       mesh[0].setMode(OF_PRIMITIVE_TRIANGLE_FAN);

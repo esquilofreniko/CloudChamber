@@ -1,11 +1,15 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
-    ofBackground(20, 20, 20);
+    ofEnableLighting();
+    ofSetVerticalSync(true);
+    ofSetFrameRate(200);
+    ofSetBackgroundColor(0, 0, 0);
+    ofEnableAlphaBlending();
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofSetSmoothLighting(true);
     ofSetFullscreen(false);
     ofSetBackgroundAuto(false);
-    // ofEnableLighting();
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     points[0].nvert = 512;
     lines[0].nvert = 500;
     lines[1].nvert = 250;
@@ -43,10 +47,10 @@ void ofApp::update() {
 
     timer += speed;
     space.update();
-    
+
     //model[0].update();
     //model[0].render(0,0,height*0.5);
-    
+
     for (int i = 0; i < 1000; ++i) {
       if(i<lines[0].nvert){
         lines[0].vertices[i].set(ofNoise(timer+randi[i].x)*numcols-(numcols/2),ofNoise(timer+randi[i].y)*numrows-(numrows/2),ofNoise(timer+randi[i].z)*height);
@@ -79,21 +83,20 @@ void ofApp::update() {
 }
 
 void ofApp::draw(){
-    ofEnableLighting();
-    space.cam.begin();
     bgresetmax = 1;
     bgreset += 1;
     bgreset %= bgresetmax;
     if(bgreset == 0){
-        ofBackground(0,0,0,5);
+        ofBackground(0,0,0);
     }
-    ofSetColor(50, 100);
+    space.cam.begin();
+    ofSetColor(20, 250);
     ofFill();
     space.drawWireframe();
     points[0].draw(250,250);
-    
+
     for (int i=0;i<numattractors;i++){
-        attractor[i].draw(0,10,250,6);
+        attractor[i].draw(0,10,255,5);
     }
 
     //model[0].draw(250,250,timer);
@@ -103,7 +106,6 @@ void ofApp::draw(){
     // shapes[1].draw(255,1);
     // lines[1].draw(0,100);
 
-    attractor[0].draw(0,10,250,6);
     space.cam.end();
     ofDisableLighting();
     ofSetColor(255);
