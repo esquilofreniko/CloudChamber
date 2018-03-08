@@ -4,7 +4,7 @@ void ofApp::setup() {
     ofBackground(20, 20, 20);
     ofSetFullscreen(false);
     ofSetBackgroundAuto(false);
-    ofEnableLighting();
+    // ofEnableLighting();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     points[0].nvert = 512;
     lines[0].nvert = 500;
