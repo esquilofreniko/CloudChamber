@@ -34,29 +34,23 @@ void ofApp::setup() {
       }
     }
   }
-    // example of using clifford attractor object and sending its output via osc
-    // will later encapsulate this code elsewhere...
-    std::string addresses[16];
-
-    for (int i = 0; i < 128; ++i) {
-        clifford.iterate();
-    }
-
-    for (int i = 0; i < 16; ++i) {
-        if (i == 0) maxpatch.sendBang("trigger");
-        addresses[i] = 'f'+(std::to_string(i+1)); // to_string converts integer to string data type
-        float x = map.scale(clifford.getX(i), 100, 50, true);
-        std::cout << x << '\n';
-        maxpatch.sendFloat(addresses[i], x);
-    }
     wtarray.sender.setup("localhost", wtarray.port);
 }
 
 void ofApp::update() {
+    counter.step();
+    clifford.iterate();
+    if (ofGetFrameNum() % (60 * 16) == 1) { // every 16 seconds... needs to be adjusted to more dynamic
+            float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true); // clifford attractor value is grabbed from last point of array and scaled
+            maxpatch.sendFloat("wavetableFrequency", x); // and send through OSC
+    }
+
     timer += speed;
     space.update();
+
     //model[0].update();
     //model[0].render(0,0,height*0.5);
+
     for (int i = 0; i < 1000; ++i) {
       if(i<lines[0].nvert){
         lines[0].vertices[i].set(ofNoise(timer+randi[i].x)*numcols-(numcols/2),ofNoise(timer+randi[i].y)*numrows-(numrows/2),ofNoise(timer+randi[i].z)*height);
@@ -88,7 +82,6 @@ void ofApp::update() {
     wtarray.send();
 }
 
-//--------------------------------------------------------------
 void ofApp::draw(){
     bgresetmax = 1;
     bgreset += 1;
@@ -101,6 +94,7 @@ void ofApp::draw(){
     ofFill();
     space.drawWireframe();
     points[0].draw(250,250);
+
     for (int i=0;i<numattractors;i++){
         attractor[i].draw(0,10,255,5);
     }
@@ -116,10 +110,9 @@ void ofApp::draw(){
     ofDisableLighting();
     ofSetColor(255);
     ofFill();
-    ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), 10, 15);
+    ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), 10, 15); // display frame rate
 }
 
-//--------------------------------------------------¬------------
 void ofApp::keyPressed(int key){
   if(key == 'w'){
     space.cam.dolly(-1);
@@ -164,52 +157,42 @@ void ofApp::keyPressed(int key){
   }
 }
 
-//--------------------------------------------------------------
 void ofApp::keyReleased(int key){
 
 }
 
-//--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y){
 
 }
 
-//--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
 
 }
 
-//--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 
 }
 
-//--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
 
 }
 
-//--------------------------------------------------------------
 void ofApp::mouseEntered(int x, int y){
 
 }
 
-//--------------------------------------------------------------
 void ofApp::mouseExited(int x, int y){
 
 }
 
-//--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
 
 }
 
-//--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
 
 }
 
-//--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }

@@ -80,7 +80,7 @@ public:
           vertices[i].z = 0;
         }
     }
-    void attracted(int i,ofVec3f target, float f, int numattractors) {
+    void attracted(int i, ofVec3f target, float f, int numattractors) {
         ofVec3f force = target - vertices[i];
         float dsquared = pow(force.length(),2);
         if(dsquared<5) {
@@ -97,7 +97,7 @@ public:
         acc[i] += force;
     }
     void draw(int c, int a) {
-        ofSetColor(c,a);
+        ofSetColor(c, a);
         ofFill();
         shapegen.setMode(OF_PRIMITIVE_POINTS);
         glPointSize(1);

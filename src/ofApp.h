@@ -15,7 +15,7 @@
 #include "random.h"
 #include "mapping.h"
 #include "osc.h"
-#include "rhythm.h"
+#include "timing.h"
 
 class ofApp : public ofBaseApp {
     public:
@@ -38,8 +38,13 @@ class ofApp : public ofBaseApp {
     int bgreset = 0;
     int bgresetmax = 128;
     float timer = 0;
+<<<<<<< HEAD
     float speed = 0.001;
 
+=======
+    float speed = 0.0001;
+    
+>>>>>>> 6309ad9e5670c9e20b9d299e465e51e6541d2d13
     ofVec3f randi [1000];
     Space space;
     Attractor attractor[4];
@@ -53,10 +58,10 @@ class ofApp : public ofBaseApp {
     Random rand;
     Map map;
     Counter counter;
+    Timing timing;
     WtArray wtarray;
     ofxOscReceiver receiver;
     OscSender maxpatch;
-    Rhythm rhythm;
 
     int numcols = space.numcols;
     int numrows = space.numrows;
