@@ -1,12 +1,12 @@
 #include "counter.h"
 
 Counter::Counter() {
-    max = 128;
-    
+    max = 2048;
 }
 
 void Counter::step() {
     x = (x + 1) % max;
+    if (x == 0) cycles += 1;
 }
 
 int Counter::getX() {

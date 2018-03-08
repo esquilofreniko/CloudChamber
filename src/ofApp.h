@@ -15,7 +15,7 @@
 #include "random.h"
 #include "mapping.h"
 #include "osc.h"
-#include "rhythm.h"
+#include "timing.h"
 
 class ofApp : public ofBaseApp {
     public:
@@ -39,7 +39,8 @@ class ofApp : public ofBaseApp {
     int bgresetmax = 128;
     float timer = 0;
     float speed = 0.0001;
-
+    
+    std::vector<std::string> addresses;
     ofVec3f randi [1000];
     Space space;
     Attractor attractor[8];
@@ -54,10 +55,10 @@ class ofApp : public ofBaseApp {
     Random rand;
     Map map;
     Counter counter;
+    Timing timing;
     WtArray wtarray;
     ofxOscReceiver receiver;
     OscSender maxpatch;
-    Rhythm rhythm;
 
     int numcols = space.numcols;
     int numrows = space.numrows;

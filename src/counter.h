@@ -6,6 +6,7 @@
 class Counter {
 private:
     int x;
+    int cycles;
     int max;
 public:
     void step();

@@ -2,7 +2,6 @@
 
 void ofApp::setup() {
     ofBackground(20, 20, 20);
-    ofSetFrameRate(200);
     ofSetFullscreen(false);
     ofSetBackgroundAuto(false);
     ofEnableLighting();
@@ -35,12 +34,8 @@ void ofApp::setup() {
     // will later encapsulate this code elsewhere...
 
 
-    std::string addresses[16];
 
-    for (int i = 0; i < 128; ++i) {
-        clifford.iterate();
-    }
-
+    /*
     for (int i = 0; i < 16; ++i) {
         if (i == 0) maxpatch.sendBang("trigger");
         addresses[i] = 'f'+(std::to_string(i+1)); // to_string converts integer to string data type
@@ -48,10 +43,25 @@ void ofApp::setup() {
         std::cout << x << '\n';
         maxpatch.sendFloat(addresses[i], x);
     }
+     */
     wtarray.sender.setup("localhost", wtarray.port);
+    
+
+    /*
+    for (int i = 0; i < 16; ++i) {
+        std::cout << timing.getNoteTime(i) << '\n';
+    }
+     */
 }
 
 void ofApp::update() {
+    counter.step();
+    clifford.iterate();
+    if (ofGetFrameNum() % (60 * 16) == 1) { // every 16 seconds... needs to be adjusted to more dynamic
+            float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true); // clifford attractor values scaled
+            maxpatch.sendFloat("wavetableFrequency", x); // and send through OSC
+    }
+
     timer += speed;
     space.update();
     //model[0].update();
@@ -101,6 +111,7 @@ void ofApp::draw(){
     ofFill();
     space.drawWireframe();
     points[0].draw(250,250);
+    
     for (int i=0;i<numattractors;i++){
         attractor[i].draw(0,10,250,6);
     }
