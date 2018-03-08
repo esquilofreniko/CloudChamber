@@ -20,6 +20,8 @@ class Clifford {
     void modulate(float _a, float _b, float _c, float _d);
     float getX(int xIndex);
     float getY(int yIndex);
+    int getSizeX();
+    int getSizeY();
     Clifford();
     ~Clifford();
 };

@@ -49,3 +49,11 @@ float Clifford::getY(int yIndex) {
         return 0;
     }
 }
+
+int Clifford::getSizeX() {
+    return x.size();
+}
+
+int Clifford::getSizeY() {
+    return y.size();
+}
