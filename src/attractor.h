@@ -10,7 +10,7 @@ public:
     Attractor(){
       light.setup();
       light.setPointLight();
-      light.setAttenuation(1,0.00004,0.00004);
+      light.setAttenuation(1,0.000025,0.000025);
     }
 
     void update(int i,float timer, ofVec3f randi) {
