@@ -40,7 +40,6 @@ class ofApp : public ofBaseApp {
     float timer = 0;
     float speed = 0.0001;
     
-    std::vector<std::string> addresses;
     ofVec3f randi [1000];
     Space space;
     Attractor attractor[8];
