@@ -8,7 +8,7 @@ void ofApp::setup() {
     ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofSetSmoothLighting(true);
-    ofSetFullscreen(false);
+    ofSetFullscreen(true);
     ofSetBackgroundAuto(false);
     points[0].nvert = 512;
     lines[0].nvert = 500;
