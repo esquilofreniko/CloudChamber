@@ -11,22 +11,22 @@ public:
         vertexcounter = 0;
         vforward = true;
         model.loadModel("heart.obj", false);
-        model.setScale(0.5, 0.5, 0.5);
+        model.setScale(0.75, 0.75, 0.75);
         mesh = model.getCurrentAnimatedMesh(0);
     }
-                        
+
     void clear() {
         mesh.clear();
     }
-                        
+
     void reset() {
       mesh = model.getCurrentAnimatedMesh(0);
     }
-    
+
     void update() {
         counter = (counter + 1) % 1;
     }
-    
+
     void render(int x, int y, int z){
         if(counter == 0) {
             model.setPosition(x, y, z);
@@ -69,7 +69,8 @@ public:
       ofSetColor(c,a);
       ofFill();
       ofTranslate(model.getPosition().x, model.getPosition().y, 0);
-      ofRotate(timer*100, 0, 0, 1);
+      ofRotate(180,1,0,0);
+      // ofRotate(timer*100, 0, 1, 0);
       ofTranslate(-model.getPosition().x, -model.getPosition().y, 0);
       ofxAssimpMeshHelper & meshHelper = model.getMeshHelper(0);
       ofMultMatrix(model.getModelMatrix());

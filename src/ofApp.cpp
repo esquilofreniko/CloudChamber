@@ -8,7 +8,7 @@ void ofApp::setup() {
     ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofSetSmoothLighting(true);
-    ofSetFullscreen(true);
+    ofSetFullscreen(false);
     ofSetBackgroundAuto(false);
     points[0].nvert = 512;
     lines[0].nvert = 500;
@@ -49,8 +49,8 @@ void ofApp::update() {
 
     space.update();
 
-    //model[0].update();
-    //model[0].render(0,0,height*0.5);
+    // model[0].update();
+    // model[0].render(0,0,height*0.5);
 
     for (int i = 0; i < 1000; ++i) {
       if(i<lines[0].nvert){
@@ -80,7 +80,7 @@ void ofApp::update() {
           }
         }
         if(i<attractor[j].nvert){
-          attractor[j].update(i,timer,100,randi[i]);
+          attractor[j].update(i,timer,50,randi[i]);
         }
         if(i<points[0].nvert){
           points[0].attracted(i,attractor[j].pos,attractor[j].f,numattractors);
@@ -123,7 +123,7 @@ void ofApp::draw(){
         attractor[i].draw(10,5);
     }
 
-    //model[0].draw(250,250,timer);
+    // model[0].draw(250,50,timer);
     // mesh[0].draw(250,75);
     // lines[0].draw(250,100);
     // shapes[0].draw(0,2);

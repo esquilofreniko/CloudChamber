@@ -14,7 +14,7 @@ public:
       light.setup();
       light.setPointLight();
       if(f != 0){
-        light.setAttenuation(1,(0.000025/(abs(f))),(0.000025/(abs(f))));
+        light.setAttenuation(1,(0.000015/(abs(f))),(0.000015/(abs(f))));
       }
       light.setPosition(pos.x,pos.y,pos.z);
       light.enable();
@@ -52,7 +52,7 @@ public:
       }
     }
     void crash(ofVec3f vec){
-      if(pos.x <= vec.x+(rad/8) && pos.x >= vec.x-(rad/8) && pos.y <= vec.y+(rad/8) && pos.y >= vec.y-(rad/8) && pos.z <= vec.z+(rad/8) && pos.z >= vec.z-(rad/8)){
+      if(pos.x <= vec.x+(rad/32) && pos.x >= vec.x-(rad/32) && pos.y <= vec.y+(rad/32) && pos.y >= vec.y-(rad/32) && pos.z <= vec.z+(rad/32) && pos.z >= vec.z-(rad/32)){
           vel.x *= -0.95;
           vel.y *= -0.95;
           vel.z *= -0.95;
@@ -72,12 +72,12 @@ public:
       mesh[0].draw();
       if(f>=0){
         light.setDiffuseColor(ofColor(255,255,255));
-        ofSetColor(255,a2*(abs(f)*2));
+        ofSetColor(255,a2*(abs(f)*1.5));
         ofFill();
       }
       if(f<0){
-        light.setDiffuseColor(ofColor(200,0,0));
-        ofSetColor(255,0,0,a2*(abs(f)*2));
+        light.setDiffuseColor(ofColor(255,0,0));
+        ofSetColor(255,0,0,a2*(abs(f)*1.5));
         ofFill();
       }
       mesh[1].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
