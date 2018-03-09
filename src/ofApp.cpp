@@ -81,7 +81,7 @@ void ofApp::update() {
         }
         if(i<attractor[j].nvert){
           attractor[j].update(i,timer,50,randi[i]);
-        } 
+        }
         if(i<points[0].nvert){
           points[0].attracted(i,attractor[j].pos,attractor[j].f,numattractors);
         }

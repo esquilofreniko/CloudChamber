@@ -14,7 +14,7 @@ public:
       light.setup();
       light.setPointLight();
       if(f != 0){
-        light.setAttenuation(1,(0.000015/(abs(f))),(0.000015/(abs(f))));
+        light.setAttenuation(1,(0.00001/(abs(f))),(0.00001/(abs(f))));
       }
       light.setPosition(pos.x,pos.y,pos.z);
       light.enable();
