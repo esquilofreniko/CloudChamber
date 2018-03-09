@@ -8,7 +8,7 @@ void ofApp::setup() {
     ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofSetSmoothLighting(true);
-    ofSetFullscreen(false);
+    ofSetFullscreen(true);
     ofSetBackgroundAuto(false);
     points[0].nvert = 512;
     lines[0].nvert = 500;
@@ -35,14 +35,15 @@ void ofApp::setup() {
     }
   }
     wtarray.sender.setup("localhost", wtarray.port);
+    timing.generateSequence();
 }
 
 void ofApp::update() {
-    counter.step();
+    timing.playSequence();
     clifford.iterate();
-    if (ofGetFrameNum() % (60 * 16) == 1) { // every 16 seconds... needs to be adjusted to more dynamic
-            float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true); // clifford attractor value is grabbed from last point of array and scaled
-            maxpatch.sendFloat("wavetableFrequency", x); // and send through OSC
+    if (timing.getTrigger()) {
+        float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true); // clifford attractor value is grabbed from last point of array and scaled
+        maxpatch.sendFloat("wavetableFrequency", x); // ...and sent through OSC
     }
 
     timer += speed;
@@ -121,7 +122,8 @@ void ofApp::draw(){
     ofDisableLighting();
     ofSetColor(255);
     ofFill();
-    ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), 10, 15); // display frame rate
+    timing.displayData();
+
 }
 
 void ofApp::keyPressed(int key){

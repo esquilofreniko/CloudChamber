@@ -3,7 +3,7 @@
 OscSender::OscSender() {
     port = 7400;
     sender.setup("localhost", port);
-    std::cout << "Sending OSC messages to port " << port << "..." << '\n';
+    std::cout << "Sending OSC messages to port " << port << "..." << "\n\n";
 }
 
 void OscSender::sendFloat(std::string address, float message) {
