@@ -52,7 +52,7 @@ public:
       }
     }
     void crash(ofVec3f vec){
-      if(pos.x <= vec.x+(rad/32) && pos.x >= vec.x-(rad/32) && pos.y <= vec.y+(rad/32) && pos.y >= vec.y-(rad/32) && pos.z <= vec.z+(rad/32) && pos.z >= vec.z-(rad/32)){
+      if(pos.x <= vec.x+(rad/25) && pos.x >= vec.x-(rad/25) && pos.y <= vec.y+(rad/25) && pos.y >= vec.y-(rad/25) && pos.z <= vec.z+(rad/25) && pos.z >= vec.z-(rad/25)){
           vel.x *= -0.95;
           vel.y *= -0.95;
           vel.z *= -0.95;
