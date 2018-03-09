@@ -42,7 +42,7 @@ class ofApp : public ofBaseApp {
 
     ofVec3f randi [1000];
     Space space;
-    Attractor attractor[4];
+    Attractor attractor[8];
     Model model[2];
     Points points [4];
     Lines lines [4];

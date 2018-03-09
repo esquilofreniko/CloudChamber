@@ -64,9 +64,22 @@ void ofApp::update() {
       if(i<shapes[1].nvert){
         shapes[1].vertices[i].set(ofNoise(timer+randi[i].x)*(numcols/4)-(numcols/8),ofNoise(timer+randi[i].y)*(numrows/4)-(numrows/8),ofNoise(timer+randi[i].z)*(height/2) + (height/4));
       }
+      if(i<8){
+        attractor[i].light.disable();
+      }
+      if(i<numattractors){
+        attractor[i].lighton();
+        attractor[i].limit(numcols,numrows,height);
+      }
       for(int j=0;j<numattractors;j++){
+        if(i<numattractors){
+          if(i != j){
+            attractor[i].attracted(j,attractor[j].pos,attractor[j].f,numattractors);
+            attractor[i].crash(attractor[j].pos);
+          }
+        }
         if(i<attractor[j].nvert){
-          attractor[j].update(i,timer,randi[i]);
+          attractor[j].update(i,timer,100,randi[i]);
         }
         if(i<points[0].nvert){
           points[0].attracted(i,attractor[j].pos,attractor[j].f,numattractors);
@@ -90,13 +103,11 @@ void ofApp::draw(){
         ofBackground(0,0,0);
     }
     space.cam.begin();
-    ofSetColor(20, 250);
-    ofFill();
-    space.drawWireframe();
+    space.drawWireframe(20,250);
     points[0].draw(250,250);
 
     for (int i=0;i<numattractors;i++){
-        attractor[i].draw(0,10,255,5);
+        attractor[i].draw(10,5);
     }
 
     //model[0].draw(250,250,timer);
@@ -139,21 +150,17 @@ void ofApp::keyPressed(int key){
     speed -= 0.00001;
   }
   if(key == 'n'){
-    for (int i=0;i<1000;i++){
-      randi[i].set(ofRandom(0,1000),ofRandom(0,1000),ofRandom(0,1000));
+    for(int i=0;i<numattractors;i++){
+      attractor[i].f = ofRandom(-2,2);
     }
   }
   if(key == ' '){
-    numattractors = ofRandom(2,2);
+    numattractors += 1;
+    numattractors %= 8;
     for(int i=0;i<numattractors;i++){
-      attractor[i].f = ofRandom(0,1);
-      attractor[i].pos.set(ofRandom(-numcols/2,numcols/2),ofRandom(-numrows/2,numrows/2),ofRandom(0,height));
-      if(i==0){
-        attractor[0].f = 1;
-        attractor[0].pos.set(0,0,height/2);
-      }
-    }
-    // mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
+      attractor[i].f = ofRandom(-2,2);
+      attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(0,height/2));
+  }
   }
 }
 

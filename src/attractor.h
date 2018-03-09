@@ -6,34 +6,103 @@ public:
     ofVec3f vertices [2][512];
     float f;
     ofLight light;
+    ofVec3f vel;
+    ofVec3f acc;
+    int rad;
 
-    Attractor(){
+    void lighton(){
       light.setup();
       light.setPointLight();
-      light.setAttenuation(1,0.000025,0.000025);
+      // light.setAttenuation(1,0.000025,0.000025);
+      if(f != 0){
+        light.setAttenuation(1,(0.000025/(abs(f))),(0.000025/(abs(f))));
+      }
+      light.setPosition(pos.x,pos.y,pos.z);
+      light.enable();
+      if(f == 0){
+        light.disable();
+      }
     }
-
-    void update(int i,float timer, ofVec3f randi) {
-        int rad = 125;
+    void limit(int numcols,int numrows, int height){
+      //limit to cube
+      if(pos.x>numcols || pos.x<-numcols) {
+          vel.x *= -0.95;
+      }
+      if(pos.y>numrows || pos.y<-numrows) {
+          vel.y *= -0.95;
+      }
+      if(pos.z>height || pos.z<0) {
+          vel.z *= -0.95;
+      }
+      if(pos.x>numcols){
+        pos.x = numcols;
+      }
+      if(pos.x<-numcols){
+        pos.x = -numcols;
+      }
+      if(pos.y>numrows){
+        pos.y = numrows;
+      }
+      if(pos.y<-numrows){
+        pos.y = -numrows;
+      }
+      if(pos.z > height){
+        pos.z = height;
+      }
+      if(pos.z < 0){
+        pos.z = 0;
+      }
+    }
+    void crash(ofVec3f vec){
+      if(pos.x <= vec.x+(rad/8) && pos.x >= vec.x-(rad/8) && pos.y <= vec.y+(rad/8) && pos.y >= vec.y-(rad/8) && pos.z <= vec.z+(rad/8) && pos.z >= vec.z-(rad/8)){
+          vel.x *= -0.95;
+          vel.y *= -0.95;
+          vel.z *= -0.95;
+      }
+    }
+    void update(int i,float timer,int _rad, ofVec3f randi) {
+        rad = _rad;
         vertices[0][i].set(pos.x + (ofNoise(timer+randi.x)*(rad*2)-rad), pos.y + (ofNoise(timer+randi.y)*(rad*2)-rad), pos.z + (ofNoise(timer+randi.z)*(rad*2)-rad));
         vertices[1][i].set(pos.x + ((ofNoise(timer+randi.x)*(rad*2)-rad)/2), pos.y + ((ofNoise(timer+randi.y)*(rad*2)-rad)/2), pos.z + ((ofNoise(timer+randi.z)*(rad*2)-rad)/2));
-
-        light.setPosition(pos.x,pos.y,pos.z);
-        light.enable();
     }
-    void draw(int c,int a,int c2, int a2) {
-      ofSetColor(c,a);
+    void draw(int a, int a2) {
+      ofSetColor(0,a*(abs(f)*2));
       ofFill();
       mesh[0].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
       mesh[0].clearVertices();
       mesh[0].addVertices(vertices[0],nvert);
       mesh[0].draw();
-      ofSetColor(c2,a2);
-      ofFill();
+      if(f>=0){
+        ofSetColor(255,a2*(abs(f)*2));
+        ofFill();
+      }
+      if(f<0){
+        ofSetColor(255,0,0,a2*(abs(f)*2));
+        ofFill();
+      }
       mesh[1].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
       mesh[1].clearVertices();
       mesh[1].addVertices(vertices[1],nvert);
       mesh[1].draw();
+    }
+    void attracted(int i, ofVec3f target, float f, int numattractors) {
+        ofVec3f force = target - pos;
+        float dsquared = pow(force.length(),2);
+        if(dsquared<5) {
+            dsquared = 5;
+        }
+        if(dsquared>500) {
+            dsquared = 500;
+        }
+        float g = 6.67408;
+        float strength = g/dsquared;
+        strength = (strength * 0.01)/numattractors;
+        force.limit(strength);
+        force *= f;
+        acc += force;
+        pos += vel;
+        vel += acc;
+        acc = acc*0;
     }
 };
 
@@ -53,13 +122,13 @@ public:
         vel[i] += acc[i];
         acc[i] = acc[i]*0;
         if(vertices[i].x>numcols || vertices[i].x<-numcols) {
-            vel[i].x *= -1;
+            vel[i].x *= -0.95;
         }
         if(vertices[i].y>numrows || vertices[i].y<-numrows) {
-            vel[i].y *= -1;
+            vel[i].y *= -0.95;
         }
         if(vertices[i].z>height || vertices[i].z<0) {
-            vel[i].z *= -1;
+            vel[i].z *= -0.95;
         }
         if(vertices[i].x>numcols){
           vertices[i].x = numcols;

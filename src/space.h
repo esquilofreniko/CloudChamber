@@ -10,7 +10,9 @@ public:
     int numrows = 500;
     int height = 500;
     ofCamera cam;
-    void drawWireframe() {
+    void drawWireframe(int c,int a) {
+        ofSetColor(c, a);
+        ofFill();
         for (int i = 0; i < 6; ++i){
             planes[i].drawWireframe();
         }
