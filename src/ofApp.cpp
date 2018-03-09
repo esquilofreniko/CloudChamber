@@ -8,7 +8,7 @@ void ofApp::setup() {
     ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofSetSmoothLighting(true);
-    ofSetFullscreen(true);
+    ofSetFullscreen(false);
     ofSetBackgroundAuto(false);
     points[0].nvert = 512;
     lines[0].nvert = 500;
@@ -26,7 +26,7 @@ void ofApp::setup() {
         points[0].init(i,randi[i].x,randi[i].y,randi[i].z,randvel);
     }
     if(i < numattractors) {
-        attractor[i].f = ofRandom(-1,1);
+        attractor[i].f = ofRandom(-2,2);
         attractor[i].pos.set(randi[i].x,randi[i].y,randi[i].z);
     if(i == 0){
         attractor[0].f = 1;
@@ -45,8 +45,8 @@ void ofApp::update() {
         float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true); // clifford attractor value is grabbed from last point of array and scaled
         maxpatch.sendFloat("wavetableFrequency", x); // ...and sent through OSC
     }
-
     timer += speed;
+
     space.update();
 
     //model[0].update();
@@ -93,7 +93,19 @@ void ofApp::update() {
         }
       }
     }
+    maxpatch.sendFloat("bp1freq",(attractor[0].pos.x));
+    maxpatch.sendFloat("bp2freq",(attractor[1].pos.x));
+    maxpatch.sendFloat("bp1q",(attractor[0].pos.y));
+    maxpatch.sendFloat("bp2q",(attractor[1].pos.y));
+    maxpatch.sendFloat("bp1gain",(attractor[0].pos.z));
+    maxpatch.sendFloat("bp2gain",(attractor[1].pos.z));
     wtarray.send();
+    if(fcounter == 0){
+      maxpatch.sendBang("wtfreqrand");
+      fcountermax = ofRandom(12,24)*100;
+    }
+    fcounter += 1;
+    fcounter %=fcountermax;
 }
 
 void ofApp::draw(){
@@ -153,13 +165,16 @@ void ofApp::keyPressed(int key){
   }
   if(key == 'n'){
     for(int i=0;i<numattractors;i++){
+      attractor[i].vel = ofVec3f(0,0,0);
       attractor[i].f = ofRandom(-2,2);
+      attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(0,height/2));
     }
   }
   if(key == ' '){
     numattractors += 1;
     numattractors %= 8;
     for(int i=0;i<numattractors;i++){
+      attractor[i].vel = ofVec3f(0,0,0);
       attractor[i].f = ofRandom(-2,2);
       attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(0,height/2));
   }

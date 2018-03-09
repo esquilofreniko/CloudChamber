@@ -39,6 +39,8 @@ class ofApp : public ofBaseApp {
     int bgresetmax = 128;
     float timer = 0;
     float speed = 0.001;
+    int fcounter = 0;
+    int fcountermax = 1600;
 
     ofVec3f randi [1000];
     Space space;

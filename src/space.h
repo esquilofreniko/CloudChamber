@@ -14,7 +14,9 @@ public:
         ofSetColor(c, a);
         ofFill();
         for (int i = 0; i < 6; ++i){
+          // if(i !=1){
             planes[i].drawWireframe();
+          // }
         }
     }
     Space() {

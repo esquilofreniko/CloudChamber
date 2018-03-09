@@ -13,7 +13,6 @@ public:
     void lighton(){
       light.setup();
       light.setPointLight();
-      // light.setAttenuation(1,0.000025,0.000025);
       if(f != 0){
         light.setAttenuation(1,(0.000025/(abs(f))),(0.000025/(abs(f))));
       }
@@ -24,7 +23,6 @@ public:
       }
     }
     void limit(int numcols,int numrows, int height){
-      //limit to cube
       if(pos.x>numcols || pos.x<-numcols) {
           vel.x *= -0.95;
       }
@@ -73,10 +71,12 @@ public:
       mesh[0].addVertices(vertices[0],nvert);
       mesh[0].draw();
       if(f>=0){
+        light.setDiffuseColor(ofColor(255,255,255));
         ofSetColor(255,a2*(abs(f)*2));
         ofFill();
       }
       if(f<0){
+        light.setDiffuseColor(ofColor(200,0,0));
         ofSetColor(255,0,0,a2*(abs(f)*2));
         ofFill();
       }
