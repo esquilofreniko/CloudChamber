@@ -37,14 +37,12 @@ class ofApp : public ofBaseApp {
     int numattractors = 1;
     int bgreset = 0;
     int bgresetmax = 128;
-    float timer = 0;
-    float speed = 0.0001;
     int fcounter = 0;
     int fcountermax = 1600;
 
     ofVec3f randi [1000];
     Space space;
-    Attractor attractor[8];
+    Attractor attractor[4];
     Model model[2];
     Points points [4];
     Lines lines [4];

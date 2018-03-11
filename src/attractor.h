@@ -1,6 +1,7 @@
 class Attractor {
 public:
     int nvert = 512;
+    ofVec3f randi[512];
     ofVec3f pos;
     ofMesh mesh[2];
     ofVec3f vertices [2][512];
@@ -9,12 +10,18 @@ public:
     ofVec3f vel;
     ofVec3f acc;
     int rad;
-
+    float timer = 0;
+    float speed = 0.005;
+    Attractor(){
+      for(int i=0;i<nvert;i++){
+        randi[i].set(ofRandom(0,500),ofRandom(0,500),ofRandom(0,500));
+      }
+    }
     void lighton(){
       light.setup();
       light.setPointLight();
       if(f != 0){
-        light.setAttenuation(1,(0.0000025/(abs(f))),(0.0000025/(abs(f))));
+        light.setAttenuation(1,(0.000001/(abs(f*2))),(0.000001/(abs(f*2))));
       }
       light.setPosition(pos.x,pos.y,pos.z);
       light.enable();
@@ -51,34 +58,28 @@ public:
         pos.z = 0;
       }
     }
-    void crash(ofVec3f vec){
-      if(pos.x <= vec.x+(rad/25) && pos.x >= vec.x-(rad/25) && pos.y <= vec.y+(rad/25) && pos.y >= vec.y-(rad/25) && pos.z <= vec.z+(rad/25) && pos.z >= vec.z-(rad/25)){
-          vel.x *= -0.95;
-          vel.y *= -0.95;
-          vel.z *= -0.95;
+    void update(int _rad) {
+      speed = abs(f)*0.005;
+      timer += speed;
+      for(int i=0;i<512;i++){
+        rad = _rad;
+        vertices[0][i].set(pos.x + (ofNoise(timer+randi[i].x)*(rad*2)-rad), pos.y + (ofNoise(timer+randi[i].y)*(rad*2)-rad), pos.z + (ofNoise(timer+randi[i].z)*(rad*2)-rad));
+        vertices[1][i].set(pos.x + ((ofNoise(timer+randi[i].x)*(rad*2)-rad)/2), pos.y + ((ofNoise(timer+randi[i].y)*(rad*2)-rad)/2), pos.z + ((ofNoise(timer+randi[i].z)*(rad*2)-rad)/2));
       }
     }
-    void update(int i,float timer,int _rad, ofVec3f randi) {
-        rad = _rad;
-        vertices[0][i].set(pos.x + (ofNoise(timer+randi.x)*(rad*2)-rad), pos.y + (ofNoise(timer+randi.y)*(rad*2)-rad), pos.z + (ofNoise(timer+randi.z)*(rad*2)-rad));
-        vertices[1][i].set(pos.x + ((ofNoise(timer+randi.x)*(rad*2)-rad)/2), pos.y + ((ofNoise(timer+randi.y)*(rad*2)-rad)/2), pos.z + ((ofNoise(timer+randi.z)*(rad*2)-rad)/2));
-    }
     void draw(int a, int a2) {
-      ofSetColor(0,(a*abs(f))+5);
-      ofFill();
+      ofSetColor(0,(a*abs(f)+10));
       mesh[0].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
       mesh[0].clearVertices();
       mesh[0].addVertices(vertices[0],nvert);
       mesh[0].draw();
       if(f>=0){
         light.setDiffuseColor(ofColor(255,255,255));
-        ofSetColor(255,(a2*abs(f))+5);
-        ofFill();
+        ofSetColor(255,(a2*abs(f))+10);
       }
       if(f<0){
         light.setDiffuseColor(ofColor(255,0,0));
-        ofSetColor(255,0,0,(a2*abs(f))+5);
-        ofFill();
+        ofSetColor(255,0,0,(a2*abs(f))+10);
       }
       mesh[1].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
       mesh[1].clearVertices();
@@ -107,7 +108,7 @@ public:
 };
 
 class Points {
-public:
+  public:
     int nvert = 512;
     ofVec3f vertices [512];
     ofVec3f vel [512];
@@ -116,19 +117,21 @@ public:
     void init(int i, int x, int y, int z, ofVec3f v) {
         vertices[i].set(x,y,z);
         vel[i] = v;
+        glPointSize(1);
     }
-    void update(int i, int numcols, int numrows, int height) {
+    void update(int numcols, int numrows, int height) {
+      for(int i=0;i<nvert;i++){
         vertices[i] += vel[i];
         vel[i] += acc[i];
         acc[i] = acc[i]*0;
         if(vertices[i].x>numcols || vertices[i].x<-numcols) {
-            vel[i].x *= -0.95;
+          vel[i].x *= -0.95;
         }
         if(vertices[i].y>numrows || vertices[i].y<-numrows) {
-            vel[i].y *= -0.95;
+          vel[i].y *= -0.95;
         }
         if(vertices[i].z>height || vertices[i].z<0) {
-            vel[i].z *= -0.95;
+          vel[i].z *= -0.95;
         }
         if(vertices[i].x>numcols){
           vertices[i].x = numcols;
@@ -148,15 +151,17 @@ public:
         if(vertices[i].z < 0){
           vertices[i].z = 0;
         }
+      }
     }
-    void attracted(int i, ofVec3f target, float f, int numattractors) {
+    void attracted(ofVec3f target, float f, int numattractors) {
+      for(int i=0;i<nvert;i++){
         ofVec3f force = target - vertices[i];
         float dsquared = pow(force.length(),2);
         if(dsquared<5) {
-            dsquared = 5;
+          dsquared = 5;
         }
         if(dsquared>500) {
-            dsquared = 500;
+          dsquared = 500;
         }
         float g = 6.67408;
         float strength = g/dsquared;
@@ -164,24 +169,21 @@ public:
         force.limit(strength);
         force *= f;
         acc[i] += force;
+      }
     }
     void draw(int c, int a, int prob) {
-        int rands;
-        rands = ofRandom(0,prob);
-        if(rands<prob-1){
-          ofSetColor(c, a);
-          ofFill();
-          glPointSize(1);
-          shapegen.setMode(OF_PRIMITIVE_POINTS);
-        }
-        else if(rands>=prob-1){
-          ofSetColor(c, a*0.25);
-          ofFill();
-          glPointSize(0);
-          shapegen.setMode(OF_PRIMITIVE_LINE_LOOP);
-        }
-        shapegen.clearVertices();
-        shapegen.addVertices(vertices,nvert);
-        shapegen.draw();
+      int rands;
+      rands = ofRandom(0,100);
+      if(rands>=prob){
+        ofSetColor(c, a);
+        shapegen.setMode(OF_PRIMITIVE_POINTS);
+      }
+      else if(rands<prob){
+        ofSetColor(c, a*0.25);
+        shapegen.setMode(OF_PRIMITIVE_LINE_LOOP);
+      }
+      shapegen.clearVertices();
+      shapegen.addVertices(vertices,nvert);
+      shapegen.draw();
     }
 };

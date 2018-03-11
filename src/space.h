@@ -5,27 +5,29 @@ private:
     int camz = 0;
     ofVec3f campos;
     ofPlanePrimitive planes [6];
+    ofBoxPrimitive box;
 public:
     int numcols = 500;
     int numrows = 500;
     int height = 500;
     ofCamera cam;
+    void drawBackground(int c, int a){
+      ofSetColor(c,c,c,a);
+      box.draw();
+    }
     void drawWireframe(int c,int a) {
         ofSetColor(c, a);
-        ofFill();
         for (int i = 0; i < 6; ++i){
-          // if(i !=1){
             planes[i].drawWireframe();
-          // }
         }
     }
     Space() {
         camx = 0;
         camy = 0;
         camz = height;
+        box.set(500,500,500);
+        box.setPosition(0,0,height/2);
         // cam.tilt(180);
-        // float camfov = cam.getFov();
-        // std::cout << camfov << '\n';
         // cam.setFov(80);
         cam.setPosition(camx,camy,camz);
         planes[0].set(numcols,numrows);

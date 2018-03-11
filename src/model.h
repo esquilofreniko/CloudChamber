@@ -3,6 +3,8 @@ public:
     int counter;
     int vertexcounter;
     bool vforward;
+    float timer = 0;
+    float speed = 0.01;
     ofxAssimpModelLoader model;
     ofMesh mesh;
     ofMesh omesh;
@@ -24,7 +26,8 @@ public:
     }
 
     void update() {
-        counter = (counter + 1) % 1;
+      timer += speed;
+      counter = (counter + 1) % 1;
     }
 
     void render(int x, int y, int z){
@@ -64,13 +67,13 @@ public:
         mesh.setVertex(i+(mesh.getNumVertices()/2),rvert);
       }
     }
-    void draw(int c, int a, float timer){
+    void draw(int c, int a){
       ofPushMatrix();
       ofSetColor(c,a);
       ofFill();
       ofRotate(180,1,0,0);
       ofTranslate(model.getPosition().x, model.getPosition().y, model.getPosition().z);
-      ofRotate(timer*100, 0, 1, 0);
+      ofRotate(timer, 0, 1, 0);
       ofTranslate(-model.getPosition().x, -model.getPosition().y, -model.getPosition().z);
       ofxAssimpMeshHelper & meshHelper = model.getMeshHelper(0);
       ofMultMatrix(model.getModelMatrix());
