@@ -14,7 +14,7 @@ public:
     float speed = 0.005;
     Attractor(){
       for(int i=0;i<nvert;i++){
-        randi[i].set(ofRandom(0,500),ofRandom(0,500),ofRandom(0,500));
+        randi[i].set(ofRandom(0,1000),ofRandom(0,1000),ofRandom(0,1000));
       }
     }
     void init(int x, int y, int z) {
@@ -30,7 +30,7 @@ public:
       light.setup();
       light.setPointLight();
       if(f != 0){
-        light.setAttenuation(1,(0.000001/(abs(f))),(0.000001/(abs(f))));
+        light.setAttenuation(1,(0.00000025/(abs(f))),(0.00000025/(abs(f))));
       }
       light.setPosition(pos.x,pos.y,pos.z);
       light.enable();
@@ -40,13 +40,13 @@ public:
     }
     void limit(int numcols,int numrows, int height){
       if(pos.x>numcols/2 || pos.x<-numcols/2) {
-          vel.x *= -0.95;
+          vel.x *= -0.75;
       }
       if(pos.y>numrows/2 || pos.y<-numrows/2) {
-          vel.y *= -0.95;
+          vel.y *= -0.75;
       }
       if(pos.z>height/2 || pos.z<-height/2) {
-          vel.z *= -0.95;
+          vel.z *= -0.75;
       }
       if(pos.x>numcols/2){
         pos.x = numcols/2;
@@ -143,13 +143,13 @@ class Points {
         vel[i] += acc[i];
         acc[i] = acc[i]*0;
         if(vertices[i].x>numcols/2 || vertices[i].x<-numcols/2) {
-          vel[i].x *= -0.95;
+          vel[i].x *= -0.75;
         }
         if(vertices[i].y>numrows/2 || vertices[i].y<-numrows/2) {
-          vel[i].y *= -0.95;
+          vel[i].y *= -0.75;
         }
         if(vertices[i].z>height/2 || vertices[i].z<-height/2) {
-          vel[i].z *= -0.95;
+          vel[i].z *= -0.75;
         }
         if(vertices[i].x>numcols/2){
           vertices[i].x = numcols/2;

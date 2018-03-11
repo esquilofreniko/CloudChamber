@@ -13,7 +13,7 @@ public:
         vertexcounter = 0;
         vforward = true;
         model.loadModel("heart.obj", false);
-        model.setScale(1.25, 1.25, 1.25);
+        model.setScale(1.5, 1.5, 1.5);
         mesh = model.getCurrentAnimatedMesh(0);
     }
 

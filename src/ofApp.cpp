@@ -33,7 +33,7 @@ void ofApp::update() {
         float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true);
         maxpatch.sendFloat("wavetableFrequency", x);
     }
-    space.update();
+    // space.update();
     for (int i=0;i<4;i++){
       attractor[i].light.disable();
     }
@@ -44,7 +44,7 @@ void ofApp::update() {
       points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
       attractor[i].lighton();
       attractor[i].limit(numcols,numrows,height);
-      attractor[i].update(15);
+      attractor[i].update(40);
       for(int j;j<=numattractors;j++){
         if(j != i){
           attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);

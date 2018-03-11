@@ -7,9 +7,9 @@ private:
     ofPlanePrimitive planes [6];
     ofBoxPrimitive box;
 public:
-    int numcols = 500;
-    int numrows = 500;
-    int height = 500;
+    int numcols = 1000;
+    int numrows = 1000;
+    int height = 1000;
     ofCamera cam;
     void drawBackground(int c, int a){
       ofSetColor(c,c,c,a);
@@ -18,16 +18,18 @@ public:
     void drawWireframe(int c,int a) {
         ofSetColor(c, a);
         for (int i = 0; i < 6; ++i){
+          if(i != 1){
             planes[i].drawWireframe();
+          }
         }
     }
     Space() {
         camx = 0;
         camy = 0;
-        camz = height/2;
-        // cam.setFov(80);
+        camz = (height/2)+250;
+        // cam.setFov(75);
         box.setPosition(0,0,0);
-        box.set(numcols*2,numrows*2,height*2);
+        box.set(numcols*4,numrows*4,height*4);
         cam.setPosition(camx,camy,camz);
         planes[0].set(numcols,numrows);
         planes[0].setPosition(0,0,-height/2);
