@@ -44,12 +44,12 @@ void ofApp::update() {
       points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
       attractor[i].lighton();
       attractor[i].limit(numcols,numrows,height);
-      attractor[i].update(40);
       for(int j;j<=numattractors;j++){
         if(j != i){
           attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
         }
       }
+      attractor[i].update(40);
     }
 
     wtarray.update(numcols,numrows,height,points[0].vertices);
