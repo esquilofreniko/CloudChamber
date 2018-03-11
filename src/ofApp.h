@@ -38,7 +38,7 @@ class ofApp : public ofBaseApp {
     int bgreset = 0;
     int bgresetmax = 128;
     float timer = 0;
-    float speed = 0.001;
+    float speed = 0.0001;
     int fcounter = 0;
     int fcountermax = 1600;
 

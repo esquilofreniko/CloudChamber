@@ -6,13 +6,13 @@ Clifford::Clifford() {
     b = 1.3;
     c = -0.1;
     d = -1.2;
-    std::cout << "Clifford attractor object instantiated." << '\n';
-    std::cout << "A: " << a << " B: " << b << " C: " << c << " D: " << d << '\n';
+    // std::cout << "Clifford attractor object instantiated." << '\n';
+    // std::cout << "A: " << a << " B: " << b << " C: " << c << " D: " << d << '\n';
 }
 
 Clifford::~Clifford() {
-    std::cout << "Clifford attractor object deallocated." << '\n';
-    
+    // std::cout << "Clifford attractor object deallocated." << '\n';
+
 }
 
 void Clifford::modulate(float _a, float _b, float _c, float _d) {

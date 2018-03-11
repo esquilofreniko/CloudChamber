@@ -26,7 +26,7 @@ void ofApp::setup() {
         points[0].init(i,randi[i].x,randi[i].y,randi[i].z,randvel);
     }
     if(i < numattractors) {
-        attractor[i].f = ofRandom(-2,2);
+        attractor[i].f = ofRandom(-4,4);
         attractor[i].pos.set(randi[i].x,randi[i].y,randi[i].z);
     if(i == 0){
         attractor[0].f = 1;
@@ -74,9 +74,11 @@ void ofApp::update() {
       }
       for(int j=0;j<numattractors;j++){
         if(i<numattractors){
-          if(i != j){
-            attractor[i].attracted(j,attractor[j].pos,attractor[j].f,numattractors);
-            // attractor[i].crash(attractor[j].pos);
+          if(i != 0){
+            if(i != j){
+              attractor[i].attracted(j,attractor[j].pos,attractor[j].f,numattractors);
+              // attractor[i].crash(attractor[j].pos);
+            }
           }
         }
         if(i<attractor[j].nvert){
@@ -93,12 +95,12 @@ void ofApp::update() {
         }
       }
     }
-    maxpatch.sendFloat("bp1freq",(attractor[0].pos.x));
-    maxpatch.sendFloat("bp2freq",(attractor[1].pos.x));
-    maxpatch.sendFloat("bp1q",(attractor[0].pos.y));
-    maxpatch.sendFloat("bp2q",(attractor[1].pos.y));
-    maxpatch.sendFloat("bp1gain",(attractor[0].pos.z));
-    maxpatch.sendFloat("bp2gain",(attractor[1].pos.z));
+    maxpatch.sendFloat("bp1q",(attractor[1].pos.x));
+    maxpatch.sendFloat("bp2q",(attractor[2].pos.x));
+    maxpatch.sendFloat("bp1freq",(attractor[1].pos.y));
+    maxpatch.sendFloat("bp2freq",(attractor[2].pos.y));
+    maxpatch.sendFloat("bp1gain",(attractor[1].pos.z));
+    maxpatch.sendFloat("bp2gain",(attractor[2].pos.z));
     wtarray.send();
     if(fcounter == 0){
       maxpatch.sendBang("wtfreqrand");
@@ -116,14 +118,13 @@ void ofApp::draw(){
         ofBackground(0,0,0);
     }
     space.cam.begin();
-    space.drawWireframe(20,250);
-    points[0].draw(250,250);
-
+    space.drawWireframe(10,200);
+    points[0].draw(250,125,10);
     for (int i=0;i<numattractors;i++){
         attractor[i].draw(10,5);
     }
 
-    // model[0].draw(250,50,timer);
+    // model[0].draw(250,100,timer);
     // mesh[0].draw(250,75);
     // lines[0].draw(250,100);
     // shapes[0].draw(0,2);
@@ -135,7 +136,6 @@ void ofApp::draw(){
     ofSetColor(255);
     ofFill();
     timing.displayData();
-
 }
 
 void ofApp::keyPressed(int key){
@@ -163,11 +163,21 @@ void ofApp::keyPressed(int key){
   else if(key == '-'){
     speed -= 0.00001;
   }
-  if(key == 'n'){
+  if(key == 'r'){
     for(int i=0;i<numattractors;i++){
       attractor[i].vel = ofVec3f(0,0,0);
       attractor[i].f = ofRandom(-2,2);
       attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(0,height/2));
+      if(i == 0){
+          attractor[0].pos.set(0,0,height/2);
+        }
+    }
+  }
+  if(key == 'n'){
+    for(int i=0;i<numattractors;i++){
+      attractor[i].vel = ofVec3f(0,0,0);
+      attractor[i].f = ofRandom(-2,2);
+      // attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(0,height/2));
     }
   }
   if(key == ' '){
@@ -177,7 +187,10 @@ void ofApp::keyPressed(int key){
       attractor[i].vel = ofVec3f(0,0,0);
       attractor[i].f = ofRandom(-2,2);
       attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(0,height/2));
-  }
+      if(i == 0){
+          attractor[0].pos.set(0,0,height/2);
+        }
+      }
   }
 }
 

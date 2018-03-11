@@ -24,6 +24,9 @@ public:
         camy = 0;
         camz = height;
         // cam.tilt(180);
+        // float camfov = cam.getFov();
+        // std::cout << camfov << '\n';
+        // cam.setFov(80);
         cam.setPosition(camx,camy,camz);
         planes[0].set(numcols,numrows);
         planes[0].setPosition(0,0,0);

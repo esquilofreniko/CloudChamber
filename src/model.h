@@ -11,7 +11,7 @@ public:
         vertexcounter = 0;
         vforward = true;
         model.loadModel("heart.obj", false);
-        model.setScale(0.75, 0.75, 0.75);
+        model.setScale(1.25, 1.25, 1.25);
         mesh = model.getCurrentAnimatedMesh(0);
     }
 
@@ -68,10 +68,10 @@ public:
       ofPushMatrix();
       ofSetColor(c,a);
       ofFill();
-      ofTranslate(model.getPosition().x, model.getPosition().y, 0);
       ofRotate(180,1,0,0);
-      // ofRotate(timer*100, 0, 1, 0);
-      ofTranslate(-model.getPosition().x, -model.getPosition().y, 0);
+      ofTranslate(model.getPosition().x, model.getPosition().y, model.getPosition().z);
+      ofRotate(timer*100, 0, 1, 0);
+      ofTranslate(-model.getPosition().x, -model.getPosition().y, -model.getPosition().z);
       ofxAssimpMeshHelper & meshHelper = model.getMeshHelper(0);
       ofMultMatrix(model.getModelMatrix());
       ofMultMatrix(meshHelper.matrix);

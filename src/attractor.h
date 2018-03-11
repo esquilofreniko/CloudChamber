@@ -14,7 +14,7 @@ public:
       light.setup();
       light.setPointLight();
       if(f != 0){
-        light.setAttenuation(1,(0.00001/(abs(f))),(0.00001/(abs(f))));
+        light.setAttenuation(1,(0.0000025/(abs(f))),(0.0000025/(abs(f))));
       }
       light.setPosition(pos.x,pos.y,pos.z);
       light.enable();
@@ -64,7 +64,7 @@ public:
         vertices[1][i].set(pos.x + ((ofNoise(timer+randi.x)*(rad*2)-rad)/2), pos.y + ((ofNoise(timer+randi.y)*(rad*2)-rad)/2), pos.z + ((ofNoise(timer+randi.z)*(rad*2)-rad)/2));
     }
     void draw(int a, int a2) {
-      ofSetColor(0,a*(abs(f)*2));
+      ofSetColor(0,(a*abs(f))+5);
       ofFill();
       mesh[0].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
       mesh[0].clearVertices();
@@ -72,12 +72,12 @@ public:
       mesh[0].draw();
       if(f>=0){
         light.setDiffuseColor(ofColor(255,255,255));
-        ofSetColor(255,a2*(abs(f)*1.5));
+        ofSetColor(255,(a2*abs(f))+5);
         ofFill();
       }
       if(f<0){
         light.setDiffuseColor(ofColor(255,0,0));
-        ofSetColor(255,0,0,a2*(abs(f)*1.5));
+        ofSetColor(255,0,0,(a2*abs(f))+5);
         ofFill();
       }
       mesh[1].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
@@ -165,11 +165,21 @@ public:
         force *= f;
         acc[i] += force;
     }
-    void draw(int c, int a) {
-        ofSetColor(c, a);
-        ofFill();
-        shapegen.setMode(OF_PRIMITIVE_POINTS);
-        glPointSize(1);
+    void draw(int c, int a, int prob) {
+        int rands;
+        rands = ofRandom(0,prob);
+        if(rands<prob-1){
+          ofSetColor(c, a);
+          ofFill();
+          glPointSize(1);
+          shapegen.setMode(OF_PRIMITIVE_POINTS);
+        }
+        else if(rands>=prob-1){
+          ofSetColor(c, a*0.25);
+          ofFill();
+          glPointSize(0);
+          shapegen.setMode(OF_PRIMITIVE_LINE_LOOP);
+        }
         shapegen.clearVertices();
         shapegen.addVertices(vertices,nvert);
         shapegen.draw();
