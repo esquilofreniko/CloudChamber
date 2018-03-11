@@ -19,12 +19,12 @@ public:
     }
     void init(int x, int y, int z) {
       vel.set(0,0,0);
-      f = ofRandom(-2, 2);
-      pos.set(ofRandom(-x/4,x/4),ofRandom(-y/4,y/4),ofRandom(0,z/2));
+      f = ofRandom(-4, 4);
+      pos.set(ofRandom(-x/4,x/4),ofRandom(-y/4,y/4),ofRandom(-z/4,z/4));
     }
     void change() {
       vel.set(0,0,0);
-      f = ofRandom(-2,2);
+      f = ofRandom(-4,4);
     }
     void lighton() {
       light.setup();
@@ -39,32 +39,32 @@ public:
       }
     }
     void limit(int numcols,int numrows, int height){
-      if(pos.x>numcols || pos.x<-numcols) {
+      if(pos.x>numcols/2 || pos.x<-numcols/2) {
           vel.x *= -0.95;
       }
-      if(pos.y>numrows || pos.y<-numrows) {
+      if(pos.y>numrows/2 || pos.y<-numrows/2) {
           vel.y *= -0.95;
       }
-      if(pos.z>height || pos.z<0) {
+      if(pos.z>height/2 || pos.z<-height/2) {
           vel.z *= -0.95;
       }
-      if(pos.x>numcols){
-        pos.x = numcols;
+      if(pos.x>numcols/2){
+        pos.x = numcols/2;
       }
-      if(pos.x<-numcols){
-        pos.x = -numcols;
+      if(pos.x<-numcols/2){
+        pos.x = -numcols/2;
       }
-      if(pos.y>numrows){
-        pos.y = numrows;
+      if(pos.y>numrows/2){
+        pos.y = numrows/2;
       }
-      if(pos.y<-numrows){
-        pos.y = -numrows;
+      if(pos.y<-numrows/2){
+        pos.y = -numrows/2;
       }
-      if(pos.z > height){
-        pos.z = height;
+      if(pos.z > height/2){
+        pos.z = height/2;
       }
-      if(pos.z < 0){
-        pos.z = 0;
+      if(pos.z < -height/2){
+        pos.z = -height/2;
       }
     }
     void update(int _rad) {
@@ -128,7 +128,7 @@ class Points {
     }
     void init(int x, int y, int z) {
       for(int i=0;i<nvert;i++){
-        vertices[i].set(ofRandom(-x/2,x/2),ofRandom(-y/2,y/2),ofRandom(0,z));
+        vertices[i].set(ofRandom(-x/2,x/2),ofRandom(-y/2,y/2),ofRandom(-z/2,z/2));
         vel[i].set(0,0,0);
       }
     }
@@ -142,32 +142,32 @@ class Points {
         vertices[i] += vel[i];
         vel[i] += acc[i];
         acc[i] = acc[i]*0;
-        if(vertices[i].x>numcols || vertices[i].x<-numcols) {
+        if(vertices[i].x>numcols/2 || vertices[i].x<-numcols/2) {
           vel[i].x *= -0.95;
         }
-        if(vertices[i].y>numrows || vertices[i].y<-numrows) {
+        if(vertices[i].y>numrows/2 || vertices[i].y<-numrows/2) {
           vel[i].y *= -0.95;
         }
-        if(vertices[i].z>height || vertices[i].z<0) {
+        if(vertices[i].z>height/2 || vertices[i].z<-height/2) {
           vel[i].z *= -0.95;
         }
-        if(vertices[i].x>numcols){
-          vertices[i].x = numcols;
+        if(vertices[i].x>numcols/2){
+          vertices[i].x = numcols/2;
         }
-        if(vertices[i].x<-numcols){
-          vertices[i].x = -numcols;
+        if(vertices[i].x<-numcols/2){
+          vertices[i].x = -numcols/2;
         }
-        if(vertices[i].y>numrows){
-          vertices[i].y = numrows;
+        if(vertices[i].y>numrows/2){
+          vertices[i].y = numrows/2;
         }
-        if(vertices[i].y<-numrows){
-          vertices[i].y = -numrows;
+        if(vertices[i].y<-numrows/2){
+          vertices[i].y = -numrows/2;
         }
-        if(vertices[i].z > height){
-          vertices[i].z = height;
+        if(vertices[i].z > height/2){
+          vertices[i].z = height/2;
         }
-        if(vertices[i].z < 0){
-          vertices[i].z = 0;
+        if(vertices[i].z < -height/2){
+          vertices[i].z = -height/2;
         }
       }
     }
@@ -197,7 +197,7 @@ class Points {
         shapegen.setMode(OF_PRIMITIVE_POINTS);
       }
       else if(rands<prob){
-        ofSetColor(c, a*0.1);
+        ofSetColor(c, a*0.125);
         shapegen.setMode(OF_PRIMITIVE_LINE_LOOP);
       }
       shapegen.clearVertices();

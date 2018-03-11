@@ -12,13 +12,14 @@ void ofApp::setup() {
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 
     mesh[0].nvert = 16;
-    mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
+    mesh[0].init(-numcols/4,-numrows/4,-height/4,numcols/4,numrows/4,height/4);
     points[0].init(numcols,numrows,height);
     for(int i=0;i<numattractors;i++){
       attractor[i].init(numcols,numrows,height);
+      attractor[i].f = ofRandom(0,4);
       if(i==0){
-        attractor[0].pos.set(0,0,height/2);
         attractor[0].f = 2;
+        attractor[0].pos.set(0,0,0);
       }
     }
     wtarray.sender.setup("localhost", wtarray.port);
@@ -32,22 +33,21 @@ void ofApp::update() {
         float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true);
         maxpatch.sendFloat("wavetableFrequency", x);
     }
-
     space.update();
-    model[0].update();
-    model[0].render(0,0,height*0.5);
     for (int i=0;i<4;i++){
       attractor[i].light.disable();
     }
+    model[0].update();
+    model[0].render(0,0,height*0.5);
+    points[0].update(numcols,numrows,height);
     for(int i;i<numattractors;i++){
+      points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
       attractor[i].lighton();
       attractor[i].limit(numcols,numrows,height);
-      attractor[i].update(25);
-      points[0].update(numcols,numrows,height);
-      points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
-      for(int j;j<numattractors;j++){
-        if(i != 0 && i != j){
-          attractor[i].attracted(attractor[j].pos,attractor[j].f,numattractors);
+      attractor[i].update(15);
+      for(int j;j<=numattractors;j++){
+        if(j != i){
+          attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
         }
       }
     }
@@ -70,14 +70,14 @@ void ofApp::update() {
 
 void ofApp::draw(){
     space.cam.begin();
-    space.drawBackground(0,25);
-    space.drawWireframe(10,50);
-    points[0].draw(250,250,1);
+    space.drawBackground(0,20);
+    space.drawWireframe(5,100);
+    points[0].draw(250,250,2);
     for (int i=0;i<numattractors;i++){
         attractor[i].draw(10,5);
     }
     // mesh[0].draw(250,25);
-    // model[0].draw(250,100);
+    // model[0].draw(250,125);
     space.cam.end();
     timing.displayData();
 }
@@ -89,19 +89,19 @@ void ofApp::keyPressed(int key){
     for(int i=0;i<numattractors;i++){
       attractor[i].init(numrows,numcols,height);
       if(i == 0){
-        attractor[0].pos.set(0,0,height/2);
+        attractor[0].pos.set(0,0,0);
       }
       ofBackground(0);
     }
   }
   if(key == ' '){
     numattractors += 1;
-    numattractors %= 5;
+    numattractors = numattractors%5;
     points[0].stop();
     for(int i=0;i<numattractors;i++){
       attractor[i].init(numrows,numcols,height);
       if(i == 0){
-          attractor[0].pos.set(0,0,height/2);
+          attractor[0].pos.set(0,0,0);
         }
       }
       ofBackground(0);
