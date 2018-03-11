@@ -9,27 +9,18 @@ void ofApp::setup() {
     ofSetSmoothLighting(true);
     ofSetBackgroundAuto(false);
     ofSetBackgroundColor(0, 0, 0);
-    // ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 
     mesh[0].nvert = 16;
     mesh[0].init(-numcols/4,-numrows/4,height/4,numcols/4,numrows/4,(height/4)*3);
-
-    for (int i=0;i<1000;i++){
-    randi[i].set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(height/4,(height/4)*3));
-    if(i < points[0].nvert) {
-        ofVec3f randvel;
-        randvel.set(0,0,0);
-        points[0].init(i,randi[i].x,randi[i].y,randi[i].z,randvel);
-    }
-    if(i < numattractors) {
-        attractor[i].f = ofRandom(-4,4);
-        attractor[i].pos.set(randi[i].x,randi[i].y,randi[i].z);
-    if(i == 0){
-        attractor[0].f = 1;
+    points[0].init(numcols,numrows,height);
+    for(int i=0;i<numattractors;i++){
+      attractor[i].init(numcols,numrows,height);
+      if(i==0){
         attractor[0].pos.set(0,0,height/2);
+        attractor[0].f = 2;
       }
     }
-  }
     wtarray.sender.setup("localhost", wtarray.port);
     timing.generateSequence();
 }
@@ -38,15 +29,17 @@ void ofApp::update() {
     timing.playSequence();
     clifford.iterate();
     if (timing.getTrigger()) {
-        float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true); // clifford attractor value is grabbed from last point of array and scaled
-        maxpatch.sendFloat("wavetableFrequency", x); // ...and sent through OSC
+        float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true);
+        maxpatch.sendFloat("wavetableFrequency", x);
     }
 
     space.update();
     model[0].update();
     model[0].render(0,0,height*0.5);
-    for(int i;i<numattractors;i++){
+    for (int i=0;i<4;i++){
       attractor[i].light.disable();
+    }
+    for(int i;i<numattractors;i++){
       attractor[i].lighton();
       attractor[i].limit(numcols,numrows,height);
       attractor[i].update(25);
@@ -54,7 +47,7 @@ void ofApp::update() {
       points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
       for(int j;j<numattractors;j++){
         if(i != 0 && i != j){
-          attractor[i].attracted(j,attractor[j].pos,attractor[j].f,numattractors);
+          attractor[i].attracted(attractor[j].pos,attractor[j].f,numattractors);
         }
       }
     }
@@ -77,70 +70,41 @@ void ofApp::update() {
 
 void ofApp::draw(){
     space.cam.begin();
-    space.drawWireframe(10,125);
-    space.drawBackground(0,20);
-    points[0].draw(255,125,1);
+    space.drawBackground(0,25);
+    space.drawWireframe(10,50);
+    points[0].draw(250,250,1);
     for (int i=0;i<numattractors;i++){
         attractor[i].draw(10,5);
     }
-    model[0].draw(250,100);
-    // mesh[0].draw(250,75);
-
+    // mesh[0].draw(250,25);
+    // model[0].draw(250,100);
     space.cam.end();
-    ofDisableLighting();
-    ofSetColor(255);
-    ofFill();
     timing.displayData();
 }
 
 void ofApp::keyPressed(int key){
-  if(key == 'w'){
-    space.cam.dolly(-1);
-  }
-  else if(key == 's'){
-    space.cam.dolly(1);
-  }
-  if(key == 'a'){
-    space.cam.pan(4);
-  }
-  else if(key == 'd'){
-    space.cam.pan(-4);
-  }
-  if(key == 'e'){
-    space.cam.tilt(1);
-  }
-  else if(key == 'q'){
-    space.cam.tilt(-1);
-  }
+  space.movecam(key);
   if(key == 'r'){
+    points[0].stop();
     for(int i=0;i<numattractors;i++){
-      attractor[i].vel = ofVec3f(0,0,0);
-      attractor[i].f = ofRandom(-2,2);
-      attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(0,height/2));
+      attractor[i].init(numrows,numcols,height);
       if(i == 0){
-          attractor[0].pos.set(0,0,height/2);
-        }
-      space.drawBackground(0,255);
-    }
-  }
-  if(key == 'n'){
-    for(int i=0;i<numattractors;i++){
-      attractor[i].vel = ofVec3f(0,0,0);
-      attractor[i].f = ofRandom(-2,2);
+        attractor[0].pos.set(0,0,height/2);
+      }
+      ofBackground(0);
     }
   }
   if(key == ' '){
     numattractors += 1;
     numattractors %= 5;
+    points[0].stop();
     for(int i=0;i<numattractors;i++){
-      attractor[i].vel = ofVec3f(0,0,0);
-      attractor[i].f = ofRandom(-2,2);
-      attractor[i].pos.set(ofRandom(-numcols/4,numcols/4),ofRandom(-numrows/4,numrows/4),ofRandom(0,height/2));
+      attractor[i].init(numrows,numcols,height);
       if(i == 0){
           attractor[0].pos.set(0,0,height/2);
         }
       }
-      space.drawBackground(0,255);
+      ofBackground(0);
     }
 }
 

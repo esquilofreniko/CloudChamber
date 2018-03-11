@@ -45,6 +45,8 @@ void Timing::displayData() {
     int x = 10;
     int y = 15;
     int ySpacing = 15;
+    ofDisableLighting();
+    ofSetColor(255);
     ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), x, y); // display frame rate
     ofDrawBitmapString("time: "+ofToString(frameToMs(ofGetFrameNum())/1000.0, 2), x, y + (ySpacing)); // display current frame number
 }

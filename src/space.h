@@ -54,7 +54,6 @@ public:
         planes[5].setResolution(numcols/8,numrows/8);
         planes[5].rotate(90,0,1,0);
     }
-
     void update() {
         campos = cam.getPosition();
         if(campos.x<(-numcols/2)+10) {
@@ -75,5 +74,25 @@ public:
         if(campos.z>height-10){
             cam.setPosition(campos.x,campos.y,height-10);
         }
+    }
+    void movecam(int key){
+      if(key == 'w'){
+        cam.dolly(-1);
+      }
+      else if(key == 's'){
+        cam.dolly(1);
+      }
+      if(key == 'a'){
+        cam.pan(4);
+      }
+      else if(key == 'd'){
+        cam.pan(-4);
+      }
+      if(key == 'e'){
+        cam.tilt(1);
+      }
+      else if(key == 'q'){
+        cam.tilt(-1);
+      }
     }
 };

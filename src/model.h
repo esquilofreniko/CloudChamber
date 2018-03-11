@@ -4,7 +4,7 @@ public:
     int vertexcounter;
     bool vforward;
     float timer = 0;
-    float speed = 0.01;
+    float speed = 0.025;
     ofxAssimpModelLoader model;
     ofMesh mesh;
     ofMesh omesh;

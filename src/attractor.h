@@ -17,11 +17,20 @@ public:
         randi[i].set(ofRandom(0,500),ofRandom(0,500),ofRandom(0,500));
       }
     }
-    void lighton(){
+    void init(int x, int y, int z) {
+      vel.set(0,0,0);
+      f = ofRandom(-2, 2);
+      pos.set(ofRandom(-x/4,x/4),ofRandom(-y/4,y/4),ofRandom(0,z/2));
+    }
+    void change() {
+      vel.set(0,0,0);
+      f = ofRandom(-2,2);
+    }
+    void lighton() {
       light.setup();
       light.setPointLight();
       if(f != 0){
-        light.setAttenuation(1,(0.000001/(abs(f*2))),(0.000001/(abs(f*2))));
+        light.setAttenuation(1,(0.000001/(abs(f))),(0.000001/(abs(f))));
       }
       light.setPosition(pos.x,pos.y,pos.z);
       light.enable();
@@ -68,25 +77,25 @@ public:
       }
     }
     void draw(int a, int a2) {
-      ofSetColor(0,(a*abs(f)+10));
+      ofSetColor(0,(a*abs(f)+5));
       mesh[0].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
       mesh[0].clearVertices();
       mesh[0].addVertices(vertices[0],nvert);
       mesh[0].draw();
       if(f>=0){
         light.setDiffuseColor(ofColor(255,255,255));
-        ofSetColor(255,(a2*abs(f))+10);
+        ofSetColor(255,(a2*abs(f))+5);
       }
       if(f<0){
         light.setDiffuseColor(ofColor(255,0,0));
-        ofSetColor(255,0,0,(a2*abs(f))+10);
+        ofSetColor(255,0,0,(a2*abs(f))+5);
       }
       mesh[1].setMode(OF_PRIMITIVE_TRIANGLE_FAN);
       mesh[1].clearVertices();
       mesh[1].addVertices(vertices[1],nvert);
       mesh[1].draw();
     }
-    void attracted(int i, ofVec3f target, float f, int numattractors) {
+    void attracted(ofVec3f target, float f, int numattractors) {
         ofVec3f force = target - pos;
         float dsquared = pow(force.length(),2);
         if(dsquared<5) {
@@ -114,10 +123,19 @@ class Points {
     ofVec3f vel [512];
     ofVec3f acc [512];
     ofMesh shapegen;
-    void init(int i, int x, int y, int z, ofVec3f v) {
-        vertices[i].set(x,y,z);
-        vel[i] = v;
-        glPointSize(1);
+    Points() {
+      glPointSize(1);
+    }
+    void init(int x, int y, int z) {
+      for(int i=0;i<nvert;i++){
+        vertices[i].set(ofRandom(-x/2,x/2),ofRandom(-y/2,y/2),ofRandom(0,z));
+        vel[i].set(0,0,0);
+      }
+    }
+    void stop(){
+      for(int i=0;i<nvert;i++){
+        vel[i].set(0,0,0);
+      }
     }
     void update(int numcols, int numrows, int height) {
       for(int i=0;i<nvert;i++){
@@ -179,7 +197,7 @@ class Points {
         shapegen.setMode(OF_PRIMITIVE_POINTS);
       }
       else if(rands<prob){
-        ofSetColor(c, a*0.25);
+        ofSetColor(c, a*0.1);
         shapegen.setMode(OF_PRIMITIVE_LINE_LOOP);
       }
       shapegen.clearVertices();

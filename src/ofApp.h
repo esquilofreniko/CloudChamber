@@ -40,13 +40,10 @@ class ofApp : public ofBaseApp {
     int fcounter = 0;
     int fcountermax = 1600;
 
-    ofVec3f randi [1000];
     Space space;
     Attractor attractor[4];
     Model model[2];
     Points points [4];
-    Lines lines [4];
-    Shapes shapes [4];
     Mesh mesh [4];
     Clifford clifford;
     MovingAverage avg;
