@@ -50,8 +50,8 @@ void ofApp::update() {
       //   }
       // }
     }
-
     wtarray.update(numcols,numrows,height,points[0].vertices);
+    maxpatch.sendFloat("pointsvel",points[0].velavrg());
     maxpatch.sendFloat("pointsarea",points[0].area());
     maxpatch.sendFloat("bp1q",(attractor[1].pos.x));
     maxpatch.sendFloat("bp2q",(attractor[2].pos.x));
@@ -60,6 +60,10 @@ void ofApp::update() {
     maxpatch.sendFloat("bp1gain",(attractor[1].pos.z));
     maxpatch.sendFloat("bp2gain",(attractor[2].pos.z));
     wtarray.send();
+    if(points[0].state == 1){
+      maxpatch.sendBang("pointstate1");
+      points[0].state = 0;
+    }
     if(fcounter == 0){
       maxpatch.sendBang("wtfreqrand");
       fcountermax = ofRandom(12,24)*100;

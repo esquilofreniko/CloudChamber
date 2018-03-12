@@ -123,6 +123,7 @@ class Points {
     ofVec3f vel [512];
     ofVec3f acc [512];
     ofMesh shapegen;
+    int state = 0;
     Points() {
       glPointSize(1);
     }
@@ -199,6 +200,14 @@ class Points {
       }
       return area = area/(nvert^3);
     }
+    float velavrg(){
+      float velaverage = 0;
+      for(int i=0;i<nvert;i++){
+        velaverage = velaverage + (abs(vel[i].x)+abs(vel[i].y)+abs(vel[i].z));
+      }
+      velaverage = velaverage/3;
+      return velaverage;
+    }
     void draw(int c, int a, int prob) {
       int rands;
       rands = ofRandom(0,100);
@@ -207,8 +216,9 @@ class Points {
         shapegen.setMode(OF_PRIMITIVE_POINTS);
       }
       else if(rands<prob){
-        ofSetColor(c, a*0.125);
+        ofSetColor(c, a*0.2);
         shapegen.setMode(OF_PRIMITIVE_LINE_LOOP);
+        state = 1;
       }
       shapegen.clearVertices();
       shapegen.addVertices(vertices,nvert);
