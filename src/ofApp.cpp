@@ -33,7 +33,6 @@ void ofApp::update() {
         float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true);
         maxpatch.sendFloat("wavetableFrequency", x);
     }
-    // space.update();
     for (int i=0;i<4;i++){
       attractor[i].light.disable();
     }
@@ -44,15 +43,16 @@ void ofApp::update() {
       points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
       attractor[i].lighton();
       attractor[i].limit(numcols,numrows,height);
-      for(int j;j<=numattractors;j++){
-        if(j != i){
-          attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
-        }
-      }
       attractor[i].update(40);
+      // for(int j;j<=numattractors;j++){
+      //   if(j != i){
+      //     attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
+      //   }
+      // }
     }
 
     wtarray.update(numcols,numrows,height,points[0].vertices);
+    maxpatch.sendFloat("pointsarea",points[0].area());
     maxpatch.sendFloat("bp1q",(attractor[1].pos.x));
     maxpatch.sendFloat("bp2q",(attractor[2].pos.x));
     maxpatch.sendFloat("bp1freq",(attractor[1].pos.y));

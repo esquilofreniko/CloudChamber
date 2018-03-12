@@ -189,6 +189,16 @@ class Points {
         acc[i] += force;
       }
     }
+    float area(){
+      float area;
+      area = 0;
+      ofVec3f center;
+      center = shapegen.getCentroid();
+      for(int i=0;i<nvert;i++){
+        area += vertices[i].distance(center);
+      }
+      return area = area/(nvert^3);
+    }
     void draw(int c, int a, int prob) {
       int rands;
       rands = ofRandom(0,100);

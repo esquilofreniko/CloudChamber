@@ -34,7 +34,7 @@ class ofApp : public ofBaseApp {
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    int numattractors = 3;
+    int numattractors = 1;
     int bgreset = 0;
     int bgresetmax = 128;
     int fcounter = 0;
