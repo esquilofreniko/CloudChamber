@@ -12,7 +12,7 @@ public:
     int rad;
     float timer = 0;
     float speed = 0.005;
-    Attractor(){
+    Attractor() {
       for(int i=0;i<nvert;i++){
         randi[i].set(ofRandom(0,1000),ofRandom(0,1000),ofRandom(0,1000));
       }
@@ -128,14 +128,14 @@ class Points {
       glPointSize(1);
     }
     void init(int x, int y, int z) {
-      for(int i=0;i<nvert;i++){
-        vertices[i].set(ofRandom(-x/2,x/2),ofRandom(-y/2,y/2),ofRandom(-z/2,z/2));
-        vel[i].set(0,0,0);
+      for(int i = 0; i < nvert; i++){
+        vertices[i].set(ofRandom(-x/2, x/2), ofRandom(-y/2, y/2), ofRandom(-z/2, z/2));
+        vel[i].set(0, 0, 0);
       }
     }
     void stop(){
-      for(int i=0;i<nvert;i++){
-        vel[i].set(0,0,0);
+      for(int i = 0;i < nvert; i++){
+        vel[i].set(0, 0, 0);
       }
     }
     void update(int numcols, int numrows, int height) {

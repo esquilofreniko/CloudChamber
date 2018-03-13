@@ -37,8 +37,6 @@ class ofApp : public ofBaseApp {
     int numattractors = 1;
     int bgreset = 0;
     int bgresetmax = 128;
-    int fcounter = 0;
-    int fcountermax = 1600;
 
     Space space;
     Attractor attractor[4];
@@ -47,7 +45,7 @@ class ofApp : public ofBaseApp {
     Mesh mesh [4];
     Clifford clifford;
     MovingAverage avg;
-    Random rand;
+    Random rand[32];
     Map map;
     Counter counter;
     Timing timing;

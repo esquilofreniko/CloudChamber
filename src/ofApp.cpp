@@ -3,39 +3,44 @@
 void ofApp::setup() {
     ofEnableLighting();
     ofSetFrameRate(200);
-    ofSetFullscreen(false);
+    ofSetFullscreen(true);
     ofSetVerticalSync(true);
     ofEnableAlphaBlending();
     ofSetSmoothLighting(true);
     ofSetBackgroundAuto(false);
-    ofSetBackgroundColor(0, 0, 0);
+    ofSetBackgroundColor(30, 30, 30);
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-
     mesh[0].nvert = 16;
     mesh[0].init(-numcols/4,-numrows/4,-height/4,numcols/4,numrows/4,height/4);
     points[0].init(numcols,numrows,height);
+    
     for(int i=0;i<numattractors;i++){
       attractor[i].init(numcols,numrows,height);
       attractor[i].f = ofRandom(0,4);
-      if(i==0){
+      if(i==0) {
         attractor[0].f = 2;
         attractor[0].pos.set(0,0,0);
       }
     }
+    
     wtarray.sender.setup("localhost", wtarray.port);
-    timing.generateSequence();
+
 }
 
 void ofApp::update() {
-    timing.playSequence();
-    clifford.iterate();
-    if (timing.getTrigger()) {
-        float x = map.scale(clifford.getX(clifford.getSizeX()-1), 100, 50, true);
-        maxpatch.sendFloat("wavetableFrequency", x);
-    }
+
     for (int i=0;i<4;i++){
       attractor[i].light.disable();
     }
+    
+
+    /*
+    if (timing.getTrigger() == true) {
+        maxpatch.sendBang("note");
+    }
+     */
+    
+
     model[0].update();
     model[0].render(0,0,height*0.5);
     points[0].update(numcols,numrows,height);
@@ -50,33 +55,32 @@ void ofApp::update() {
       //   }
       // }
     }
-    wtarray.update(numcols,numrows,height,points[0].vertices);
-    maxpatch.sendFloat("pointsvel",points[0].velavrg());
-    maxpatch.sendFloat("pointsarea",points[0].area());
-    maxpatch.sendFloat("bp1q",(attractor[1].pos.x));
-    maxpatch.sendFloat("bp2q",(attractor[2].pos.x));
-    maxpatch.sendFloat("bp1freq",(attractor[1].pos.y));
-    maxpatch.sendFloat("bp2freq",(attractor[2].pos.y));
-    maxpatch.sendFloat("bp1gain",(attractor[1].pos.z));
-    maxpatch.sendFloat("bp2gain",(attractor[2].pos.z));
+    wtarray.update(numcols, numrows, height, points[0].vertices);
+    maxpatch.sendFloat("points_vel", points[0].velavrg());
+    maxpatch.sendFloat("points_area", points[0].area());
+    maxpatch.sendFloat("bp1_q", (attractor[1].pos.x));
+    maxpatch.sendFloat("bp2_q", (attractor[2].pos.x));
+    maxpatch.sendFloat("bp1_freq", (attractor[1].pos.y));
+    maxpatch.sendFloat("bp2_freq", (attractor[2].pos.y));
+    maxpatch.sendFloat("bp1_gain", (attractor[1].pos.z));
+    maxpatch.sendFloat("bp2_gain", (attractor[2].pos.z));
     wtarray.send();
-    if(points[0].state == 1){
-      maxpatch.sendBang("pointstate1");
+    if(points[0].state == 1) {
+      maxpatch.sendBang("pointstate_1");
       points[0].state = 0;
     }
-    if(fcounter == 0){
-      maxpatch.sendBang("wtfreqrand");
-      fcountermax = ofRandom(12,24)*100;
+    if(counter.getX() == 0){
+        maxpatch.sendBang("wtfreqrand");
+        counter.setMax(ofRandom(12,24)*100);
     }
-    fcounter += 1;
-    fcounter %=fcountermax;
+    counter.step();
 }
 
 void ofApp::draw(){
     space.cam.begin();
-    space.drawBackground(0,20);
-    space.drawWireframe(5,100);
-    points[0].draw(250,250,2);
+    space.drawBackground(0, 20);
+    space.drawWireframe(0, 100);
+    points[0].draw(250, 250, 2);
     for (int i=0;i<numattractors;i++){
         attractor[i].draw(10,5);
     }
@@ -110,6 +114,11 @@ void ofApp::keyPressed(int key){
       }
       ofBackground(0);
     }
+    
+    if (key == 'f') {
+        ofToggleFullscreen();
+    }
+
 }
 
 void ofApp::keyReleased(int key){
