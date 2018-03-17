@@ -37,7 +37,6 @@ class ofApp : public ofBaseApp {
     int numattractors = 1;
     int bgreset = 0;
     int bgresetmax = 128;
-    bool attractorattracted = false;
 
     Space space;
     Attractor attractor[4];

@@ -3,7 +3,7 @@
 void ofApp::setup() {
     ofEnableLighting();
     ofSetFrameRate(200);
-    ofSetFullscreen(false);
+    ofSetFullscreen(true);
     ofSetVerticalSync(true);
     ofEnableAlphaBlending();
     ofSetSmoothLighting(true);
@@ -22,7 +22,6 @@ void ofApp::setup() {
         attractor[0].pos.set(0,0,0);
       }
     }
-
     wtarray.sender.setup("localhost", wtarray.port);
 
 }
@@ -33,13 +32,11 @@ void ofApp::update() {
       attractor[i].light.disable();
     }
 
-
     /*
     if (timing.getTrigger() == true) {
         maxpatch.sendBang("note");
     }
      */
-
 
     model[0].update();
     model[0].render(0,0,height*0.5);
@@ -122,7 +119,6 @@ void ofApp::keyPressed(int key){
       }
       ofBackground(0);
     }
-
     if (key == 'f') {
         ofToggleFullscreen();
     }
