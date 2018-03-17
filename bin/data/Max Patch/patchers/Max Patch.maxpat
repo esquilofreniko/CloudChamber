@@ -1114,7 +1114,7 @@
 					"outlettype" : [ "list", "float", "float", "float", "float", "list", "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 680.533325, 518.333313, 166.833328, 105.666687 ],
-					"setfilter" : [ 0, 3, 1, 0, 0, 327.526489, 6.203232, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+					"setfilter" : [ 0, 3, 1, 0, 0, 312.184784, 6.203232, 10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -2322,19 +2322,19 @@
 			}
 , 			{
 				"name" : "lw.gigaverb2.maxpat",
-				"bootpath" : "~/MaxMSP/Abstractions",
+				"bootpath" : "~/code/of_v0.9.8_osx_release/apps/myApps/CloudChamber/bin/data/Max Patch/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gigaverb.json",
-				"bootpath" : "~/MaxMSP",
+				"bootpath" : "~/code/of_v0.9.8_osx_release/apps/myApps/CloudChamber/bin/data/Max Patch/data",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "lw.hires.maxpat",
-				"bootpath" : "~/MaxMSP/Abstractions",
+				"bootpath" : "~/code/of_v0.9.8_osx_release/apps/myApps/CloudChamber/bin/data/Max Patch/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
