@@ -4,12 +4,8 @@
 #include <random>
 
 class Random {
-    private:
-    float distLower;
-    float distUpper;
     public:
-    float gen();
-    Random();
+    float gen(float distLower, float distUpper);
 };
 
 #endif

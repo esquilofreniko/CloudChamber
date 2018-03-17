@@ -12,7 +12,8 @@ public:
     int rad;
     float timer = 0;
     float speed = 0.005;
-    Attractor(){
+    bool attractswitch = false;
+    Attractor() {
       for(int i=0;i<nvert;i++){
         randi[i].set(ofRandom(0,1000),ofRandom(0,1000),ofRandom(0,1000));
       }
@@ -30,7 +31,7 @@ public:
       light.setup();
       light.setPointLight();
       if(f != 0){
-        light.setAttenuation(1,(0.00000025/(abs(f))),(0.00000025/(abs(f))));
+        light.setAttenuation(1,(0.000001/(abs(f))),(0.000001/(abs(f))));
       }
       light.setPosition(pos.x,pos.y,pos.z);
       light.enable();
@@ -96,13 +97,14 @@ public:
       mesh[1].draw();
     }
     void attracted(ofVec3f target, float f, int numattractors) {
+      if(attractswitch == true){
         ofVec3f force = target - pos;
         float dsquared = pow(force.length(),2);
         if(dsquared<5) {
-            dsquared = 5;
+          dsquared = 5;
         }
         if(dsquared>500) {
-            dsquared = 500;
+          dsquared = 500;
         }
         float g = 6.67408;
         float strength = g/dsquared;
@@ -113,6 +115,7 @@ public:
         pos += vel;
         vel += acc;
         acc = acc*0;
+      }
     }
 };
 
@@ -128,14 +131,14 @@ class Points {
       glPointSize(1);
     }
     void init(int x, int y, int z) {
-      for(int i=0;i<nvert;i++){
-        vertices[i].set(ofRandom(-x/2,x/2),ofRandom(-y/2,y/2),ofRandom(-z/2,z/2));
-        vel[i].set(0,0,0);
+      for(int i = 0; i < nvert; i++){
+        vertices[i].set(ofRandom(-x/2, x/2), ofRandom(-y/2, y/2), ofRandom(-z/2, z/2));
+        vel[i].set(0, 0, 0);
       }
     }
     void stop(){
-      for(int i=0;i<nvert;i++){
-        vel[i].set(0,0,0);
+      for(int i = 0;i < nvert; i++){
+        vel[i].set(0, 0, 0);
       }
     }
     void update(int numcols, int numrows, int height) {

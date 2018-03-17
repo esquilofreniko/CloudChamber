@@ -16,7 +16,8 @@ private:
 public:
     int frameToMs(int frame);
     int MsToFrame(int ms);
-    void generateSequence();
+    void addToSequence(float f);
+    float getSequence(int i);
     void playSequence();
     void resetSequence();
     bool getTrigger();

@@ -15,8 +15,12 @@ int Timing::MsToFrame(int ms) {
     return (ms / 1000) / (1.0 / frameRate);
 }
 
-void Timing::generateSequence() {
-    timeSequence = {500, 2000, 3000, 4000};
+void Timing::addToSequence(float f) {
+    timeSequence.push_back(f);
+}
+
+float Timing::getSequence(int i) {
+    return timeSequence[i];
 }
 
 bool Timing::getTrigger() {
@@ -31,7 +35,6 @@ void Timing::playSequence() {
     int maxFrames = MsToFrame(std::accumulate(timeSequence.begin(), timeSequence.end(), 0));
     int currentFrame = ofGetFrameNum() % maxFrames;
     int currentTime = frameToMs(currentFrame);
-    std::cout << currentTime << '\n';
     if (currentTime >= accumulatedTimes && currentTime <= (accumulatedTimes + frameToMs(1)) ) {
         trigger = true;
         accumulatedTimes += timeSequence[timeSequenceIndex];
@@ -48,5 +51,4 @@ void Timing::displayData() {
     ofDisableLighting();
     ofSetColor(255);
     ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), x, y); // display frame rate
-    ofDrawBitmapString("time: "+ofToString(frameToMs(ofGetFrameNum())/1000.0, 2), x, y + (ySpacing)); // display current frame number
 }

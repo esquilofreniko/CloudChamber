@@ -2,7 +2,7 @@
 	"name" : "Max Patch",
 	"version" : 1,
 	"creationdate" : -691573863,
-	"modificationdate" : -691524175,
+	"modificationdate" : -691183242,
 	"viewrect" : [ 50.0, 94.0, 300.0, 500.0 ],
 	"autoorganize" : 1,
 	"hideprojectwindow" : 0,
@@ -18,11 +18,11 @@
 
 		}
 ,
+		"data" : 		{
+
+		}
+,
 		"externals" : 		{
-			"mdeGranular~.mxo" : 			{
-				"kind" : "object",
-				"local" : 1
-			}
 
 		}
 

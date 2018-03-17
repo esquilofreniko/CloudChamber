@@ -7,6 +7,7 @@ private:
     ofPlanePrimitive planes [6];
     ofBoxPrimitive box;
 public:
+    bool framedraw = true;
     int numcols = 1000;
     int numrows = 1000;
     int height = 1000;
@@ -16,12 +17,14 @@ public:
       box.draw();
     }
     void drawWireframe(int c,int a) {
+      if(framedraw == true){
         ofSetColor(c, a);
         for (int i = 0; i < 6; ++i){
           if(i != 1){
             planes[i].drawWireframe();
           }
         }
+      }
     }
     Space() {
         camx = 0;
