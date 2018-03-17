@@ -88,7 +88,7 @@ void ofApp::draw(){
 }
 
 void ofApp::keyPressed(int key){
-  space.movecam(key);
+  // space.movecam(key);
   if(key == '1'){
     space.framedraw = !space.framedraw;
   }
