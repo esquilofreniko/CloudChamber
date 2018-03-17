@@ -10,12 +10,13 @@ void ofApp::setup() {
     ofSetBackgroundAuto(false);
     ofSetBackgroundColor(30, 30, 30);
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    mesh[0].nvert = 16;
-    mesh[0].init(-numcols/4,-numrows/4,-height/4,numcols/4,numrows/4,height/4);
-    points[0].init(numcols,numrows,height);
+    mesh[0].init(-width/4,-height/4,-depth/4,width/4,height/4,depth/4);
+    points[0].init(width,height,depth);
+    model[0].init("head.obj",0.75);
+    model[1].init("heart.obj",0.75);
 
     for(int i=0;i<numattractors;i++){
-      attractor[i].init(numcols,numrows,height);
+      attractor[i].init(width,height,depth);
       attractor[i].f = ofRandom(0,4);
       if(i==0) {
         attractor[0].f = 2;
@@ -23,7 +24,6 @@ void ofApp::setup() {
       }
     }
     wtarray.sender.setup("localhost", wtarray.port);
-
 }
 
 void ofApp::update() {
@@ -38,21 +38,21 @@ void ofApp::update() {
     }
      */
 
-    model[0].update();
-    model[0].render(0,0,height*0.5);
-    points[0].update(numcols,numrows,height);
+    points[0].update(width,height,depth);
+    // model[0].render(0,height/4,depth/4,2,5,5);
+    model[1].render(0,-height/8,0,2,20,5);
     for(int i=0;i<numattractors;i++){
       points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
+      attractor[i].limit(width,height,depth);
       attractor[i].lighton();
-      attractor[i].limit(numcols,numrows,height);
       attractor[i].update(25);
       for(int j=0;j<=numattractors;j++){
-        if(j != 0 && j != i){
+        if(j != i){
           attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
         }
       }
     }
-    wtarray.update(numcols, numrows, height, points[0].vertices);
+    wtarray.update(width, height, depth, points[0].vertices);
     maxpatch.sendFloat("points_vel", points[0].velavrg());
     maxpatch.sendFloat("points_area", points[0].area());
     maxpatch.sendFloat("attractor2_posx", (attractor[1].pos.x));
@@ -66,6 +66,14 @@ void ofApp::update() {
       maxpatch.sendBang("pointstate_1");
       points[0].state = 0;
     }
+    if(model[0].bang == true){
+      maxpatch.sendBang("model0render");
+      model[0].bang = false;
+    }
+    if(model[1].bang == true){
+      maxpatch.sendBang("model1render");
+      model[1].bang = false;
+    }
     if(counter.getX() == 0){
         maxpatch.sendBang("wtfreqrand");
         counter.setMax(ofRandom(12,24)*100);
@@ -76,19 +84,23 @@ void ofApp::update() {
 void ofApp::draw(){
     space.cam.begin();
     space.drawBackground(0, 25);
-    space.drawWireframe(7, 50);
+    space.drawWireframe(8, 25);
     points[0].draw(250, 250, 2);
     for (int i=0;i<numattractors;i++){
         attractor[i].draw(10,5);
     }
+    // model[0].draw(250,125,180,180,0);
+    model[1].draw(250,50,180,180,0.01);
     // mesh[0].draw(250,25);
-    // model[0].draw(250,125);
     space.cam.end();
     timing.displayData();
 }
 
 void ofApp::keyPressed(int key){
   // space.movecam(key);
+  if(key == '='){
+    maxpatch.sendBang("toggledac");
+  }
   if(key == '1'){
     space.framedraw = !space.framedraw;
   }
@@ -100,7 +112,7 @@ void ofApp::keyPressed(int key){
   if(key == 'r'){
     points[0].stop();
     for(int i=0;i<numattractors;i++){
-      attractor[i].init(numrows,numcols,height);
+      attractor[i].init(height,width,depth);
       if(i == 0){
         attractor[0].pos.set(0,0,0);
       }
@@ -112,7 +124,7 @@ void ofApp::keyPressed(int key){
     numattractors = numattractors%5;
     points[0].stop();
     for(int i=0;i<numattractors;i++){
-      attractor[i].init(numrows,numcols,height);
+      attractor[i].init(height,width,depth);
       if(i == 0){
           attractor[0].pos.set(0,0,0);
         }

@@ -4,19 +4,18 @@ public:
     int vertexcounter;
     bool vforward;
     float timer = 0;
-    float speed = 0.025;
+    bool bang = false;
     ofxAssimpModelLoader model;
     ofMesh mesh;
     ofMesh omesh;
-    Model() {
+    void init(std::string s, float scale) {
         counter = 0;
         vertexcounter = 0;
         vforward = true;
-        model.loadModel("heart.obj", false);
-        model.setScale(1.5, 1.5, 1.5);
+        model.loadModel(s, false);
+        model.setScale(scale, scale, scale);
         mesh = model.getCurrentAnimatedMesh(0);
     }
-
     void clear() {
         mesh.clear();
     }
@@ -25,35 +24,34 @@ public:
       mesh = model.getCurrentAnimatedMesh(0);
     }
 
-    void update() {
-      timer += speed;
-      counter = (counter + 1) % 1;
-    }
-
-    void render(int x, int y, int z){
-        if(counter == 0) {
-            model.setPosition(x, y, z);
-            model.update();
-            mesh = model.getCurrentAnimatedMesh(0);
-
-        if(vertexcounter <=0) {
-          vforward = true;
-        }
-        if(vertexcounter >= mesh.getNumVertices()-1){
-          vforward = false;
-        }
-        omesh = mesh;
-        mesh.clear();
-        if(vforward == true){
-          vertexcounter += 1;
-          for(int i=0;i<vertexcounter;i++){
-            mesh.addVertex(omesh.getVertex(i));
+    void render(int x, int y, int z, int divisor, int amt, int prob){
+      counter = (counter + 1) % divisor;
+      if(counter == 0) {
+        int probability = ofRandom(0,100);
+        if(probability < prob){
+          bang = true;
+          model.setPosition(x, y, z);
+          model.update();
+          mesh = model.getCurrentAnimatedMesh(0);
+          if(vertexcounter <=0) {
+            vforward = true;
           }
-        }
-        if(vforward == false){
-          vertexcounter -= 1;
-          for(int i=0;i<vertexcounter;i++){
-            mesh.addVertex(omesh.getVertex(omesh.getNumVertices()-i));
+          if(vertexcounter >= mesh.getNumVertices()-1){
+            vforward = false;
+          }
+          omesh = mesh;
+          mesh.clear();
+          if(vforward == true){
+            vertexcounter += amt;
+            for(int i=0;i<vertexcounter;i++){
+              mesh.addVertex(omesh.getVertex(i));
+            }
+          }
+          if(vforward == false){
+            vertexcounter -= amt;
+            for(int i=0;i<vertexcounter;i++){
+              mesh.addVertex(omesh.getVertex(omesh.getNumVertices()-i));
+            }
           }
         }
       }
@@ -67,13 +65,14 @@ public:
         mesh.setVertex(i+(mesh.getNumVertices()/2),rvert);
       }
     }
-    void draw(int c, int a){
+    void draw(int c, int a, int rotatex, int rotatey, float speed){
+      timer += speed;
       ofPushMatrix();
       ofSetColor(c,a);
       ofFill();
-      ofRotate(180,1,0,0);
+      ofRotate(rotatex,1,0,0);
       ofTranslate(model.getPosition().x, model.getPosition().y, model.getPosition().z);
-      ofRotate(timer, 0, 1, 0);
+      ofRotate(rotatey + timer, 0, 1, 0);
       ofTranslate(-model.getPosition().x, -model.getPosition().y, -model.getPosition().z);
       ofxAssimpMeshHelper & meshHelper = model.getMeshHelper(0);
       ofMultMatrix(model.getModelMatrix());

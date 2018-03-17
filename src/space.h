@@ -8,9 +8,9 @@ private:
     ofBoxPrimitive box;
 public:
     bool framedraw = true;
-    int numcols = 1000;
-    int numrows = 1000;
+    int width = 1000;
     int height = 1000;
+    int depth = 1000;
     ofCamera cam;
     void drawBackground(int c, int a){
       ofSetColor(c,c,c,a);
@@ -29,54 +29,54 @@ public:
     Space() {
         camx = 0;
         camy = 0;
-        camz = (height/2)+250;
+        camz = (depth/2)+250;
         // cam.setFov(75);
         box.setPosition(0,0,0);
-        box.set(numcols*4,numrows*4,height*4);
+        box.set(width*4,height*4,depth*4);
         cam.setPosition(camx,camy,camz);
-        planes[0].set(numcols,numrows);
-        planes[0].setPosition(0,0,-height/2);
-        planes[0].setResolution(numcols/8,numrows/8);
-        planes[1].set(numcols,numrows);
-        planes[1].setPosition(0,0,height/2);
-        planes[1].setResolution(numcols/8,numrows/8);
+        planes[0].set(width,height);
+        planes[0].setPosition(0,0,-depth/2);
+        planes[0].setResolution(width/8,height/8);
+        planes[1].set(width,height);
+        planes[1].setPosition(0,0,depth/2);
+        planes[1].setResolution(width/8,height/8);
         planes[1].rotate(180,0,1,0);
-        planes[2].set(numcols,numrows);
-        planes[2].setPosition(0,numrows/2,0);
-        planes[2].setResolution(numcols/8,numrows/8);
+        planes[2].set(width,height);
+        planes[2].setPosition(0,height/2,0);
+        planes[2].setResolution(width/8,height/8);
         planes[2].rotate(90,1,0,0);
-        planes[3].set(numcols,numrows);
-        planes[3].setPosition(0,-numrows/2,0);
-        planes[3].setResolution(numcols/8,numrows/8);
+        planes[3].set(width,height);
+        planes[3].setPosition(0,-height/2,0);
+        planes[3].setResolution(width/8,height/8);
         planes[3].rotate(270,1,0,0);
-        planes[4].set(numcols,numrows);
-        planes[4].setPosition(numcols/2,0,0);
-        planes[4].setResolution(numcols/8,numrows/8);
+        planes[4].set(width,height);
+        planes[4].setPosition(width/2,0,0);
+        planes[4].setResolution(width/8,height/8);
         planes[4].rotate(270,0,1,0);
-        planes[5].set(numcols,numrows);
-        planes[5].setPosition(-numcols/2,0,0);
-        planes[5].setResolution(numcols/8,numrows/8);
+        planes[5].set(width,height);
+        planes[5].setPosition(-width/2,0,0);
+        planes[5].setResolution(width/8,height/8);
         planes[5].rotate(90,0,1,0);
     }
     void update() {
         campos = cam.getPosition();
-        if(campos.x<(-numcols/2)+10) {
-            cam.setPosition((-numcols/2)+10,campos.y,campos.z);
+        if(campos.x<(-width/2)+10) {
+            cam.setPosition((-width/2)+10,campos.y,campos.z);
         }
-        if (campos.x>(numcols/2)-10){
-            cam.setPosition((numcols/2)-10,campos.y,campos.z);
+        if (campos.x>(width/2)-10){
+            cam.setPosition((width/2)-10,campos.y,campos.z);
         }
-        if(campos.y<(-numrows/2)+10){
-            cam.setPosition(campos.x,(-numrows/2)+10,campos.z);
+        if(campos.y<(-height/2)+10){
+            cam.setPosition(campos.x,(-height/2)+10,campos.z);
         }
-        if (campos.y>(numrows/2)-10){
-            cam.setPosition(campos.x,(numrows/2)-10,campos.z);
+        if (campos.y>(height/2)-10){
+            cam.setPosition(campos.x,(height/2)-10,campos.z);
         }
-        if (campos.z<(-height/2)+10){
-            cam.setPosition(campos.x,campos.y,(-height/2)+10);
+        if (campos.z<(-depth/2)+10){
+            cam.setPosition(campos.x,campos.y,(-depth/2)+10);
         }
-        if(campos.z>(height/2)-10){
-            cam.setPosition(campos.x,campos.y,(height/2)-10);
+        if(campos.z>(depth/2)-10){
+            cam.setPosition(campos.x,campos.y,(depth/2)-10);
         }
     }
     void movecam(int key){

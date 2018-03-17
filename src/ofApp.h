@@ -53,7 +53,7 @@ class ofApp : public ofBaseApp {
     ofxOscReceiver receiver;
     OscSender maxpatch;
 
-    int numcols = space.numcols;
-    int numrows = space.numrows;
+    int width = space.width;
     int height = space.height;
+    int depth = space.depth;
 };
