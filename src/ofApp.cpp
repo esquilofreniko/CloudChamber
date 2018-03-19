@@ -75,7 +75,7 @@ void ofApp::update() {
       model[1].bang = false;
     }
     if(counter.getX() == 0){
-        maxpatch.sendBang("wtfreqrand");
+        maxpatch.sendFloat("wtfreq",40);
         counter.setMax(ofRandom(12,24)*100);
     }
     counter.step();
