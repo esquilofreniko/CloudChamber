@@ -12,7 +12,8 @@ public:
     int rad;
     float timer = 0;
     float speed = 0.005;
-    bool attractswitch = false;
+    bool attract = false;
+    bool play = false;
     Attractor() {
       for(int i=0;i<nvert;i++){
         randi[i].set(ofRandom(0,1000),ofRandom(0,1000),ofRandom(0,1000));
@@ -97,7 +98,7 @@ public:
       mesh[1].draw();
     }
     void attracted(ofVec3f target, float f, int numattractors) {
-      if(attractswitch == true){
+      if(attract == true){
         ofVec3f force = target - pos;
         float dsquared = pow(force.length(),2);
         if(dsquared<5) {

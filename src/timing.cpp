@@ -11,6 +11,10 @@ int Timing::frameToMs(int frame) {
     return ((1.0 / frameRate) * frame) * 1000;
 }
 
+int Timing::frameToS(int frame){
+    return ((1.0 / frameRate) * frame);
+}
+
 int Timing::MsToFrame(int ms) {
     return (ms / 1000) / (1.0 / frameRate);
 }
@@ -29,6 +33,10 @@ bool Timing::getTrigger() {
     } else {
         return false;
     }
+}
+
+int Timing::getNow(){
+  return frameToS(ofGetFrameNum());
 }
 
 void Timing::playSequence() {

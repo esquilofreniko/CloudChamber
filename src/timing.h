@@ -15,6 +15,7 @@ private:
     bool trigger;
 public:
     int frameToMs(int frame);
+    int frameToS(int frame);
     int MsToFrame(int ms);
     void addToSequence(float f);
     float getSequence(int i);
@@ -22,6 +23,7 @@ public:
     void resetSequence();
     bool getTrigger();
     void displayData();
+    int getNow();
     Timing();
 };
 

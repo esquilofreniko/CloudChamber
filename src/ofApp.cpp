@@ -3,49 +3,55 @@
 void ofApp::setup() {
     ofEnableLighting();
     ofSetFrameRate(200);
-    ofSetFullscreen(true);
+    ofSetFullscreen(false);
     ofSetVerticalSync(true);
     ofEnableAlphaBlending();
     ofSetSmoothLighting(true);
     ofSetBackgroundAuto(false);
     ofSetBackgroundColor(30, 30, 30);
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    mesh[0].init(-width/4,-height/4,-depth/4,width/4,height/4,depth/4);
+
+    light.setup();
+    light.setPointLight();
+    light.setPosition(0,0,0);
+    light.setAttenuation(1,(0.000001/(abs(2))),(0.000001/(abs(2))));
+
     points[0].init(width,height,depth);
+    mesh[0].init(-width/4,-height/4,-depth/4,width/4,height/4,depth/4);
     model[0].init("head.obj",0.75);
     model[1].init("heart.obj",0.75);
-
-    for(int i=0;i<numattractors;i++){
-      attractor[i].init(width,height,depth);
-      attractor[i].f = ofRandom(0,4);
-      if(i==0) {
-        attractor[0].f = 2;
-        attractor[0].pos.set(0,0,0);
-      }
-    }
     wtarray.sender.setup("localhost", wtarray.port);
 }
 
 void ofApp::update() {
+    if(timing.getNow()%16 == 0 && ofGetFrameNum()%200 == 0){
+      state += 1;
+    }
+    if(state == 1){
+      light.enable();
+    }
+    if(state == 2){
+      light.disable();
+      numattractors = 1;
+      attractor[0].f = 2;
+      attractor[0].pos.set(0,0,0);
+    }
+    if(state == 3){
+      model[1].active = true;
+    }
 
     for (int i=0;i<4;i++){
       attractor[i].light.disable();
     }
 
-    /*
-    if (timing.getTrigger() == true) {
-        maxpatch.sendBang("note");
-    }
-     */
-
     points[0].update(width,height,depth);
     // model[0].render(0,height/4,depth/4,2,5,5);
-    model[1].render(0,-height/8,0,2,20,5);
+    model[1].render(0,-height/16,0,2,20,5);
     for(int i=0;i<numattractors;i++){
-      points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
       attractor[i].limit(width,height,depth);
       attractor[i].lighton();
       attractor[i].update(25);
+      points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
       for(int j=0;j<=numattractors;j++){
         if(j != i){
           attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
@@ -79,6 +85,10 @@ void ofApp::update() {
         counter.setMax(ofRandom(12,24)*100);
     }
     counter.step();
+
+    //debugger stuff
+    maxpatch.sendFloat("getNow",timing.getNow());
+    maxpatch.sendFloat("state",state);
 }
 
 void ofApp::draw(){
@@ -106,7 +116,7 @@ void ofApp::keyPressed(int key){
   }
   if(key == '2'){
     for(int i=0;i<4;i++){
-      attractor[i].attractswitch = !attractor[i].attractswitch;
+      attractor[i].attract = !attractor[i].attract;
     }
   }
   if(key == 'r'){
