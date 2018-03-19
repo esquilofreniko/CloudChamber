@@ -27,7 +27,8 @@ void ofApp::setup() {
 }
 
 void ofApp::update() {
-    if(timing.getNow()%16 == 0 && ofGetFrameNum()%200 == 0){
+    int division = timing.getNow()%24;
+    if(division == 0 && ofGetFrameNum()%200 == 0){
       state += 1;
     }
     if(state == 1){
@@ -41,17 +42,28 @@ void ofApp::update() {
     }
     if(state == 3){
       attractor[0].f = -2;
+      if(division == 0 && ofGetFrameNum()%200 == 0){
+        points[0].stop();
+      }
     }
     if(state == 4){
       model[1].active = true;
     }
+    // if(state == 5){
+    //   attractor[0].f = 2;
+    // }
     if(state == 5){
-      numattractors = 2;
+      numattractors = 3;
       attractor[0].f = 2;
       attractor[1].f = 1;
+      attractor[2].f = -1;
+      if(division == 0 && ofGetFrameNum()%200 == 0){
+        points[0].stop();
+      }
     }
     if(state == 6){
       attractor[1].attract = true;
+      attractor[2].attract = true;
     }
 
     for (int i=0;i<4;i++){
