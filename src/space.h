@@ -29,7 +29,7 @@ public:
     Space() {
         camx = 0;
         camy = 0;
-        camz = (depth/2)+250;
+        camz = (depth/2)+500;
         // cam.setFov(75);
         box.setPosition(0,0,0);
         box.set(width*4,height*4,depth*4);

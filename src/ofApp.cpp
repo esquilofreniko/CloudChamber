@@ -20,6 +20,9 @@ void ofApp::setup() {
     mesh[0].init(-width/4,-height/4,-depth/4,width/4,height/4,depth/4);
     model[0].init("head.obj",0.75);
     model[1].init("heart.obj",0.75);
+    for(int i=0;i<4;i++){
+      attractor[i].init(width,height,depth);
+    }
     wtarray.sender.setup("localhost", wtarray.port);
 }
 
@@ -37,7 +40,15 @@ void ofApp::update() {
       attractor[0].pos.set(0,0,0);
     }
     if(state == 3){
+      attractor[0].f = -2;
+    }
+    if(state == 4){
       model[1].active = true;
+    }
+    if(state == 5){
+      numattractors = 2;
+      attractor[0].f = 2;
+      attractor[1].f = 2;
     }
 
     for (int i=0;i<4;i++){
@@ -95,7 +106,7 @@ void ofApp::draw(){
     space.cam.begin();
     space.drawBackground(0, 25);
     space.drawWireframe(8, 25);
-    points[0].draw(250, 250, 2);
+    points[0].draw(250, 250, granprob);
     for (int i=0;i<numattractors;i++){
         attractor[i].draw(10,5);
     }
@@ -122,7 +133,7 @@ void ofApp::keyPressed(int key){
   if(key == 'r'){
     points[0].stop();
     for(int i=0;i<numattractors;i++){
-      attractor[i].init(height,width,depth);
+      attractor[i].init(width,height,depth);
       if(i == 0){
         attractor[0].pos.set(0,0,0);
       }
@@ -134,7 +145,7 @@ void ofApp::keyPressed(int key){
     numattractors = numattractors%5;
     points[0].stop();
     for(int i=0;i<numattractors;i++){
-      attractor[i].init(height,width,depth);
+      attractor[i].init(width,height,depth);
       if(i == 0){
           attractor[0].pos.set(0,0,0);
         }
