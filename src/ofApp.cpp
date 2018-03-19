@@ -46,9 +46,14 @@ void ofApp::update() {
       model[1].active = true;
     }
     if(state == 5){
-      numattractors = 2;
+      numattractors = 3;
       attractor[0].f = 2;
       attractor[1].f = 2;
+      attractor[2].f = 2;
+    }
+    if(state == 6){
+      attractor[1].attract = true;
+      attractor[2].attract = true;
     }
 
     for (int i=0;i<4;i++){
