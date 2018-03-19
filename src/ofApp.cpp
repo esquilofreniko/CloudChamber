@@ -15,8 +15,8 @@ void ofApp::setup() {
     light.setPointLight();
     light.setPosition(0,0,0);
     light.setAttenuation(1,(0.000001/(abs(2))),(0.000001/(abs(2))));
+    light.enable();
 
-    points[0].init(width,height,depth);
     mesh[0].init(-width/4,-height/4,-depth/4,width/4,height/4,depth/4);
     model[0].init("head.obj",0.75);
     model[1].init("heart.obj",0.75);
@@ -32,7 +32,9 @@ void ofApp::update() {
       state += 1;
     }
     if(state == 1){
-      light.enable();
+      if(division == 0 && ofGetFrameNum()%200 == 0){
+        points[0].init(width,height,depth);
+      }
     }
     if(state == 2){
       light.disable();
