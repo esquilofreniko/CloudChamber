@@ -73,8 +73,9 @@ void ofApp::update() {
     }
     if(state == 8){
       if(division == 0 && ofGetFrameNum()%200 == 0){
-        numattractors = 1;
+        numattractors = 2;
         attractor[0].f = 4;
+        attractor[1].f = 2;
         points[0].stop();
       }
     }
