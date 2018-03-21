@@ -18,7 +18,7 @@ void ofApp::setup() {
 
     mesh[0].init(-width/4,-height/4,-depth/4,width/4,height/4,depth/4);
     model[0].init("heart.obj",1);
-    // model[1].init("heart.obj",1);
+    // model[1].init("head.obj",1);
     for(int i=0;i<4;i++){
       attractor[i].init(width,height,depth);
     }
