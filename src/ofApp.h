@@ -39,12 +39,14 @@ class ofApp : public ofBaseApp {
     int bgresetmax = 128;
     int state = 0;
     int granprob = 2;
+    int divisionsize = 32;
 
     ofLight light;
     Space space;
     Attractor attractor[4];
     Model model[2];
-    Points points [4];
+    Points points [1];
+    Lines lines [1];
     Mesh mesh [4];
     Clifford clifford;
     MovingAverage avg;
