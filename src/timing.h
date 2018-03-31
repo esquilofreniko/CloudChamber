@@ -4,27 +4,22 @@
 #include "ofMain.h"
 #include "random.h"
 #include <vector>
-#include <numeric>
+
+// This class handles various timing considerations, such as keeping track of and manipulating the time in seconds since program was launched, allowing for time-based functionality
+// within the program
 
 class Timing {
 private:
     int frameRate;
-    std::vector<float> timeSequence;
-    int timeSequenceIndex;
-    float accumulatedTimes;
-    bool trigger;
+    int bpm;
+    float elapsedTime;
+    Random rand[32];
 public:
-    int frameToMs(int frame);
-    int frameToS(int frame);
-    int MsToFrame(int ms);
-    void addToSequence(float f);
-    float getSequence(int i);
-    void playSequence();
-    void resetSequence();
-    bool getTrigger();
-    void displayData();
-    int getNow();
     Timing();
+    void update();
+    float getElapsedTime();
+    void generateRandom();
+    void displayData();
 };
 
 

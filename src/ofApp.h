@@ -4,21 +4,24 @@
 #include "ofxOsc.h"
 #include "ofxAssimpModelLoader.h"
 #include "ofVboMesh.h"
+
 #include "model.h"
 #include "wtarray.h"
 #include "space.h"
 #include "shapes.h"
 #include "attractor.h"
 #include "clifford.h"
-#include "moving_average.h"
+#include "movingAverage.h"
 #include "counter.h"
 #include "random.h"
 #include "mapping.h"
 #include "osc.h"
 #include "timing.h"
+#include "states.h"
 
 class ofApp : public ofBaseApp {
-    public:
+public:
+    void structure(int division);
     void setup();
     void update();
     void draw();
@@ -57,6 +60,7 @@ class ofApp : public ofBaseApp {
     WtArray wtarray;
     ofxOscReceiver receiver;
     OscSender maxpatch;
+    States states;
 
     int width = space.width;
     int height = space.height;

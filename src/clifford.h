@@ -5,6 +5,8 @@
 #include <cmath>
 #include <iostream>
 
+// A clifford attractor model for generating complex sets of values to be used for audiovisual parameters
+
 class Clifford {
     private:
     int maxLength;

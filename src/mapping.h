@@ -5,6 +5,8 @@
 #include <iostream>
 #include <cmath>
 
+// Functionality for scaling and converting raw values
+
 class Map {
 private:
     std::vector <float> values;

@@ -4,6 +4,8 @@
 #include <iostream>
 #include "ofxOsc.h"
 
+// OSC messsage handling
+
 class OscSender {
 private:
     ofxOscSender sender;

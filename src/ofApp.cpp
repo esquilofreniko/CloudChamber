@@ -1,5 +1,61 @@
 #include "ofApp.h"
 
+void ofApp::structure(int division) {
+    switch (state) {
+        case 1:
+            light.enable();
+            if(division == 0 && ofGetFrameNum() % 200 == 0) {
+                points[0].init(width,height,depth);
+            }
+            break;
+        case 2:
+            light.disable();
+            numattractors = 1;
+            attractor[0].f = 2;
+            attractor[0].pos.set(0,0,0);
+            break;
+        case 3:
+            attractor[0].f = -2;
+            if(division == 0 && ofGetFrameNum() % 200 == 0) {
+                points[0].stop();
+            }
+            break;
+        case 4:
+            model[0].active = true;
+            break;
+        case 5:
+            if(division == 0 && ofGetFrameNum()%200 == 0) {
+                points[0].stop();
+                numattractors = 3;
+                attractor[0].f = 2;
+                attractor[1].f = -2;
+                attractor[2].f = 4;
+            }
+            break;
+        case 6:
+            lines[0].active = true;
+            if (model[0].vertexcounter == 0) {
+                model[0].active = false;
+            }
+            break;
+        case 7:
+            if (model[0].vertexcounter == 0) {
+                model[0].active = false;
+            }
+            break;
+        case 8:
+            if(division == 0 && ofGetFrameNum() % 200 == 0) {
+                numattractors = 2;
+                attractor[0].f = 4;
+                attractor[1].f = 2;
+                points[0].stop();
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 void ofApp::setup() {
     ofEnableLighting();
     ofSetFrameRate(200);
@@ -10,76 +66,30 @@ void ofApp::setup() {
     ofSetBackgroundAuto(false);
     ofSetBackgroundColor(30, 30, 30);
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-
     light.setup();
     light.setPointLight();
     light.setPosition(0,0,0);
     light.setAttenuation(1,(0.000001),(0.000001));
-
     mesh[0].init(-width/4,-height/4,-depth/4,width/4,height/4,depth/4);
     model[0].init("heart.obj",1);
     // model[1].init("head.obj",1);
-    for(int i=0;i<4;i++){
+    for(int i = 0; i < 4; i++) {
       attractor[i].init(width,height,depth);
     }
     wtarray.sender.setup("localhost", wtarray.port);
 }
 
 void ofApp::update() {
-    int division = timing.getNow()%divisionsize;
-    if(division == 0 && ofGetFrameNum()%200 == 0){
-      state += 1;
+    int time = timing.getElapsedTime();
+    int division = time % 24;
+    if(division == 0 && ofGetFrameNum() % 200 == 0){
+        state += 1;
     }
-    if(state == 1){
-      light.enable();
-      if(division == 0 && ofGetFrameNum()%200 == 0){
-        points[0].init(width,height,depth);
-      }
-    }
-    if(state == 2){
-      light.disable();
-      numattractors = 1;
-      attractor[0].f = 2;
-      attractor[0].pos.set(0,0,0);
-    }
-    if(state == 3){
-      attractor[0].f = -2;
-      if(division == 0 && ofGetFrameNum()%200 == 0){
-        points[0].stop();
-      }
-    }
-    if(state == 4){
-      model[0].active = true;
-    }
-    if(state == 5){
-      if(division == 0 && ofGetFrameNum()%200 == 0){
-        points[0].stop();
-        numattractors = 3;
-        attractor[0].f = 2;
-        attractor[1].f = -2;
-        attractor[2].f = 4;
-      }
-    }
-    if(state == 6){
-      lines[0].active = true;
-      if (model[0].vertexcounter == 0){
-        model[0].active = false;
-      }
-    }
-    if(state == 7){
-      if (model[0].vertexcounter == 0){
-        model[0].active = false;
-      }
-    }
-    if(state == 8){
-      if(division == 0 && ofGetFrameNum()%200 == 0){
-        numattractors = 2;
-        attractor[0].f = 4;
-        attractor[1].f = 2;
-        points[0].stop();
-      }
-    }
-
+    
+    structure(division);
+    
+    timing.update();
+    
     for (int i=0;i<4;i++){
       attractor[i].light.disable();
     }
@@ -134,8 +144,8 @@ void ofApp::update() {
     counter.step();
 
     //debugger stuff
-    maxpatch.sendFloat("getNow",timing.getNow());
-    maxpatch.sendFloat("state",state);
+    maxpatch.sendFloat("current_time", timing.getElapsedTime());
+    maxpatch.sendFloat("state", state);
 }
 
 void ofApp::draw(){

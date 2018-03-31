@@ -3,9 +3,14 @@
 
 #include <random>
 
+// A simple random number generator class using uniform distribution
+
 class Random {
-    public:
-    float gen(float distLower, float distUpper);
+private:
+    float value;
+public:
+    void gen(float distLower, float distUpper);
+    float output();
 };
 
 #endif

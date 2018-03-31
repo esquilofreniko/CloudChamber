@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+// Functionality for incrementing and keeping track of a simple counter
+
 class Counter {
 private:
     int x;
