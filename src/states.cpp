@@ -1,14 +1,13 @@
 #include "states.h"
 
 States::States() {
-    currentState = 1;
-    divisionSize = 24;
+    currentState = 0;
+}
+
+void States::changeState() {
+    ++currentState;
 }
 
 int States::getCurrent() {
     return currentState;
-}
-
-int States::getDivisions() {
-    return divisionSize;
 }

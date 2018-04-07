@@ -40,7 +40,7 @@ public:
     int numattractors = 0;
     int bgreset = 0;
     int bgresetmax = 128;
-    int state = 0;
+    //int state = 0;
     int granprob = 2;
     int divisionsize = 32;
 

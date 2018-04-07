@@ -1,8 +1,8 @@
 {
 	"name" : "Max Patch",
 	"version" : 1,
-	"creationdate" : -691573984,
-	"modificationdate" : -689624478,
+	"creationdate" : -691574105,
+	"modificationdate" : 3605917842,
 	"viewrect" : [ 50.0, 94.0, 300.0, 500.0 ],
 	"autoorganize" : 1,
 	"hideprojectwindow" : 0,
@@ -40,5 +40,6 @@
 	"amxdtype" : 1633771873,
 	"readonly" : 0,
 	"devpathtype" : 0,
-	"devpath" : "."
+	"devpath" : ".",
+	"sortmode" : 0
 }

@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 void ofApp::structure(int division) {
-    switch (state) {
+    switch (states.getCurrent()) {
         case 1:
             light.enable();
             if(division == 0 && ofGetFrameNum() % 200 == 0) {
@@ -83,7 +83,7 @@ void ofApp::update() {
     int time = timing.getElapsedTime();
     int division = time % 24;
     if(division == 0 && ofGetFrameNum() % 200 == 0){
-        state += 1;
+        states.changeState();
     }
     
     structure(division);
@@ -121,6 +121,7 @@ void ofApp::update() {
     maxpatch.sendFloat("attractor2_posz", (attractor[1].pos.z));
     maxpatch.sendFloat("attractor3_posz", (attractor[2].pos.z));
     wtarray.send();
+    
     if(points[0].state == 1) {
       maxpatch.sendBang("pointstate_1");
       points[0].state = 0;
@@ -145,7 +146,7 @@ void ofApp::update() {
 
     //debugger stuff
     maxpatch.sendFloat("current_time", timing.getElapsedTime());
-    maxpatch.sendFloat("state", state);
+    maxpatch.sendFloat("state", states.getCurrent());
 }
 
 void ofApp::draw(){

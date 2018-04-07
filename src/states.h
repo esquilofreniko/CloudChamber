@@ -6,11 +6,10 @@
 class States {
 private:
     int currentState;
-    int divisionSize;
 public:
     States();
+    void changeState();
     int getCurrent();
-    int getDivisions();
 };
 
 

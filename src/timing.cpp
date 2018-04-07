@@ -6,21 +6,14 @@ Timing::Timing() {
     bpm = 100;
 }
 
-void Timing::update() {
-    elapsedTime = ofGetElapsedTimef();
-}
-
 float Timing::getElapsedTime() {
     return elapsedTime;
 }
 
-void Timing::generateRandom() {
-    for (int i = 0; i < 32; ++i) {
-
-        
-    }
-    
+void Timing::update() {
+    elapsedTime = ofGetElapsedTimef();
 }
+
 
 void Timing::displayData() {
     int x = 10;
