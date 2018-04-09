@@ -19,7 +19,6 @@
 		640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2FAC65C491D4231379F3298 /* ofxOscReceiver.cpp */; };
 		67FE4C7B15C2F0478C8126C2 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B361208CD4107E479F04E7B /* NetworkingUtils.cpp */; };
 		72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65EEFA3DA3526E9CDD9C21F9 /* ofxOscBundle.cpp */; };
-		828A5F76204B25CA00E4D90F /* mapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828A5F75204B25CA00E4D90F /* mapping.cpp */; };
 		828A5F79204BD03600E4D90F /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828A5F78204BD03600E4D90F /* random.cpp */; };
 		828A5F7F204E2C9C00E4D90F /* osc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828A5F7E204E2C9C00E4D90F /* osc.cpp */; };
 		828DBF932050A967000FE8A0 /* timing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 828DBF922050A967000FE8A0 /* timing.cpp */; };
@@ -108,7 +107,6 @@
 		808F0EC060E7C8DA90947996 /* light.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = light.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/light.h; sourceTree = SOURCE_ROOT; };
 		8090B616E3293BD0E1085AE8 /* metadata.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = metadata.h; path = ../../../addons/ofxAssimpModelLoader/libs/assimp/include/assimp/metadata.h; sourceTree = SOURCE_ROOT; };
 		81967292BFC87A0144BD32C6 /* ofxOscSender.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscSender.cpp; path = ../../../addons/ofxOsc/src/ofxOscSender.cpp; sourceTree = SOURCE_ROOT; };
-		828A5F75204B25CA00E4D90F /* mapping.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mapping.cpp; sourceTree = "<group>"; };
 		828A5F77204B25F000E4D90F /* mapping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mapping.h; sourceTree = "<group>"; };
 		828A5F78204BD03600E4D90F /* random.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = random.cpp; sourceTree = "<group>"; };
 		828A5F7A204BD04400E4D90F /* random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = random.h; sourceTree = "<group>"; };
@@ -409,7 +407,6 @@
 				82B43FC12049D8E40008454F /* counter.h */,
 				828A5F7E204E2C9C00E4D90F /* osc.cpp */,
 				828A5F80204E2CAC00E4D90F /* osc.h */,
-				828A5F75204B25CA00E4D90F /* mapping.cpp */,
 				828A5F77204B25F000E4D90F /* mapping.h */,
 				227D035292346F3C90DB2A45 /* shapes.h */,
 				20B891E7395F1BDE7B84966B /* space.h */,
@@ -551,7 +548,6 @@
 				82D7EC09206E17DD00A80895 /* states.cpp in Sources */,
 				828A5F7F204E2C9C00E4D90F /* osc.cpp in Sources */,
 				2593C6B09A5526E4B00DBECB /* movingAverage.cpp in Sources */,
-				828A5F76204B25CA00E4D90F /* mapping.cpp in Sources */,
 				3B8120368B4FCCD80883BAF3 /* ofxAssimpAnimation.cpp in Sources */,
 				483FA4F6D5FA6422C559B1F5 /* ofxAssimpMeshHelper.cpp in Sources */,
 				8DED5056525646FA71980866 /* ofxAssimpModelLoader.cpp in Sources */,

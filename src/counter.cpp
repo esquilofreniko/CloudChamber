@@ -6,10 +6,9 @@ Counter::Counter() {
 
 void Counter::step() {
     x = (x + 1) % max;
-    if (x == 0) cycles += 1;
 }
 
-int Counter::getX() {
+int Counter::get() {
     return x;
 }
 

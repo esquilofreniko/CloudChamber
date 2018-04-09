@@ -8,7 +8,7 @@
 // A clifford attractor model for generating complex sets of values to be used for audiovisual parameters
 
 class Clifford {
-    private:
+private:
     int maxLength;
     int count;
     float a;
@@ -17,15 +17,14 @@ class Clifford {
     float d;
     std::vector<float> x;
     std::vector<float> y;
-    public:
+public:
+    Clifford();
     void iterate();
     void modulate(float _a, float _b, float _c, float _d);
     float getX(int xIndex);
     float getY(int yIndex);
     int getSizeX();
     int getSizeY();
-    Clifford();
-    ~Clifford();
 };
 
 #endif

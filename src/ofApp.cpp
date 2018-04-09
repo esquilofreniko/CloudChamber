@@ -1,10 +1,39 @@
 #include "ofApp.h"
 
-void ofApp::structure(int division) {
+void ofApp::setup() {
+    ofEnableLighting();
+    ofSetVerticalSync(true);
+    ofEnableAlphaBlending();
+    ofSetSmoothLighting(true);
+    ofSetBackgroundAuto(false);
+    ofSetBackgroundColor(30, 30, 30);
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    light.setup();
+    light.setPointLight();
+    light.setPosition(0, 0, 0);
+    light.setAttenuation(1, (0.000001), (0.000001));
+    mesh[0].init(-width / 4, -height / 4, -depth / 4, width / 4, height / 4, depth / 4);
+    model[0].init("heart.obj", 1);
+    //model[1].init("head.obj",1);
+    for(int i = 0; i < 4; i++) {
+        attractor[i].init(width, height, depth);
+    }
+    wtarray.sender.setup("localhost", wtarray.port);
+    timing.fillFrameList();
+    
+}
+
+void ofApp::structure() {
+    int frame = timing.getFrame();
+    int frameNum = 2000; // temporary: still need to implement a better way of sequencing the state changes
+    if (frame % frameNum == 0) {
+        states.changeState();
+    }
+    
     switch (states.getCurrent()) {
         case 1:
             light.enable();
-            if(division == 0 && ofGetFrameNum() % 200 == 0) {
+            if (frame % 4000 == 0) {
                 points[0].init(width,height,depth);
             }
             break;
@@ -16,7 +45,7 @@ void ofApp::structure(int division) {
             break;
         case 3:
             attractor[0].f = -2;
-            if(division == 0 && ofGetFrameNum() % 200 == 0) {
+            if (frame % 4000 == 0) {
                 points[0].stop();
             }
             break;
@@ -24,7 +53,7 @@ void ofApp::structure(int division) {
             model[0].active = true;
             break;
         case 5:
-            if(division == 0 && ofGetFrameNum()%200 == 0) {
+             if (frame % 4000 == 0) {
                 points[0].stop();
                 numattractors = 3;
                 attractor[0].f = 2;
@@ -44,7 +73,7 @@ void ofApp::structure(int division) {
             }
             break;
         case 8:
-            if(division == 0 && ofGetFrameNum() % 200 == 0) {
+            if (frame % 4000 == 0) {
                 numattractors = 2;
                 attractor[0].f = 4;
                 attractor[1].f = 2;
@@ -56,51 +85,23 @@ void ofApp::structure(int division) {
     }
 }
 
-void ofApp::setup() {
-    ofEnableLighting();
-    ofSetFrameRate(200);
-    ofSetFullscreen(false);
-    ofSetVerticalSync(true);
-    ofEnableAlphaBlending();
-    ofSetSmoothLighting(true);
-    ofSetBackgroundAuto(false);
-    ofSetBackgroundColor(30, 30, 30);
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    light.setup();
-    light.setPointLight();
-    light.setPosition(0,0,0);
-    light.setAttenuation(1,(0.000001),(0.000001));
-    mesh[0].init(-width/4,-height/4,-depth/4,width/4,height/4,depth/4);
-    model[0].init("heart.obj",1);
-    // model[1].init("head.obj",1);
-    for(int i = 0; i < 4; i++) {
-      attractor[i].init(width,height,depth);
-    }
-    wtarray.sender.setup("localhost", wtarray.port);
-}
-
 void ofApp::update() {
-    int time = timing.getElapsedTime();
-    int division = time % 24;
-    if(division == 0 && ofGetFrameNum() % 200 == 0){
-        states.changeState();
+
+    structure();
+
+    for (int i = 0; i < 4; ++i) {
+        attractor[i].light.disable();
     }
     
-    structure(division);
-    
-    timing.update();
-    
-    for (int i=0;i<4;i++){
-      attractor[i].light.disable();
+    if(timing.getFrame() % 800 == 0) {
+        lines[0].clear(width, height, depth, 5);
     }
-    if(ofGetFrameNum()%800 == 0){
-      lines[0].clear(width,height,depth,5);
-    }
+    
     lines[0].update(width,height,depth,4);
     points[0].update(width,height,depth);
     model[0].render(0,-height/16,0,2,175,5);
     // model[1].render(0,0,0,2,50,5);
-    for(int i=0;i<numattractors;i++){
+    for(int i = 0; i < numattractors; ++i) {
       attractor[i].limit(width,height,depth);
       attractor[i].lighton();
       attractor[i].update(25);
@@ -138,14 +139,12 @@ void ofApp::update() {
       maxpatch.sendBang("bluelines");
       lines[0].bang = false;
     }
-    if(counter.getX() == 0){
+    if(counter.get() == 0){
         maxpatch.sendFloat("wtfreq",40);
         counter.setMax(ofRandom(12,24)*100);
     }
-    counter.step();
-
-    //debugger stuff
-    maxpatch.sendFloat("current_time", timing.getElapsedTime());
+    
+    maxpatch.sendFloat("current_time", timing.getFrame());
     maxpatch.sendFloat("state", states.getCurrent());
 }
 
@@ -167,18 +166,21 @@ void ofApp::draw(){
 
 void ofApp::keyPressed(int key){
   // space.movecam(key);
-  if(key == '='){
+  if(key == '=') {
     maxpatch.sendBang("toggledac");
   }
-  if(key == '1'){
+    
+  if(key == '1') {
     space.framedraw = !space.framedraw;
   }
-  if(key == '2'){
+    
+  if(key == '2') {
     for(int i=0;i<4;i++){
       attractor[i].attract = !attractor[i].attract;
     }
   }
-  if(key == 'r'){
+    
+  if(key == 'r') {
     points[0].stop();
     for(int i=0;i<numattractors;i++){
       attractor[i].init(width,height,depth);
@@ -188,7 +190,8 @@ void ofApp::keyPressed(int key){
       ofBackground(0);
     }
   }
-  if(key == ' '){
+    
+  if(key == ' ') {
     numattractors += 1;
     numattractors = numattractors%5;
     points[0].stop();
@@ -200,6 +203,7 @@ void ofApp::keyPressed(int key){
       }
       ofBackground(0);
     }
+    
     if (key == 'f') {
         ofToggleFullscreen();
     }

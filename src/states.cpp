@@ -2,6 +2,7 @@
 
 States::States() {
     currentState = 0;
+    numStates = 8;
 }
 
 void States::changeState() {

@@ -2,17 +2,10 @@
 
 Clifford::Clifford() {
     maxLength = 256;
-    a = -1.7;
-    b = 1.3;
-    c = -0.1;
-    d = -1.2;
-    // std::cout << "Clifford attractor object instantiated." << '\n';
-    // std::cout << "A: " << a << " B: " << b << " C: " << c << " D: " << d << '\n';
-}
-
-Clifford::~Clifford() {
-    // std::cout << "Clifford attractor object deallocated." << '\n';
-
+    a = -1.4;
+    b = 1.6;
+    c = 1.0;
+    d = 0.7;
 }
 
 void Clifford::modulate(float _a, float _b, float _c, float _d) {

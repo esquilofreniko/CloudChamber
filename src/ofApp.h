@@ -14,14 +14,13 @@
 #include "movingAverage.h"
 #include "counter.h"
 #include "random.h"
-#include "mapping.h"
 #include "osc.h"
 #include "timing.h"
 #include "states.h"
 
 class ofApp : public ofBaseApp {
 public:
-    void structure(int division);
+    void structure();
     void setup();
     void update();
     void draw();
@@ -40,7 +39,6 @@ public:
     int numattractors = 0;
     int bgreset = 0;
     int bgresetmax = 128;
-    //int state = 0;
     int granprob = 2;
     int divisionsize = 32;
 
@@ -51,16 +49,13 @@ public:
     Points points [1];
     Lines lines [1];
     Mesh mesh [4];
-    Clifford clifford;
-    MovingAverage avg;
-    Random rand[32];
-    Map map;
     Counter counter;
     Timing timing;
     WtArray wtarray;
     ofxOscReceiver receiver;
     OscSender maxpatch;
     States states;
+    Map map;
 
     int width = space.width;
     int height = space.height;

@@ -2,24 +2,33 @@
 
 Timing::Timing() {
     frameRate = 200;
+    frameListSize = 8;
+    lowerFrame = 1000;
+    upperFrame = 8000;
     ofSetFrameRate(frameRate);
-    bpm = 100;
+    displayColour = 255;
+    displayX = 10;
+    displayY = 15;
 }
 
-float Timing::getElapsedTime() {
-    return elapsedTime;
+void Timing::fillFrameList() {
+    for (int i = 0; i < frameListSize; ++i) {
+        clifford.iterate();
+        int x = map.scale(clifford.getX(i), -1.0, 1.8, lowerFrame, upperFrame); // cast clifford values to int and scale them
+        frameList.push_back(x); 
+    }
 }
 
-void Timing::update() {
-    elapsedTime = ofGetElapsedTimef();
+int Timing::getListIndex(int i) {
+    return frameList[i];
 }
 
+int Timing::getFrame() {
+    return ofGetFrameNum();
+}
 
 void Timing::displayData() {
-    int x = 10;
-    int y = 15;
-    int ySpacing = 15;
     ofDisableLighting();
-    ofSetColor(255);
-    ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), x, y);
+    ofSetColor(displayColour);
+    ofDrawBitmapString("fps: "+ofToString(ofGetFrameRate(), 2), displayX, displayY);
 }

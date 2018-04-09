@@ -6,8 +6,10 @@
 class States {
 private:
     int currentState;
+    int numStates;
 public:
     States();
+    void genLengths();
     void changeState();
     int getCurrent();
 };

@@ -15,7 +15,7 @@ public:
     void setMax(int _max);
     void reset();
     void print();
-    int getX();
+    int get();
     Counter();
 };
 
