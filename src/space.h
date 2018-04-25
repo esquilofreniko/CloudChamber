@@ -12,19 +12,16 @@ public:
     int height = 1000;
     int depth = 1000;
     ofCamera cam;
-    void drawBackground(int c, int a){
-      ofSetColor(c,c,c,a);
-      box.draw();
+    void drawBackground(int c, int a) {
+        ofSetColor(c,c,c,a);
+        box.draw();
     }
     void drawWireframe(int c,int a) {
-      if(framedraw == true){
-        ofSetColor(c, a);
-        for (int i = 0; i < 6; ++i){
-          if(i != 1){
-            planes[i].drawWireframe();
-          }
-        }
-      }
+        if(framedraw == true)
+			ofSetColor(c, a);
+        for (int i = 0; i < 6; ++i)
+            if(i != 1)
+				planes[i].drawWireframe();
     }
     Space() {
         camx = 0;
@@ -60,43 +57,37 @@ public:
     }
     void update() {
         campos = cam.getPosition();
-        if(campos.x<(-width/2)+10) {
-            cam.setPosition((-width/2)+10,campos.y,campos.z);
-        }
-        if (campos.x>(width/2)-10){
-            cam.setPosition((width/2)-10,campos.y,campos.z);
-        }
-        if(campos.y<(-height/2)+10){
-            cam.setPosition(campos.x,(-height/2)+10,campos.z);
-        }
-        if (campos.y>(height/2)-10){
-            cam.setPosition(campos.x,(height/2)-10,campos.z);
-        }
-        if (campos.z<(-depth/2)+10){
-            cam.setPosition(campos.x,campos.y,(-depth/2)+10);
-        }
-        if(campos.z>(depth/2)-10){
-            cam.setPosition(campos.x,campos.y,(depth/2)-10);
-        }
+        if (campos.x<(-width/2)+10)
+			cam.setPosition((-width/2)+10,campos.y,campos.z);
+        if (campos.x>(width/2)-10)
+			cam.setPosition((width/2)-10,campos.y,campos.z);
+        if (campos.y<(-height/2)+10)
+			cam.setPosition(campos.x,(-height/2)+10,campos.z);
+        if (campos.y>(height/2)-10)
+			cam.setPosition(campos.x,(height/2)-10,campos.z);
+        if (campos.z<(-depth/2)+10)
+			cam.setPosition(campos.x,campos.y,(-depth/2)+10);
+        if (campos.z>(depth/2)-10)
+			cam.setPosition(campos.x,campos.y,(depth/2)-10);
     }
-    void movecam(int key){
-      if(key == 'w'){
-        cam.dolly(-1);
-      }
-      else if(key == 's'){
-        cam.dolly(1);
-      }
-      if(key == 'a'){
-        cam.pan(4);
-      }
-      else if(key == 'd'){
-        cam.pan(-4);
-      }
-      if(key == 'e'){
-        cam.tilt(1);
-      }
-      else if(key == 'q'){
-        cam.tilt(-1);
-      }
-    }
+    void movecam(int key) {
+		switch(key) {
+			case 'w':
+			    cam.dolly(-1);
+			    break;
+			case 's':
+				cam.dolly(1);
+				break;
+			case 'a':
+				cam.pan(4);
+				break;
+			case 'd':
+				cam.pan(-4);
+				break;
+			case 'e':
+				cam.tilt(1);
+			case 'q':
+				cam.tilt(-1);
+		}
+	}
 };

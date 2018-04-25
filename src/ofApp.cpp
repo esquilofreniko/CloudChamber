@@ -1,5 +1,10 @@
 #include "ofApp.h"
 
+namespace synths {
+	vector<Partial> partials(32);
+	vector<Fm> fmSynth(32);
+}
+
 void ofApp::setup() {
     ofEnableLighting();
     ofSetVerticalSync(true);
@@ -14,28 +19,38 @@ void ofApp::setup() {
     light.setAttenuation(1, (0.000001), (0.000001));
     mesh[0].init(-width / 4, -height / 4, -depth / 4, width / 4, height / 4, depth / 4);
     model[0].init("heart.obj", 1);
-    //model[1].init("head.obj",1);
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < 4; i++)
         attractor[i].init(width, height, depth);
-    }
-    wtarray.sender.setup("localhost", wtarray.port);
-    timing.fillFrameList();
-    
+
+	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4);
 }
+
+void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
+	
+	for (int i = 0; i < bufferSize; ++i) {
+		
+		double mix = 0;
+		mix += synths::fmSynth[0].play(100, 0.25, 1.3, 200);
+		
+		output[i*nChannels]     = 	mix;
+		output[i*nChannels + 1] =	output[i*nChannels];
+		
+	}
+
+}
+
+
 
 void ofApp::structure() {
     int frame = timing.getFrame();
     int frameNum = 2000; // temporary: still need to implement a better way of sequencing the state changes
-    if (frame % frameNum == 0) {
+    if (frame % frameNum == 0)
         states.changeState();
-    }
-    
     switch (states.getCurrent()) {
         case 1:
             light.enable();
-            if (frame % 4000 == 0) {
+            if (frame % 4000 == 0)
                 points[0].init(width,height,depth);
-            }
             break;
         case 2:
             light.disable();
@@ -87,7 +102,7 @@ void ofApp::structure() {
 
 void ofApp::update() {
 
-    structure();
+    structure(); // call the function that determines the state changes over time
 
     for (int i = 0; i < 4; ++i) {
         attractor[i].light.disable();
@@ -100,116 +115,71 @@ void ofApp::update() {
     lines[0].update(width,height,depth,4);
     points[0].update(width,height,depth);
     model[0].render(0,-height/16,0,2,175,5);
-    // model[1].render(0,0,0,2,50,5);
     for(int i = 0; i < numattractors; ++i) {
-      attractor[i].limit(width,height,depth);
-      attractor[i].lighton();
-      attractor[i].update(25);
-      points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
-      for(int j=0;j<=numattractors;j++){
-        if(j != i){
-          attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
+		attractor[i].limit(width,height,depth);
+        attractor[i].lighton();
+        attractor[i].update(25);
+        points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
+        for(int j = 0; j <= numattractors; j++)
+		    if (j != i)
+				attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
         }
-      }
-    }
-    wtarray.update(width, height, depth, points[0].vertices);
-    maxpatch.sendFloat("points_vel", points[0].velavrg());
-    maxpatch.sendFloat("points_area", points[0].area());
-    maxpatch.sendFloat("attractor2_posx", (attractor[1].pos.x));
-    maxpatch.sendFloat("attractor3_posx", (attractor[2].pos.x));
-    maxpatch.sendFloat("attractor2_posy", (attractor[1].pos.y));
-    maxpatch.sendFloat("attractor3_posy", (attractor[2].pos.y));
-    maxpatch.sendFloat("attractor2_posz", (attractor[1].pos.z));
-    maxpatch.sendFloat("attractor3_posz", (attractor[2].pos.z));
-    wtarray.send();
-    
-    if(points[0].state == 1) {
-      maxpatch.sendBang("pointstate_1");
-      points[0].state = 0;
-    }
-    if(model[0].bang == true){
-      maxpatch.sendBang("model0render");
-      model[0].bang = false;
-    }
-    if(model[1].bang == true){
-      maxpatch.sendBang("model1render");
-      model[1].bang = false;
-    }
-    if(lines[0].bang == true){
-      maxpatch.sendBang("bluelines");
-      lines[0].bang = false;
-    }
-    if(counter.get() == 0){
-        maxpatch.sendFloat("wtfreq",40);
-        counter.setMax(ofRandom(12,24)*100);
-    }
-    
-    maxpatch.sendFloat("current_time", timing.getFrame());
-    maxpatch.sendFloat("state", states.getCurrent());
-}
+	}
 
 void ofApp::draw(){
     space.cam.begin();
     space.drawBackground(0, 25);
     space.drawWireframe(8, 25);
     points[0].draw(250, 250, granprob);
-    for (int i=0;i<numattractors;i++){
+    for (int i = 0; i < numattractors; ++i)
         attractor[i].draw(10,5);
-    }
-    lines[0].draw(0,0,255,25);
-    model[0].draw(250,50,180,180,0.01);
-    // model[1].draw(250,50,180,180,0.01);
-    // mesh[0].draw(250,25);
+    lines[0].draw(0, 0, 255, 25);
+    model[0].draw(250, 50, 180, 180, 0.01);
     space.cam.end();
     timing.displayData();
 }
 
 void ofApp::keyPressed(int key){
-  // space.movecam(key);
-  if(key == '=') {
-    maxpatch.sendBang("toggledac");
-  }
-    
-  if(key == '1') {
-    space.framedraw = !space.framedraw;
-  }
-    
-  if(key == '2') {
-    for(int i=0;i<4;i++){
-      attractor[i].attract = !attractor[i].attract;
-    }
-  }
-    
-  if(key == 'r') {
-    points[0].stop();
-    for(int i=0;i<numattractors;i++){
-      attractor[i].init(width,height,depth);
-      if(i == 0){
-        attractor[0].pos.set(0,0,0);
-      }
-      ofBackground(0);
-    }
-  }
-    
-  if(key == ' ') {
-    numattractors += 1;
-    numattractors = numattractors%5;
-    points[0].stop();
-    for(int i=0;i<numattractors;i++){
-      attractor[i].init(width,height,depth);
-      if(i == 0){
-          attractor[0].pos.set(0,0,0);
-        }
-      }
-      ofBackground(0);
-    }
-    
-    if (key == 'f') {
-        ofToggleFullscreen();
-    }
-
+	
+	space.movecam(key);
+	
+	switch (key) {
+		case '1':
+		    space.framedraw = !space.framedraw;
+			break;
+		case '2':
+			for(int i = 0; i < 4; i++)
+				attractor[i].attract = !attractor[i].attract;
+			break;
+		case 'r':
+			points[0].stop();
+			for(int i = 0; i < numattractors; i++) {
+				attractor[i].init(width, height, depth);
+				if(i == 0)
+					attractor[0].pos.set(0,0,0);
+				ofBackground(0);
+			}
+			break;
+		case ' ':
+			numattractors += 1;
+			numattractors = numattractors % 5;
+			points[0].stop();
+			for(int i = 0; i < numattractors; i++) {
+				attractor[i].init(width,height,depth);
+				if(i == 0) attractor[0].pos.set(0,0,0);
+			}
+			ofBackground(0);
+			break;
+		case 'f':
+			ofToggleFullscreen();
+			break;
+		default:
+			break;
+	}
 }
+			
 
+/*
 void ofApp::keyReleased(int key){
 
 }
@@ -249,3 +219,4 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
+*/
