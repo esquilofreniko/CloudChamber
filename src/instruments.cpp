@@ -1,10 +1,12 @@
 #include "instruments.h"
 
-double Partial::play(double f, double a) {
-	return a * partial.sinewave(f);
+Fm::Fm() {
+	f = 80;
+	a = 1;
+	ratio = 1.3;
+	index = 300;
 }
 
-double Fm::play(double f, double a, double ratio, double index) {
-	double wave = a * carrier.sinewave(f + (index * modulator.sinewave(f * ratio)));
-	return wave;
+double Fm::output() {
+	return a * (carrier.sinewave(f + (index * modulator.sinewave(f * ratio))));
 }

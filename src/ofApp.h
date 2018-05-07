@@ -8,6 +8,7 @@
 
 #include "model.h"
 #include "instruments.h"
+#include "mixer.h"
 #include "space.h"
 #include "shapes.h"
 #include "attractor.h"
@@ -37,8 +38,9 @@ class ofApp : public ofBaseApp {
         int granprob = 2;
         int divisionsize = 32;
 	
-
-
+		double mix;
+		double f;
+	
         ofLight light;
         Space space;
         Attractor attractor[4];
@@ -50,6 +52,11 @@ class ofApp : public ofBaseApp {
         Timing timing;
         ofxOscReceiver receiver;
         States states;
+		Clifford clifford;
+	
+	    Mixer mixer;
+	
+		Fm fm[8];
 
         int width = space.width;
         int height = space.height;

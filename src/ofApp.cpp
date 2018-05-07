@@ -1,10 +1,5 @@
 #include "ofApp.h"
 
-namespace synths {
-	vector<Partial> partials(32);
-	vector<Fm> fmSynth(32);
-}
-
 void ofApp::setup() {
     ofEnableLighting();
     ofSetVerticalSync(true);
@@ -19,40 +14,56 @@ void ofApp::setup() {
     light.setAttenuation(1, (0.000001), (0.000001));
     mesh[0].init(-width / 4, -height / 4, -depth / 4, width / 4, height / 4, depth / 4);
     model[0].init("heart.obj", 1);
-    for(int i = 0; i < 4; i++)
-        attractor[i].init(width, height, depth);
-
-	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4);
+    for(int i = 0; i < 4; i++) attractor[i].init(width, height, depth);
+	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
 }
 
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
-	
 	for (int i = 0; i < bufferSize; ++i) {
 		
-		double mix = 0;
-		mix += synths::fmSynth[0].play(100, 0.25, 1.3, 200);
+		// test sounds
 		
+		double amps[4] = {0.2, 0.3, 0.5, 0.7};
+		
+		fm[0].f = 100;
+		mixer.assign(1, fm[0].output());
+		mixer.setLevel(1, amps[0]);
+		
+		fm[1].f = 10000;
+		mixer.assign(2, fm[1].output());
+		mixer.setLevel(2, amps[1]);
+		
+		fm[2].f = 5000;
+		mixer.assign(3, fm[0].output());
+		mixer.setLevel(3, amps[2]);
+		
+		fm[3].f = 9000;
+		mixer.assign(4, fm[1].output());
+		mixer.setLevel(4, amps[3]);
+		
+		mix = mixer.output();
+		
+
+
 		output[i*nChannels]     = 	mix;
 		output[i*nChannels + 1] =	output[i*nChannels];
-		
 	}
-
 }
 
-
-
 void ofApp::structure() {
-    int frame = timing.getFrame();
-    int frameNum = 2000; // temporary: still need to implement a better way of sequencing the state changes
-    if (frame % frameNum == 0)
-        states.changeState();
+	int frame = ofGetFrameNum();
+    int change = 2000; // temporary: still need to implement a better way of sequencing the state changes
+    if (frame % change == 0) states.changeState();
     switch (states.getCurrent()) {
         case 1:
             light.enable();
-            if (frame % 4000 == 0)
-                points[0].init(width,height,depth);
+            if (frame % 4000 == 0) points[0].init(width,height,depth);
             break;
         case 2:
+			// audio
+			fm[0].f = 10000;
+			fm[0].a = 0.1;
+			// visual
             light.disable();
             numattractors = 1;
             attractor[0].f = 2;
@@ -78,14 +89,10 @@ void ofApp::structure() {
             break;
         case 6:
             lines[0].active = true;
-            if (model[0].vertexcounter == 0) {
-                model[0].active = false;
-            }
+            if (model[0].vertexcounter == 0) model[0].active = false;
             break;
         case 7:
-            if (model[0].vertexcounter == 0) {
-                model[0].active = false;
-            }
+            if (model[0].vertexcounter == 0) model[0].active = false;
             break;
         case 8:
             if (frame % 4000 == 0) {
@@ -101,38 +108,29 @@ void ofApp::structure() {
 }
 
 void ofApp::update() {
-
-    structure(); // call the function that determines the state changes over time
-
-    for (int i = 0; i < 4; ++i) {
-        attractor[i].light.disable();
-    }
-    
-    if(timing.getFrame() % 800 == 0) {
-        lines[0].clear(width, height, depth, 5);
-    }
-    
-    lines[0].update(width,height,depth,4);
-    points[0].update(width,height,depth);
-    model[0].render(0,-height/16,0,2,175,5);
+    structure(); // call the function that determines state changes over time
+    for (int i = 0; i < 4; ++i) attractor[i].light.disable();
+    if(timing.getFrame() % 800 == 0) lines[0].clear(width, height, depth, 5);
+    lines[0].update(width, height, depth, 4);
+    points[0].update(width, height, depth);
+    model[0].render(0, -height / 16, 0, 2, 175, 5);
     for(int i = 0; i < numattractors; ++i) {
-		attractor[i].limit(width,height,depth);
+		attractor[i].limit(width, height, depth);
         attractor[i].lighton();
         attractor[i].update(25);
-        points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
+        points[0].attracted(attractor[i].pos, attractor[i].f, numattractors);
         for(int j = 0; j <= numattractors; j++)
-		    if (j != i)
-				attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
-        }
+		    if (j != i) attractor[j].attracted(attractor[i].pos, attractor[i].f, numattractors);
 	}
+			std::cout << mixer.output() << '\n';
+}
 
 void ofApp::draw(){
     space.cam.begin();
     space.drawBackground(0, 25);
     space.drawWireframe(8, 25);
     points[0].draw(250, 250, granprob);
-    for (int i = 0; i < numattractors; ++i)
-        attractor[i].draw(10,5);
+    for (int i = 0; i < numattractors; ++i) attractor[i].draw(10,5);
     lines[0].draw(0, 0, 255, 25);
     model[0].draw(250, 50, 180, 180, 0.01);
     space.cam.end();
@@ -140,9 +138,7 @@ void ofApp::draw(){
 }
 
 void ofApp::keyPressed(int key){
-	
 	space.movecam(key);
-	
 	switch (key) {
 		case '1':
 		    space.framedraw = !space.framedraw;
@@ -156,7 +152,7 @@ void ofApp::keyPressed(int key){
 			for(int i = 0; i < numattractors; i++) {
 				attractor[i].init(width, height, depth);
 				if(i == 0)
-					attractor[0].pos.set(0,0,0);
+					attractor[0].pos.set(0, 0, 0);
 				ofBackground(0);
 			}
 			break;
@@ -165,8 +161,8 @@ void ofApp::keyPressed(int key){
 			numattractors = numattractors % 5;
 			points[0].stop();
 			for(int i = 0; i < numattractors; i++) {
-				attractor[i].init(width,height,depth);
-				if(i == 0) attractor[0].pos.set(0,0,0);
+				attractor[i].init(width, height, depth);
+				if(i == 0) attractor[0].pos.set(0, 0, 0);
 			}
 			ofBackground(0);
 			break;
@@ -177,8 +173,6 @@ void ofApp::keyPressed(int key){
 			break;
 	}
 }
-			
-
 /*
 void ofApp::keyReleased(int key){
 

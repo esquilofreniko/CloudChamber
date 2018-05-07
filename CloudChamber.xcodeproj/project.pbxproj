@@ -23,6 +23,8 @@
 		640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2FAC65C491D4231379F3298 /* ofxOscReceiver.cpp */; };
 		67FE4C7B15C2F0478C8126C2 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B361208CD4107E479F04E7B /* NetworkingUtils.cpp */; };
 		72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65EEFA3DA3526E9CDD9C21F9 /* ofxOscBundle.cpp */; };
+		8234DA6020905A9000113307 /* generative.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8234DA5F20905A9000113307 /* generative.cpp */; };
+		8280EA9520A0654D00D76636 /* mixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8280EA9420A0654D00D76636 /* mixer.cpp */; };
 		82972CA220903B4C000DF879 /* instruments.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82972CA120903B4C000DF879 /* instruments.cpp */; };
 		879A251454401BC0B6E4F238 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9BFFBBF4CC43DEE890B3C3E /* OscTypes.cpp */; };
 		8DED5056525646FA71980866 /* ofxAssimpModelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDE55D82BD962DAC0E94B708 /* ofxAssimpModelLoader.cpp */; };
@@ -127,6 +129,10 @@
 		80CD68E0DDF2C60D2715CC78 /* stb_vorbis.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 30; name = stb_vorbis.c; path = ../../../addons/ofxMaxim/libs/stb_vorbis.c; sourceTree = SOURCE_ROOT; };
 		81967292BFC87A0144BD32C6 /* ofxOscSender.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscSender.cpp; path = ../../../addons/ofxOsc/src/ofxOscSender.cpp; sourceTree = SOURCE_ROOT; };
 		8199BC3B540CE5DB19473A79 /* states.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = states.h; path = src/states.h; sourceTree = SOURCE_ROOT; };
+		8234DA5E20905A6C00113307 /* generative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = generative.h; sourceTree = "<group>"; };
+		8234DA5F20905A9000113307 /* generative.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = generative.cpp; sourceTree = "<group>"; };
+		8280EA9420A0654D00D76636 /* mixer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mixer.cpp; sourceTree = "<group>"; };
+		8280EA9620A0655D00D76636 /* mixer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mixer.h; sourceTree = "<group>"; };
 		82972CA020903B39000DF879 /* instruments.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = instruments.h; sourceTree = "<group>"; };
 		82972CA120903B4C000DF879 /* instruments.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = instruments.cpp; sourceTree = "<group>"; };
 		8692427C3B9EAEDFB32AF20B /* mapping.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = mapping.h; path = src/mapping.h; sourceTree = SOURCE_ROOT; };
@@ -461,6 +467,10 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				82972CA020903B39000DF879 /* instruments.h */,
 				82972CA120903B4C000DF879 /* instruments.cpp */,
+				8280EA9420A0654D00D76636 /* mixer.cpp */,
+				8280EA9620A0655D00D76636 /* mixer.h */,
+				8234DA5E20905A6C00113307 /* generative.h */,
+				8234DA5F20905A9000113307 /* generative.cpp */,
 				E220FDD50BB78EEE546CF383 /* attractor.h */,
 				DE734CD863CB8BC4E6906E01 /* clifford.cpp */,
 				EC7C5A623F3B28C54B2159E5 /* clifford.h */,
@@ -611,7 +621,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
+				8234DA6020905A9000113307 /* generative.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
+				8280EA9520A0654D00D76636 /* mixer.cpp in Sources */,
 				26AB88635F3BFC5698360FF9 /* clifford.cpp in Sources */,
 				D0FF29BDE10475792D686FD0 /* counter.cpp in Sources */,
 				2593C6B09A5526E4B00DBECB /* movingAverage.cpp in Sources */,

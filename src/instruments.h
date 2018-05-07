@@ -3,18 +3,15 @@
 
 #include "ofxMaxim.h"
 
-struct Fm {
-public:
+class Fm {
+	public:
+	Fm();
 	maxiOsc carrier, modulator;
-	double play(double f, double a, double ratio, double index);
+	double f;
+	double a;
+	double ratio;
+	double index;
+	double output();
 };
 
-struct Partial {
-public:
-	maxiOsc partial;
-	double play(double f, double a);
-};
-
-
-
-#endif /* synthesis_h */
+#endif /* instruments_h */
