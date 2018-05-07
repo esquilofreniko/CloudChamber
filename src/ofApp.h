@@ -5,6 +5,7 @@
 #include "ofxMaxim.h"
 #include "ofxAssimpModelLoader.h"
 #include "ofVboMesh.h"
+#include <algorithm>
 
 #include "model.h"
 #include "instruments.h"
@@ -17,6 +18,7 @@
 #include "random.h"
 #include "timing.h"
 #include "states.h"
+#include "wtarray.h"
 
 class ofApp : public ofBaseApp {
     public:
@@ -74,6 +76,7 @@ class ofApp : public ofBaseApp {
         int height = space.height;
         int depth = space.depth;
 
+        WtArray wta;
         maxiOsc osc1;
         maxiOsc osc2;
         maxiDelayline dl1;

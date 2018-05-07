@@ -20,21 +20,37 @@ void ofApp::setup() {
 
 int acounter = 0;
 
+
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
+  wta.update(width/2,height/2,depth/2,points[0].vertices);
 	for (int i = 0; i < bufferSize; ++i) {
+    if(i>=0 && i<128){
+      mix = wta.wtx[0][i];
+    }
+    else if(i>=128 && i<256){
+      mix = 1 - wta.wtx[1][i];
+    }
+    else if(i>=256 && i<384){
+      mix = (wta.wtx[2][i-256]) * -1;
+    }
+    else if(i>=384 && i<512){
+      mix = (1 - wta.wtx[3][i-384]) * - 1;
+    }
+
+    mix *= 0.1;
 
 		// test sounds
 
-    for(int i=0;i<128;i++){
-        fm[i].f = abs(points[0].vertices[i].x)*2;
-        fm[i].a = 0.1;
-        fm[i].index = abs(points[0].vertices[i].y)*2;
-        fm[i].ratio = abs(points[0].vertices[i].z)*2;
-      mixer.assign(i+1, fm[i].output());
-    }
-
-		mix = mixer.output();
-    mix = f1.lores(mix,abs(osc2.sinewave(0.01))*5000 + 100 ,1);
+    // for(int i=0;i<128;i++){
+    //     fm[i].f = abs(points[0].vertices[i].x)*2;
+    //     fm[i].a = 0.1;
+    //     fm[i].index = abs(points[0].vertices[i].y)*2;
+    //     fm[i].ratio = abs(points[0].vertices[i].z)*2;
+    //   mixer.assign(i+1, fm[i].output());
+    // }
+    //
+		// mix = mixer.output();
+    // mix = f1.lores(mix,abs(osc2.sinewave(0.01))*5000 + 100 ,1);
 
     //mix = m1.fastAtanDist(mix,80);
 

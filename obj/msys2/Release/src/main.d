@@ -144,7 +144,8 @@ obj/msys2/Release/src/main.o: \
  E:/ofxmsys/apps/myApps/CloudChamber/src/random.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/timing.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/mapping.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/states.h
+ E:/ofxmsys/apps/myApps/CloudChamber/src/states.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/wtarray.h
 
 E:/ofxmsys/libs/openFrameworks/ofMain.h:
 
@@ -435,3 +436,5 @@ E:/ofxmsys/apps/myApps/CloudChamber/src/timing.h:
 E:/ofxmsys/apps/myApps/CloudChamber/src/mapping.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/states.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/wtarray.h:
