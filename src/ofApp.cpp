@@ -18,41 +18,47 @@ void ofApp::setup() {
 	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
 }
 
+int acounter = 0;
+
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 	for (int i = 0; i < bufferSize; ++i) {
-		
-		// test sounds
-		
-		double amps[4] = {0.2, 0.3, 0.5, 0.7};
-		
-		fm[0].f = 100;
-		mixer.assign(1, fm[0].output());
-		mixer.setLevel(1, amps[0]);
-		
-		fm[1].f = 10000;
-		mixer.assign(2, fm[1].output());
-		mixer.setLevel(2, amps[1]);
-		
-		fm[2].f = 5000;
-		mixer.assign(3, fm[0].output());
-		mixer.setLevel(3, amps[2]);
-		
-		fm[3].f = 9000;
-		mixer.assign(4, fm[1].output());
-		mixer.setLevel(4, amps[3]);
-		
-		mix = mixer.output();
-		
 
+		// test sounds
+
+    for(int i=0;i<128;i++){
+        fm[i].f = abs(points[0].vertices[i].x)*2;
+        fm[i].a = 0.1;
+        fm[i].index = abs(points[0].vertices[i].y)*2;
+        fm[i].ratio = abs(points[0].vertices[i].z)*2;
+      mixer.assign(i+1, fm[i].output());
+    }
+
+		mix = mixer.output();
+    mix = f1.lores(mix,abs(osc2.sinewave(0.01))*5000 + 100 ,1);
+
+    //mix = m1.fastAtanDist(mix,80);
+
+    // mix = osc1.saw(55);
+
+    // if(acounter == 0){
+    //   k1.setPitch(10000);
+    //   k1.setRelease(250);
+    //   k1.trigger();
+    // }
+    // mix = k1.play();
+
+//    mix = dl1.dl(mix,4,0.5,0.5);
 
 		output[i*nChannels]     = 	mix;
 		output[i*nChannels + 1] =	output[i*nChannels];
 	}
+  acounter += 1;
+  acounter %= 100;
 }
 
 void ofApp::structure() {
 	int frame = ofGetFrameNum();
-    int change = 2000; // temporary: still need to implement a better way of sequencing the state changes
+    int change = 1000; // temporary: still need to implement a better way of sequencing the state changes
     if (frame % change == 0) states.changeState();
     switch (states.getCurrent()) {
         case 1:
@@ -173,7 +179,7 @@ void ofApp::keyPressed(int key){
 			break;
 	}
 }
-/*
+
 void ofApp::keyReleased(int key){
 
 }
@@ -213,4 +219,3 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
-*/

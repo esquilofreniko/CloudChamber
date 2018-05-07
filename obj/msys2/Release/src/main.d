@@ -120,22 +120,31 @@ obj/msys2/Release/src/main.o: \
  E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h \
  E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h \
  E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h \
+ E:/ofxmsys/addons/ofxMaxim/src/ofxMaxim.h \
+ E:/ofxmsys/addons/ofxMaxim/libs/maximilian.h \
+ E:/ofxmsys/addons/ofxMaxim/libs/maxiFFT.h \
+ E:/ofxmsys/addons/ofxMaxim/libs/fft.h \
+ E:/ofxmsys/addons/ofxMaxim/libs/maxiGrains.h \
+ E:/ofxmsys/addons/ofxMaxim/libs/maximilian.h \
+ E:/ofxmsys/addons/ofxMaxim/libs/maxiMFCC.h \
+ E:/ofxmsys/addons/ofxMaxim/libs/maxiFFT.h \
+ E:/ofxmsys/addons/ofxMaxim/libs/maxiBark.h \
  E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpModelLoader.h \
  E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpMeshHelper.h \
  E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpTexture.h \
  E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpAnimation.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/model.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/wtarray.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/instruments.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/mixer.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/space.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/shapes.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/attractor.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/moving_average.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/counter.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/random.h \
+ E:/ofxmsys/apps/myApps/CloudChamber/src/timing.h \
  E:/ofxmsys/apps/myApps/CloudChamber/src/mapping.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/osc.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/timing.h
+ E:/ofxmsys/apps/myApps/CloudChamber/src/states.h
 
 E:/ofxmsys/libs/openFrameworks/ofMain.h:
 
@@ -377,6 +386,24 @@ E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h:
 
 E:/ofxmsys/addons/ofxOsc/libs/oscpack/src/ip/PacketListener.h:
 
+E:/ofxmsys/addons/ofxMaxim/src/ofxMaxim.h:
+
+E:/ofxmsys/addons/ofxMaxim/libs/maximilian.h:
+
+E:/ofxmsys/addons/ofxMaxim/libs/maxiFFT.h:
+
+E:/ofxmsys/addons/ofxMaxim/libs/fft.h:
+
+E:/ofxmsys/addons/ofxMaxim/libs/maxiGrains.h:
+
+E:/ofxmsys/addons/ofxMaxim/libs/maximilian.h:
+
+E:/ofxmsys/addons/ofxMaxim/libs/maxiMFCC.h:
+
+E:/ofxmsys/addons/ofxMaxim/libs/maxiFFT.h:
+
+E:/ofxmsys/addons/ofxMaxim/libs/maxiBark.h:
+
 E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpModelLoader.h:
 
 E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpMeshHelper.h:
@@ -387,7 +414,9 @@ E:/ofxmsys/addons/ofxAssimpModelLoader/src/ofxAssimpAnimation.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/model.h:
 
-E:/ofxmsys/apps/myApps/CloudChamber/src/wtarray.h:
+E:/ofxmsys/apps/myApps/CloudChamber/src/instruments.h:
+
+E:/ofxmsys/apps/myApps/CloudChamber/src/mixer.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/space.h:
 
@@ -397,14 +426,12 @@ E:/ofxmsys/apps/myApps/CloudChamber/src/attractor.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h:
 
-E:/ofxmsys/apps/myApps/CloudChamber/src/moving_average.h:
-
 E:/ofxmsys/apps/myApps/CloudChamber/src/counter.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/random.h:
 
+E:/ofxmsys/apps/myApps/CloudChamber/src/timing.h:
+
 E:/ofxmsys/apps/myApps/CloudChamber/src/mapping.h:
 
-E:/ofxmsys/apps/myApps/CloudChamber/src/osc.h:
-
-E:/ofxmsys/apps/myApps/CloudChamber/src/timing.h:
+E:/ofxmsys/apps/myApps/CloudChamber/src/states.h:

@@ -25,6 +25,18 @@ class ofApp : public ofBaseApp {
         void update();
         void draw();
         void keyPressed(int key);
+        void keyReleased(int key);
+        void mouseMoved(int x, int y);
+        void mouseDragged(int x, int y, int button);
+        void mousePressed(int x, int y, int button);
+        void mouseReleased(int x, int y, int button);
+        void mouseEntered(int x, int y);
+        void mouseExited(int x, int y);
+        void windowResized(int w, int h);
+        void gotMessage(ofMessage msg);
+        void dragEvent(ofDragInfo dragInfo);
+
+
 
 		int initialBufferSize;
 		const int sampleRate = 44100;
@@ -37,10 +49,10 @@ class ofApp : public ofBaseApp {
         int bgresetmax = 128;
         int granprob = 2;
         int divisionsize = 32;
-	
+
 		double mix;
 		double f;
-	
+
         ofLight light;
         Space space;
         Attractor attractor[4];
@@ -53,13 +65,19 @@ class ofApp : public ofBaseApp {
         ofxOscReceiver receiver;
         States states;
 		Clifford clifford;
-	
+
 	    Mixer mixer;
-	
-		Fm fm[8];
+
+		    Fm fm[512];
 
         int width = space.width;
         int height = space.height;
         int depth = space.depth;
-    
+
+        maxiOsc osc1;
+        maxiOsc osc2;
+        maxiDelayline dl1;
+        maxiFilter f1;
+        maxiDistortion m1;
+        maxiKick k1;
 };
