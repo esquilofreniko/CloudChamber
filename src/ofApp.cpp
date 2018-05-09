@@ -18,37 +18,50 @@ void ofApp::setup() {
 	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
 }
 
-int acounter = 0;
+double ofApp::wavetable(int sample, const int bufferSize) {
+	if (sample >= 0 && sample < bufferSize * 0.25)
+		return wta.wtx[0][sample];
+	else if (sample >= bufferSize * 0.25 && sample < bufferSize * 0.5)
+		return 1 - wta.wtx[1][sample];
+	else if (sample >= bufferSize * 0.5 && sample < bufferSize * 0.75)
+		return wta.wtx[2][sample-256] * -1;
+	else if (sample >= bufferSize * 0.75 && sample < bufferSize)
+		return 1 - wta.wtx[3][sample - 384] * - 1;
+	else
+		return 0;
+}
 
+int acounter = 0;
 
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
   wta.update(width/2,height/2,depth/2,points[0].vertices);
-	for (int i = 0; i < bufferSize; ++i) {
-    if(i>=0 && i<128){
-      mix = wta.wtx[0][i];
-    }
-    else if(i>=128 && i<256){
-      mix = 1 - wta.wtx[1][i];
-    }
-    else if(i>=256 && i<384){
-      mix = (wta.wtx[2][i-256]) * -1;
-    }
-    else if(i>=384 && i<512){
-      mix = (1 - wta.wtx[3][i-384]) * - 1;
-    }
+	for (int sample = 0; sample < bufferSize; ++sample) {
+		
 
-    mix *= 0.1;
+		double a = f1.lores(wavetable(sample, 512), 100, 0.9);
+		
+		double b = f1.hires(wavetable(sample, 512), 10000, 0.4);
+		
+		
+		mixer.assign(1, a);
+		mixer.assign(2, b);
+		mixer.setLevel(1, 0.5);
+		mixer.setLevel(2, 0.01);
 
-		// test sounds
 
-    // for(int i=0;i<128;i++){
-    //     fm[i].f = abs(points[0].vertices[i].x)*2;
-    //     fm[i].a = 0.1;
-    //     fm[i].index = abs(points[0].vertices[i].y)*2;
-    //     fm[i].ratio = abs(points[0].vertices[i].z)*2;
-    //   mixer.assign(i+1, fm[i].output());
-    // }
-    //
+	// test sounds
+		/*
+    for(int i=0;i<128;i++){
+         fm[i].f = abs(points[0].vertices[i].x)*2;
+         fm[i].a = 0.1;
+         fm[i].index = abs(points[0].vertices[i].y)*2;
+         fm[i].ratio = abs(points[0].vertices[i].z)*2;
+       mixer.assign(2, fm[i].output());
+    }
+		 */
+	
+
+
 		// mix = mixer.output();
     // mix = f1.lores(mix,abs(osc2.sinewave(0.01))*5000 + 100 ,1);
 
@@ -65,17 +78,17 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
 //    mix = dl1.dl(mix,4,0.5,0.5);
 
-		output[i*nChannels]     = 	mix;
-		output[i*nChannels + 1] =	output[i*nChannels];
+		// summed mixer output is sent to audio output
+		output[sample * nChannels]     = 	mixer.output();
+		output[sample * nChannels + 1] =	output[sample * nChannels];
 	}
-  acounter += 1;
-  acounter %= 100;
+  acounter = (acounter + 1 % 100);
 }
 
 void ofApp::structure() {
 	int frame = ofGetFrameNum();
     int change = 1000; // temporary: still need to implement a better way of sequencing the state changes
-    if (frame % change == 0) states.changeState();
+    if (frame % change == 0) states.changeState(states.getCurrent() + 1);
     switch (states.getCurrent()) {
         case 1:
             light.enable();
@@ -144,7 +157,6 @@ void ofApp::update() {
         for(int j = 0; j <= numattractors; j++)
 		    if (j != i) attractor[j].attracted(attractor[i].pos, attractor[i].f, numattractors);
 	}
-			std::cout << mixer.output() << '\n';
 }
 
 void ofApp::draw(){

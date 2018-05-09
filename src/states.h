@@ -10,7 +10,7 @@ private:
 public:
     States();
     void genLengths();
-    void changeState();
+    void changeState(int newState);
     int getCurrent();
 };
 

@@ -26,6 +26,7 @@ class ofApp : public ofBaseApp {
         void setup();
         void update();
         void draw();
+		double wavetable(int sample, const int bufferSize);
         void keyPressed(int key);
         void keyReleased(int key);
         void mouseMoved(int x, int y);
@@ -37,8 +38,6 @@ class ofApp : public ofBaseApp {
         void windowResized(int w, int h);
         void gotMessage(ofMessage msg);
         void dragEvent(ofDragInfo dragInfo);
-
-
 
 		int initialBufferSize;
 		const int sampleRate = 44100;
@@ -70,7 +69,7 @@ class ofApp : public ofBaseApp {
 
 	    Mixer mixer;
 
-		    Fm fm[512];
+		Fm fm[512];
 
         int width = space.width;
         int height = space.height;
