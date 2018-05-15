@@ -14,7 +14,7 @@ void ofApp::setup() {
     light.setAttenuation(1, (0.000001), (0.000001));
     mesh[0].init(-width / 4, -height / 4, -depth / 4, width / 4, height / 4, depth / 4);
     model[0].init("heart.obj", 1);
-    light.enable();
+    light.disable();
     points[0].init(width,height,depth);
     for(int i = 0; i < 4; i++) attractor[i].init(width, height, depth);
 	   ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
@@ -33,6 +33,8 @@ double ofApp::wavetable(int sample, const int bufferSize) {
 		return 0;
 }
 
+int acounter = 0;
+
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
   wta.update(width/2,height/2,depth/2,points[0].vertices);
   fm[0].index = (points[0].velavrg()*1000)+1000;
@@ -47,7 +49,7 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
     if (points[0].state == 1) {
 		  h1.setPitch(ofRandom(1000,1000));
-	    h1.setRelease(ofRandom(200,2000));
+	    h1.setRelease(ofRandom(20,2000));
       h1.useFilter = true;
       h1.cutoff = 5000;
       h1.trigger();
@@ -55,7 +57,34 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
     double b = h1.play();
     b = m1.fastAtanDist(b, 4);
     mixer.assign(2,b);
-    mixer.setLevel(2,0.2);
+    mixer.setLevel(2,ofRandom(0,0.5));
+
+    if(model[0].bang == true){
+      k1.setPitch(100);
+      k1.setRelease(ofRandom(50,200));
+      k1.useDistortion = true;
+      k1.distortion = ofRandom(4,4);
+      k1.useFilter = true;
+      k1.resonance = ofRandom(8,16);
+      k1.cutoff = ofRandom(10,10000);
+      k1.useLimiter = true;
+      k1.trigger();
+    }
+    double c = 0;
+    c = k1.play();
+    mixer.assign(3,c);
+    mixer.setLevel(3,0.2);
+
+    if(lines[0].bang == true){
+      s1.setPitch(ofRandom(100,10000));
+      s1.setRelease(50);
+      s1.useLimiter = true;
+      s1.trigger();
+    }
+    double d = 0;
+    d = s1.play();
+    mixer.assign(4,d);
+    mixer.setLevel(4,1);
 
    // mix = dl1.dl(mix,4,0.5,0.5);
 
@@ -64,9 +93,12 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 	output[sample * nChannels + 1] = 	output[sample * nChannels];
 	}
   points[0].state = 0;
+  model[0].bang = false;
+  lines[0].bang = false;
+  acounter = (acounter + 1) % 100;
 }
 
-int bgalpha = 25;
+int bgalpha = 20;
 
 void ofApp::structure() {
 	int frame = ofGetFrameNum();
@@ -74,15 +106,15 @@ void ofApp::structure() {
     if (frame % change == 0) states.changeState(states.getCurrent() + 1);
     switch (states.getCurrent()) {
         case 1:
-          bgalpha = 25;
-          granprob = 1;
-          numattractors = 0;
+          bgalpha = 20;
+          granprob = 0;
+          light.disable();
+          numattractors = 1;
+          attractor[0].f = 2;
+          attractor[0].pos.set(0,0,0);
           break;
         case 2:
-            light.disable();
-            numattractors = 1;
-            attractor[0].f = 2;
-            attractor[0].pos.set(0,0,0);
+            granprob = 1;
             break;
         case 3:
             attractor[0].f = -2;
@@ -103,11 +135,11 @@ void ofApp::structure() {
             }
             break;
         case 6:
-            lines[0].active = true;
+            granprob = 0;
             if (model[0].vertexcounter == 0) model[0].active = false;
             break;
         case 7:
-            granprob = 0;
+            lines[0].active = true;
             if (model[0].vertexcounter == 0) model[0].active = false;
             break;
         case 8:
@@ -119,15 +151,16 @@ void ofApp::structure() {
             }
             break;
         case 9:
-            bgalpha = 5;
+            bgalpha = 10;
             break;
         case 10:
             numattractors = 0;
           break;
         case 11:
-            granprob = 0;
-            bgalpha = 5;
+            bgalpha = 20;
             lines[0].active = false;
+            granprob = 0;
+            numattractors = 0;
             break;
         case 12:
             states.changeState(1);
@@ -141,10 +174,10 @@ void ofApp::structure() {
 void ofApp::update() {
     structure(); // call the function that determines state changes over time
     for (int i = 0; i < 4; ++i) attractor[i].light.disable();
-    if(timing.getFrame() % 800 == 0) lines[0].clear(width, height, depth, 5);
+    if(timing.getFrame() % 800 == 0) lines[0].clear(width, height, depth, 1);
     lines[0].update(width, height, depth, 4);
     points[0].update(width, height, depth);
-    model[0].render(0, -height / 16, 0, 2, 175, 5);
+    model[0].render(0, -height / 16, 0, 2, 250, 5);
     for(int i = 0; i < numattractors; ++i) {
 		attractor[i].limit(width, height, depth);
         attractor[i].lighton();
