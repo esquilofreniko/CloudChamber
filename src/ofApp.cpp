@@ -14,30 +14,78 @@ void ofApp::setup() {
     light.setAttenuation(1, (0.000001), (0.000001));
     mesh[0].init(-width / 4, -height / 4, -depth / 4, width / 4, height / 4, depth / 4);
     model[0].init("heart.obj", 1);
-    //model[1].init("head.obj",1);
-    for(int i = 0; i < 4; i++) {
-        attractor[i].init(width, height, depth);
+    light.enable();
+    points[0].init(width,height,depth);
+    for(int i = 0; i < 4; i++) attractor[i].init(width, height, depth);
+	   ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
+}
+
+double ofApp::wavetable(int sample, const int bufferSize) {
+	if (sample >= 0 && sample < bufferSize * 0.25)
+		return wta.wtx[0][sample];
+	else if (sample >= bufferSize * 0.25 && sample < bufferSize * 0.5)
+		return 1 - wta.wtx[1][sample];
+	else if (sample >= bufferSize * 0.5 && sample < bufferSize * 0.75)
+		return wta.wtx[2][sample-256] * -1;
+	else if (sample >= bufferSize * 0.75 && sample < bufferSize)
+		return 1 - wta.wtx[3][sample - 384] * - 1;
+	else
+		return 0;
+}
+
+int acounter = 0;
+
+void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
+  wta.update(width/2,height/2,depth/2,points[0].vertices);
+	for (int sample = 0; sample < bufferSize; ++sample) {
+    double a = m1.fastAtanDist(a, 80);
+    a = f1.hires(fm[0].output(wavetable(sample, 512)), points[0].area(), 8);
+    a = f1.lores(a, points[0].area()+50, 8);
+		
+	mixer.assign(1, a);
+	mixer.setLevel(1, 8);
+
+	// test sounds
+		/*
+    for(int i=0;i<128;i++){
+         fm[i].f = abs(points[0].vertices[i].x)*2;
+         fm[i].a = 0.1;
+         fm[i].index = abs(points[0].vertices[i].y)*2;
+         fm[i].ratio = abs(points[0].vertices[i].z)*2;
+       mixer.assign(2, fm[i].output());
     }
-    wtarray.sender.setup("localhost", wtarray.port);
-    timing.fillFrameList();
-    
+		 */
+
+    if (points[0].state == 1) {
+		h1.setPitch(0);
+	    h1.setRelease(ofRandom(25,100));
+        h1.trigger();
+    }
+    double b = h1.play();
+    mixer.assign(2,b);
+    mixer.setLevel(2,0.05);
+
+   // mix = dl1.dl(mix,4,0.5,0.5);
+
+		// summed mixer output is sent to audio output
+    output[sample * nChannels] =	    mixer.output();
+	output[sample * nChannels + 1] = 	output[sample * nChannels];
+	}
+  points[0].state = 0;
 }
 
 void ofApp::structure() {
-    int frame = timing.getFrame();
-    int frameNum = 2000; // temporary: still need to implement a better way of sequencing the state changes
-    if (frame % frameNum == 0) {
-        states.changeState();
-    }
-    
+	int frame = ofGetFrameNum();
+    int change = 8000; // temporary: still need to implement a better way of sequencing the state changes
+    if (frame % change == 0) states.changeState(states.getCurrent() + 1);
     switch (states.getCurrent()) {
         case 1:
             light.enable();
-            if (frame % 4000 == 0) {
-                points[0].init(width,height,depth);
-            }
+            if (frame % 4000 == 0) points[0].init(width,height,depth);
             break;
         case 2:
+			      fm[0].f = 10000;
+			      fm[0].a = 0.1;
             light.disable();
             numattractors = 1;
             attractor[0].f = 2;
@@ -63,14 +111,10 @@ void ofApp::structure() {
             break;
         case 6:
             lines[0].active = true;
-            if (model[0].vertexcounter == 0) {
-                model[0].active = false;
-            }
+            if (model[0].vertexcounter == 0) model[0].active = false;
             break;
         case 7:
-            if (model[0].vertexcounter == 0) {
-                model[0].active = false;
-            }
+            if (model[0].vertexcounter == 0) model[0].active = false;
             break;
         case 8:
             if (frame % 4000 == 0) {
@@ -86,66 +130,20 @@ void ofApp::structure() {
 }
 
 void ofApp::update() {
-
-    structure();
-
-    for (int i = 0; i < 4; ++i) {
-        attractor[i].light.disable();
-    }
-    
-    if(timing.getFrame() % 800 == 0) {
-        lines[0].clear(width, height, depth, 5);
-    }
-    
-    lines[0].update(width,height,depth,4);
-    points[0].update(width,height,depth);
-    model[0].render(0,-height/16,0,2,175,5);
-    // model[1].render(0,0,0,2,50,5);
+    structure(); // call the function that determines state changes over time
+    for (int i = 0; i < 4; ++i) attractor[i].light.disable();
+    if(timing.getFrame() % 800 == 0) lines[0].clear(width, height, depth, 5);
+    lines[0].update(width, height, depth, 4);
+    points[0].update(width, height, depth);
+    model[0].render(0, -height / 16, 0, 2, 175, 5);
     for(int i = 0; i < numattractors; ++i) {
-      attractor[i].limit(width,height,depth);
-      attractor[i].lighton();
-      attractor[i].update(25);
-      points[0].attracted(attractor[i].pos,attractor[i].f,numattractors);
-      for(int j=0;j<=numattractors;j++){
-        if(j != i){
-          attractor[j].attracted(attractor[i].pos,attractor[i].f,numattractors);
-        }
-      }
-    }
-    wtarray.update(width, height, depth, points[0].vertices);
-    maxpatch.sendFloat("points_vel", points[0].velavrg());
-    maxpatch.sendFloat("points_area", points[0].area());
-    maxpatch.sendFloat("attractor2_posx", (attractor[1].pos.x));
-    maxpatch.sendFloat("attractor3_posx", (attractor[2].pos.x));
-    maxpatch.sendFloat("attractor2_posy", (attractor[1].pos.y));
-    maxpatch.sendFloat("attractor3_posy", (attractor[2].pos.y));
-    maxpatch.sendFloat("attractor2_posz", (attractor[1].pos.z));
-    maxpatch.sendFloat("attractor3_posz", (attractor[2].pos.z));
-    wtarray.send();
-    
-    if(points[0].state == 1) {
-      maxpatch.sendBang("pointstate_1");
-      points[0].state = 0;
-    }
-    if(model[0].bang == true){
-      maxpatch.sendBang("model0render");
-      model[0].bang = false;
-    }
-    if(model[1].bang == true){
-      maxpatch.sendBang("model1render");
-      model[1].bang = false;
-    }
-    if(lines[0].bang == true){
-      maxpatch.sendBang("bluelines");
-      lines[0].bang = false;
-    }
-    if(counter.get() == 0){
-        maxpatch.sendFloat("wtfreq",40);
-        counter.setMax(ofRandom(12,24)*100);
-    }
-    
-    maxpatch.sendFloat("current_time", timing.getFrame());
-    maxpatch.sendFloat("state", states.getCurrent());
+		attractor[i].limit(width, height, depth);
+        attractor[i].lighton();
+        attractor[i].update(25);
+        points[0].attracted(attractor[i].pos, attractor[i].f, numattractors);
+        for(int j = 0; j <= numattractors; j++)
+		    if (j != i) attractor[j].attracted(attractor[i].pos, attractor[i].f, numattractors);
+	}
 }
 
 void ofApp::draw(){
@@ -153,61 +151,48 @@ void ofApp::draw(){
     space.drawBackground(0, 25);
     space.drawWireframe(8, 25);
     points[0].draw(250, 250, granprob);
-    for (int i=0;i<numattractors;i++){
-        attractor[i].draw(10,5);
-    }
-    lines[0].draw(0,0,255,25);
-    model[0].draw(250,50,180,180,0.01);
-    // model[1].draw(250,50,180,180,0.01);
-    // mesh[0].draw(250,25);
+    for (int i = 0; i < numattractors; ++i) attractor[i].draw(10,5);
+    lines[0].draw(0, 0, 255, 25);
+    model[0].draw(250, 50, 180, 180, 0.01);
     space.cam.end();
     timing.displayData();
 }
 
 void ofApp::keyPressed(int key){
-  // space.movecam(key);
-  if(key == '=') {
-    maxpatch.sendBang("toggledac");
-  }
-    
-  if(key == '1') {
-    space.framedraw = !space.framedraw;
-  }
-    
-  if(key == '2') {
-    for(int i=0;i<4;i++){
-      attractor[i].attract = !attractor[i].attract;
-    }
-  }
-    
-  if(key == 'r') {
-    points[0].stop();
-    for(int i=0;i<numattractors;i++){
-      attractor[i].init(width,height,depth);
-      if(i == 0){
-        attractor[0].pos.set(0,0,0);
-      }
-      ofBackground(0);
-    }
-  }
-    
-  if(key == ' ') {
-    numattractors += 1;
-    numattractors = numattractors%5;
-    points[0].stop();
-    for(int i=0;i<numattractors;i++){
-      attractor[i].init(width,height,depth);
-      if(i == 0){
-          attractor[0].pos.set(0,0,0);
-        }
-      }
-      ofBackground(0);
-    }
-    
-    if (key == 'f') {
-        ofToggleFullscreen();
-    }
-
+	space.movecam(key);
+	switch (key) {
+		case '1':
+		    space.framedraw = !space.framedraw;
+			break;
+		case '2':
+			for(int i = 0; i < 4; i++)
+				attractor[i].attract = !attractor[i].attract;
+			break;
+		case 'r':
+			points[0].stop();
+			for(int i = 0; i < numattractors; i++) {
+				attractor[i].init(width, height, depth);
+				if(i == 0)
+					attractor[0].pos.set(0, 0, 0);
+				ofBackground(0);
+			}
+			break;
+		case ' ':
+			numattractors += 1;
+			numattractors = numattractors % 5;
+			points[0].stop();
+			for(int i = 0; i < numattractors; i++) {
+				attractor[i].init(width, height, depth);
+				if(i == 0) attractor[0].pos.set(0, 0, 0);
+			}
+			ofBackground(0);
+			break;
+		case 'f':
+			ofToggleFullscreen();
+			break;
+		default:
+			break;
+	}
 }
 
 void ofApp::keyReleased(int key){

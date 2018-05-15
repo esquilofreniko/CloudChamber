@@ -3,63 +3,29 @@ class WtArray{
     int counter = 0;
     int scounter = 16;
     ofVec3f wta [4][128];
-    int port = 7400;
-    ofxOscSender sender;
-    ofxOscMessage wtx [4];
-    ofxOscMessage wty [4];
-    ofxOscMessage wtz [4];
-    void init(){
-      ofxOscMessage wtreset;
-      wtreset.setAddress("wtreset");
-      sender.sendMessage(wtreset);
-      for(int i=0;i<4;i++){
-        wtx[i].clear();
-        wty[i].clear();
-        wtz[i].clear();
-        wtx[i].setAddress("wtx" + std::to_string(i));
-        wty[i].setAddress("wty" + std::to_string(i));
-        wtz[i].setAddress("wtz" + std::to_string(i));
-      }
-    }
-    void update(int numrows, int numcols, int height, ofVec3f vertices [512]){
+    double wtx[4][128];
+    void update(int width, int height, int depth, ofVec3f vertices[512]){
       for(int i=0;i<512;i++){
         if(i>=0 && i<128){
-          wta[0][i].set(abs((vertices[i].x)/(numrows))*0.9,abs((vertices[i].y)/(numcols))*0.9,abs((vertices[i].z)/(height))*0.9);
-          wtx[0].addFloatArg(wta[0][i].x);
-          wty[0].addFloatArg(wta[0][i].y);
-          wtz[0].addFloatArg(wta[0][i].z);
+          wta[0][i] = ofVec3f(abs((vertices[i].x)/(width))*0.9,abs((vertices[i].y)/(height))*0.9,abs((vertices[i].z)/(depth))*0.9);
+          wtx[0][i] = abs(vertices[i].x/width);
         }
         else if(i>=128 && i<256){
-          wta[1][i-128].set(abs((vertices[i].x)/(numrows))*0.9,abs((vertices[i].y)/(numcols))*0.9,abs((vertices[i].z)/(height))*0.9);
-          wtx[1].addFloatArg(wta[1][i-128].x);
-          wty[1].addFloatArg(wta[1][i-128].y);
-          wtz[1].addFloatArg(wta[1][i-128].z);
+          wta[1][i-128] = ofVec3f(abs((vertices[i].x)/(width))*0.9,abs((vertices[i].y)/(height))*0.9,abs((vertices[i].z)/(depth))*0.9);
+          wtx[1][i-128] = abs(vertices[i].x/width);
         }
         else if(i>=256 && i<384){
-          wta[2][i-256].set((abs((vertices[i].x)/(numrows))*0.9)*-1,(abs((vertices[i].y)/(numcols))*0.9)*-1,(abs((vertices[i].z)/(height))*0.9)*-1);
-          wtx[2].addFloatArg(wta[2][i-256].x);
-          wty[2].addFloatArg(wta[2][i-256].y);
-          wtz[2].addFloatArg(wta[2][i-256].z);
+          wta[2][i-256] = ofVec3f((abs((vertices[i].x)/(width))*0.9)*-1,(abs((vertices[i].y)/(height))*0.9)*-1,(abs((vertices[i].z)/(depth))*0.9)*-1);
+          wtx[2][i-256] = abs(vertices[i].x/width);
         }
         else if(i>=384 && i<512){
-          wta[3][i-384].set((abs((vertices[i].x)/(numrows))*0.9)*-1,(abs((vertices[i].y)/(numcols))*0.9)*-1,(abs((vertices[i].z)/(height))*0.9)*-1);
-          wtx[3].addFloatArg(wta[3][i-384].x);
-          wty[3].addFloatArg(wta[3][i-384].y);
-          wtz[3].addFloatArg(wta[3][i-384].z);
+          wta[3][i-384] = ofVec3f((abs((vertices[i].x)/(width))*0.9)*-1,(abs((vertices[i].y)/(height))*0.9)*-1,(abs((vertices[i].z)/(depth))*0.9)*-1);
+          wtx[3][i-384] = abs(vertices[i].x/width);
         }
       }
-    }
-    void send(){
-      for(int i=0;i<4;i++){
-        sender.sendMessage(wtx[i]);
-        sender.sendMessage(wty[i]);
-        sender.sendMessage(wtz[i]);
-        wtx[i].clear();
-        wty[i].clear();
-        wtz[i].clear();
-        wtx[i].setAddress("wtx" + std::to_string(i));
-        wty[i].setAddress("wty" + std::to_string(i));
-        wtz[i].setAddress("wtz" + std::to_string(i));
+      for(int j=0;j<4;j++){
+        std::sort(wtx[j],wtx[j+127]);
+        cout << wtx[j][127] << endl;
       }
     }
 };

@@ -9,7 +9,7 @@ public:
     int rad = 0;
     bool active = false;
     bool bang = false;
-    void clear(int width, int height, int depth, int _rad){
+    void clear(int width, int height, int depth, int _rad) {
       nvert = 0;
       rad = _rad;
       pos.set(ofRandom(-width/4,width/4),0,ofRandom(-depth/4,depth/4));
