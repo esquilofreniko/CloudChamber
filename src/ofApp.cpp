@@ -66,12 +66,15 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
   points[0].state = 0;
 }
 
+int bgalpha = 25;
+
 void ofApp::structure() {
 	int frame = ofGetFrameNum();
     int change = 6000; // temporary: still need to implement a better way of sequencing the state changes
     if (frame % change == 0) states.changeState(states.getCurrent() + 1);
     switch (states.getCurrent()) {
         case 1:
+          bgalpha = 25;
           granprob = 1;
           numattractors = 0;
           break;
@@ -116,11 +119,19 @@ void ofApp::structure() {
             }
             break;
         case 9:
+            bgalpha = 5;
+            break;
+        case 10:
             numattractors = 0;
           break;
-        case 10:
+        case 11:
+            granprob = 0;
+            bgalpha = 5;
             lines[0].active = false;
+            break;
+        case 12:
             states.changeState(1);
+            break;
         default:
           states.changeState(1);
           break;
@@ -144,9 +155,10 @@ void ofApp::update() {
 	}
 }
 
+
 void ofApp::draw(){
     space.cam.begin();
-    space.drawBackground(0, 25);
+    space.drawBackground(0, bgalpha);
     space.drawWireframe(8, 25);
     points[0].draw(250, 250, granprob);
     for (int i = 0; i < numattractors; ++i) attractor[i].draw(10,5);
