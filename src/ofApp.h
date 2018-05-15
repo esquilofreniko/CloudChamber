@@ -76,6 +76,6 @@ class ofApp : public ofBaseApp {
         maxiFilter f2;
         maxiDistortion m1;
         maxiKick k1;
-        maxiHats s1;
+        maxiKick s1;
         maxiHats h1;
 };

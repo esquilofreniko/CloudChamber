@@ -76,7 +76,7 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
     mixer.setLevel(3,0.2);
 
     if(lines[0].bang == true){
-      s1.setPitch(ofRandom(100,10000));
+      s1.setPitch(ofRandom(2000,2000));
       s1.setRelease(50);
       s1.useLimiter = true;
       s1.trigger();
@@ -84,7 +84,7 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
     double d = 0;
     d = s1.play();
     mixer.assign(4,d);
-    mixer.setLevel(4,1);
+    mixer.setLevel(4,0.5);
 
    // mix = dl1.dl(mix,4,0.5,0.5);
 
