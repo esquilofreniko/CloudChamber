@@ -14,8 +14,10 @@ void ofApp::setup() {
     light.setAttenuation(1, (0.000001), (0.000001));
     mesh[0].init(-width / 4, -height / 4, -depth / 4, width / 4, height / 4, depth / 4);
     model[0].init("heart.obj", 1);
+    light.enable();
+    points[0].init(width,height,depth);
     for(int i = 0; i < 4; i++) attractor[i].init(width, height, depth);
-	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
+	   ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
 }
 
 double ofApp::wavetable(int sample, const int bufferSize) {
@@ -36,18 +38,11 @@ int acounter = 0;
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
   wta.update(width/2,height/2,depth/2,points[0].vertices);
 	for (int sample = 0; sample < bufferSize; ++sample) {
-		
+    double a = f1.hires(wavetable(sample, 512), points[0].area(), 8);
+    a = f1.lores(a, points[0].area()+50, 8);
 
-		double a = f1.lores(wavetable(sample, 512), 100, 0.9);
-		
-		double b = f1.hires(wavetable(sample, 512), 10000, 0.4);
-		
-		
 		mixer.assign(1, a);
-		mixer.assign(2, b);
-		mixer.setLevel(1, 0.5);
-		mixer.setLevel(2, 0.01);
-
+		mixer.setLevel(1, 0.1);
 
 	// test sounds
 		/*
@@ -59,8 +54,6 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
        mixer.assign(2, fm[i].output());
     }
 		 */
-	
-
 
 		// mix = mixer.output();
     // mix = f1.lores(mix,abs(osc2.sinewave(0.01))*5000 + 100 ,1);
@@ -79,15 +72,15 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 //    mix = dl1.dl(mix,4,0.5,0.5);
 
 		// summed mixer output is sent to audio output
-		output[sample * nChannels]     = 	mixer.output();
-		output[sample * nChannels + 1] =	output[sample * nChannels];
+    output[sample * nChannels] =	    mixer.output();
+		output[sample * nChannels + 1] = 	output[sample * nChannels];
 	}
   acounter = (acounter + 1 % 100);
 }
 
 void ofApp::structure() {
 	int frame = ofGetFrameNum();
-    int change = 1000; // temporary: still need to implement a better way of sequencing the state changes
+    int change = 8000; // temporary: still need to implement a better way of sequencing the state changes
     if (frame % change == 0) states.changeState(states.getCurrent() + 1);
     switch (states.getCurrent()) {
         case 1:
@@ -95,10 +88,8 @@ void ofApp::structure() {
             if (frame % 4000 == 0) points[0].init(width,height,depth);
             break;
         case 2:
-			// audio
-			fm[0].f = 10000;
-			fm[0].a = 0.1;
-			// visual
+			      fm[0].f = 10000;
+			      fm[0].a = 0.1;
             light.disable();
             numattractors = 1;
             attractor[0].f = 2;
