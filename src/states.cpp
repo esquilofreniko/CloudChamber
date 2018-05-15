@@ -1,8 +1,8 @@
 #include "states.h"
 
 States::States() {
-    currentState = 10; // the first state should be 10
-    numStates = 12;
+    currentState = 9; // the first state should be 9
+    numStates = 11;
 }
 
 void States::changeState(int newState) {

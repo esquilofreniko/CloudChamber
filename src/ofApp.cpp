@@ -151,18 +151,15 @@ void ofApp::structure() {
             }
             break;
         case 9:
-            bgalpha = 10;
-            break;
-        case 10:
             numattractors = 0;
           break;
-        case 11:
+        case 10:
             bgalpha = 20;
             lines[0].active = false;
             granprob = 0;
             numattractors = 0;
             break;
-        case 12:
+        case 11:
             states.changeState(1);
             break;
         default:
