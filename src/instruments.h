@@ -3,15 +3,12 @@
 
 #include "ofxMaxim.h"
 
-class Fm {
+struct Fm {
 	public:
 	Fm();
-	maxiOsc carrier, modulator;
-	double f;
-	double a;
-	double ratio;
-	double index;
-	double output();
+	maxiOsc carrier;
+	double f, a, index;
+	double output(double modulator);
 };
 
 #endif /* instruments_h */

@@ -1,12 +1,11 @@
 #include "instruments.h"
 
 Fm::Fm() {
-	f = 80;
+	f = 200;
 	a = 1;
-	ratio = 1.3;
-	index = 300;
+	index = 1000;
 }
 
-double Fm::output() {
-	return a * (carrier.sinewave(f + (index * modulator.sinewave(f * ratio))));
+double Fm::output(double modulator) {
+	return a * (carrier.sinewave(f + (modulator * index)));
 }
