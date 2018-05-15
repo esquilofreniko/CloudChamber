@@ -35,27 +35,27 @@ double ofApp::wavetable(int sample, const int bufferSize) {
 
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
   wta.update(width/2,height/2,depth/2,points[0].vertices);
-  fm[0].index = (points[0].velavrg()*100)+1000;
-  fm[0].a = (200-points[0].velavrg())/200;
+  fm[0].index = (points[0].velavrg()*1000)+1000;
+  // fm[0].a = (200-points[0].velavrg())/200;
   for (int sample = 0; sample < bufferSize; ++sample) {
     double a = 0;
     a = f1.hires(fm[0].output(wavetable(sample, 512)), points[0].area(), 8);
     a = f1.lores(a, points[0].area()+50, 8);
 
   	 mixer.assign(1, a);
-  	 mixer.setLevel(1, 1);
+  	 mixer.setLevel(1, 0.2);
 
     if (points[0].state == 1) {
-		  h1.setPitch(ofRandom(15000,15000));
+		  h1.setPitch(ofRandom(1000,1000));
 	    h1.setRelease(ofRandom(200,2000));
       h1.useFilter = true;
-      h1.cutoff = 10000;
+      h1.cutoff = 5000;
       h1.trigger();
     }
     double b = h1.play();
     b = m1.fastAtanDist(b, 4);
     mixer.assign(2,b);
-    mixer.setLevel(2,0.1);
+    mixer.setLevel(2,0.2);
 
    // mix = dl1.dl(mix,4,0.5,0.5);
 
@@ -68,16 +68,14 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
 void ofApp::structure() {
 	int frame = ofGetFrameNum();
-    int change = 8000; // temporary: still need to implement a better way of sequencing the state changes
+    int change = 4000; // temporary: still need to implement a better way of sequencing the state changes
     if (frame % change == 0) states.changeState(states.getCurrent() + 1);
     switch (states.getCurrent()) {
         case 1:
-            light.enable();
-            if (frame % 4000 == 0) points[0].init(width,height,depth);
-            break;
+          numattractors = 0;
+          if (frame % 8000 == 0) points[0].init(width,height,depth);
+          break;
         case 2:
-			      fm[0].f = 10000;
-			      fm[0].a = 0.1;
             light.disable();
             numattractors = 1;
             attractor[0].f = 2;

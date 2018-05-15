@@ -11,6 +11,9 @@ public:
     States();
     void genLengths();
     void changeState(int newState);
+    void reset(){
+      currentState = 1;
+    }
     int getCurrent();
 };
 

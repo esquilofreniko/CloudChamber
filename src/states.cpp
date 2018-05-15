@@ -1,7 +1,7 @@
 #include "states.h"
 
 States::States() {
-    currentState = 1;
+    currentState = 0;
     numStates = 8;
 }
 
