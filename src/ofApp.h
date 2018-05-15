@@ -13,9 +13,7 @@
 #include "space.h"
 #include "shapes.h"
 #include "attractor.h"
-#include "clifford.h"
 #include "counter.h"
-#include "random.h"
 #include "timing.h"
 #include "states.h"
 #include "wtarray.h"
@@ -44,6 +42,8 @@ class ofApp : public ofBaseApp {
 		const int bufferSize = 512;
 		void audioOut(float * output, int bufferSize, int nChannels);
 		double outputs[2];
+		double mix;
+		double f; // (temp variable)
 
         int numattractors = 0;
         int bgreset = 0;
@@ -51,9 +51,7 @@ class ofApp : public ofBaseApp {
         int granprob = 2;
         int divisionsize = 32;
 
-		double mix;
-		double f;
-
+		Fm fm[512];
         ofLight light;
         Space space;
         Attractor attractor[4];
@@ -65,15 +63,10 @@ class ofApp : public ofBaseApp {
         Timing timing;
         ofxOscReceiver receiver;
         States states;
-		    Clifford clifford;
-
 	    Mixer mixer;
-
-		Fm fm[512];
-
-        int width = space.width;
-        int height = space.height;
-        int depth = space.depth;
+		int width = space.width;
+		int height = space.height;
+		int depth = space.depth;
 
         WtArray wta;
         maxiOsc osc1;
