@@ -38,7 +38,8 @@ int acounter = 0;
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
   wta.update(width/2,height/2,depth/2,points[0].vertices);
 	for (int sample = 0; sample < bufferSize; ++sample) {
-    double a = f1.hires(wavetable(sample, 512), points[0].area(), 8);
+    double a = m1.fastAtanDist(a,80);
+    a = f1.hires(wavetable(sample, 512), points[0].area(), 8);
     a = f1.lores(a, points[0].area()+50, 8);
 
 		mixer.assign(1, a);
@@ -55,27 +56,22 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
     }
 		 */
 
-		// mix = mixer.output();
-    // mix = f1.lores(mix,abs(osc2.sinewave(0.01))*5000 + 100 ,1);
+    if(points[0].state == 1){
+      h1.setPitch(0);
+      h1.setRelease(ofRandom(25,100));
+      h1.trigger();
+    }
+    double b = h1.play();
+    mixer.assign(2,b);
+    mixer.setLevel(2,0.1);
 
-    //mix = m1.fastAtanDist(mix,80);
-
-    // mix = osc1.saw(55);
-
-    // if(acounter == 0){
-    //   k1.setPitch(10000);
-    //   k1.setRelease(250);
-    //   k1.trigger();
-    // }
-    // mix = k1.play();
-
-//    mix = dl1.dl(mix,4,0.5,0.5);
+   // mix = dl1.dl(mix,4,0.5,0.5);
 
 		// summed mixer output is sent to audio output
     output[sample * nChannels] =	    mixer.output();
 		output[sample * nChannels + 1] = 	output[sample * nChannels];
 	}
-  acounter = (acounter + 1 % 100);
+  points[0].state = 0;
 }
 
 void ofApp::structure() {

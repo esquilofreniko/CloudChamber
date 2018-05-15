@@ -65,7 +65,7 @@ class ofApp : public ofBaseApp {
         Timing timing;
         ofxOscReceiver receiver;
         States states;
-		Clifford clifford;
+		    Clifford clifford;
 
 	    Mixer mixer;
 
@@ -82,4 +82,6 @@ class ofApp : public ofBaseApp {
         maxiFilter f1;
         maxiDistortion m1;
         maxiKick k1;
+        maxiSnare s1;
+        maxiHats h1;
 };
