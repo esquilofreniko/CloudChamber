@@ -68,12 +68,12 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
 void ofApp::structure() {
 	int frame = ofGetFrameNum();
-    int change = 4000; // temporary: still need to implement a better way of sequencing the state changes
+    int change = 6000; // temporary: still need to implement a better way of sequencing the state changes
     if (frame % change == 0) states.changeState(states.getCurrent() + 1);
     switch (states.getCurrent()) {
         case 1:
+          granprob = 1;
           numattractors = 0;
-          if (frame % 8000 == 0) points[0].init(width,height,depth);
           break;
         case 2:
             light.disable();
@@ -83,7 +83,7 @@ void ofApp::structure() {
             break;
         case 3:
             attractor[0].f = -2;
-            if (frame % 8000 == 0) {
+            if (frame % 6000 == 0) {
                 points[0].stop();
             }
             break;
@@ -91,7 +91,7 @@ void ofApp::structure() {
             model[0].active = true;
             break;
         case 5:
-             if (frame % 8000 == 0) {
+             if (frame % 6000 == 0) {
                 points[0].stop();
                 numattractors = 3;
                 attractor[0].f = 2;
@@ -104,18 +104,26 @@ void ofApp::structure() {
             if (model[0].vertexcounter == 0) model[0].active = false;
             break;
         case 7:
+            granprob = 0;
             if (model[0].vertexcounter == 0) model[0].active = false;
             break;
         case 8:
-            if (frame % 8000 == 0) {
+            if (frame % 6000 == 0) {
                 numattractors = 2;
                 attractor[0].f = 4;
                 attractor[1].f = 2;
                 points[0].stop();
             }
             break;
+        case 9:
+            numattractors = 0;
+          break;
+        case 10:
+            lines[0].active = false;
+            states.changeState(1);
         default:
-            break;
+          states.changeState(1);
+          break;
     }
 }
 

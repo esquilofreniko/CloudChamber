@@ -5,8 +5,8 @@
 
 class States {
 private:
-    int currentState;
-    int numStates;
+  int currentState;
+  int numStates;
 public:
     States();
     void genLengths();

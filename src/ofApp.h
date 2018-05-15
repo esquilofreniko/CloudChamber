@@ -48,7 +48,7 @@ class ofApp : public ofBaseApp {
         int numattractors = 0;
         int bgreset = 0;
         int bgresetmax = 128;
-        int granprob = 2;
+        int granprob = 0;
         int divisionsize = 32;
 
 		Fm fm[512];
