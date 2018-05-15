@@ -67,7 +67,7 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
    // mix = dl1.dl(mix,4,0.5,0.5);
 
-		// summed mixer output is sent to audio output
+   // summed mixer output is sent to audio output
     output[sample * nChannels] =	    mixer.output();
 	output[sample * nChannels + 1] = 	output[sample * nChannels];
 	}
