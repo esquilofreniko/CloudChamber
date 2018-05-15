@@ -104,8 +104,7 @@ obj/msys2/Release/src/timing.o: \
  E:/ofxmsys/libs/openFrameworks/video/ofDirectShowPlayer.h \
  E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h \
  E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/mapping.h \
- E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h
+ E:/ofxmsys/apps/myApps/CloudChamber/src/mapping.h
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/timing.h:
 
@@ -316,5 +315,3 @@ E:/ofxmsys/libs/openFrameworks/3d/ofCamera.h:
 E:/ofxmsys/libs/openFrameworks/3d/ofEasyCam.h:
 
 E:/ofxmsys/apps/myApps/CloudChamber/src/mapping.h:
-
-E:/ofxmsys/apps/myApps/CloudChamber/src/clifford.h:

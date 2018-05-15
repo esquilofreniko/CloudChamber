@@ -33,37 +33,29 @@ double ofApp::wavetable(int sample, const int bufferSize) {
 		return 0;
 }
 
-int acounter = 0;
-
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
   wta.update(width/2,height/2,depth/2,points[0].vertices);
-	for (int sample = 0; sample < bufferSize; ++sample) {
-    double a = m1.fastAtanDist(a, 80);
+  fm[0].index = (points[0].velavrg()*100)+1000;
+  fm[0].a = (200-points[0].velavrg())/200;
+  for (int sample = 0; sample < bufferSize; ++sample) {
+    double a = 0;
     a = f1.hires(fm[0].output(wavetable(sample, 512)), points[0].area(), 8);
     a = f1.lores(a, points[0].area()+50, 8);
-		
-	mixer.assign(1, a);
-	mixer.setLevel(1, 8);
 
-	// test sounds
-		/*
-    for(int i=0;i<128;i++){
-         fm[i].f = abs(points[0].vertices[i].x)*2;
-         fm[i].a = 0.1;
-         fm[i].index = abs(points[0].vertices[i].y)*2;
-         fm[i].ratio = abs(points[0].vertices[i].z)*2;
-       mixer.assign(2, fm[i].output());
-    }
-		 */
+  	 mixer.assign(1, a);
+  	 mixer.setLevel(1, 1);
 
     if (points[0].state == 1) {
-		h1.setPitch(0);
-	    h1.setRelease(ofRandom(25,100));
-        h1.trigger();
+		  h1.setPitch(ofRandom(15000,15000));
+	    h1.setRelease(ofRandom(200,2000));
+      h1.useFilter = true;
+      h1.cutoff = 10000;
+      h1.trigger();
     }
     double b = h1.play();
+    b = m1.fastAtanDist(b, 4);
     mixer.assign(2,b);
-    mixer.setLevel(2,0.05);
+    mixer.setLevel(2,0.1);
 
    // mix = dl1.dl(mix,4,0.5,0.5);
 
@@ -93,7 +85,7 @@ void ofApp::structure() {
             break;
         case 3:
             attractor[0].f = -2;
-            if (frame % 4000 == 0) {
+            if (frame % 8000 == 0) {
                 points[0].stop();
             }
             break;
@@ -101,7 +93,7 @@ void ofApp::structure() {
             model[0].active = true;
             break;
         case 5:
-             if (frame % 4000 == 0) {
+             if (frame % 8000 == 0) {
                 points[0].stop();
                 numattractors = 3;
                 attractor[0].f = 2;
@@ -117,7 +109,7 @@ void ofApp::structure() {
             if (model[0].vertexcounter == 0) model[0].active = false;
             break;
         case 8:
-            if (frame % 4000 == 0) {
+            if (frame % 8000 == 0) {
                 numattractors = 2;
                 attractor[0].f = 4;
                 attractor[1].f = 2;

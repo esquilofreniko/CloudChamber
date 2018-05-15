@@ -73,6 +73,7 @@ class ofApp : public ofBaseApp {
         maxiOsc osc2;
         maxiDelayline dl1;
         maxiFilter f1;
+        maxiFilter f2;
         maxiDistortion m1;
         maxiKick k1;
         maxiSnare s1;
