@@ -1,7 +1,7 @@
 #include "states.h"
 
 States::States() {
-    currentState = 9; //the first state should be 9
+    currentState = 2;
     numStates = 11;
 }
 
@@ -11,4 +11,8 @@ void States::changeState(int newState) {
 
 int States::getCurrent() {
     return currentState;
+}
+
+void States::reset() {
+	currentState = 1;
 }

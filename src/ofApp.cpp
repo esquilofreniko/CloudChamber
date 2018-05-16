@@ -16,11 +16,12 @@ void ofApp::setup() {
     model[0].init("heart.obj", 1);
     light.disable();
     points[0].init(width,height,depth);
-    for(int i = 0; i < 4; i++) attractor[i].init(width, height, depth);
-	   ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
+    for(int i = 0; i < 4; i++)
+		attractor[i].init(width, height, depth);
+	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
 }
 
-double ofApp::wavetable(int sample, const int bufferSize) {
+double ofApp::wavetable(const int& sample, const int bufferSize) {
 	if (sample >= 0 && sample < bufferSize * 0.25)
 		return wta.wtx[0][sample];
 	else if (sample >= bufferSize * 0.25 && sample < bufferSize * 0.5)
@@ -33,32 +34,26 @@ double ofApp::wavetable(int sample, const int bufferSize) {
 		return 0;
 }
 
-int acounter = 0;
-
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
-  wta.update(width/2,height/2,depth/2,points[0].vertices);
-  fm[0].index = (points[0].velavrg()*1000)+1000;
-  // fm[0].a = (200-points[0].velavrg())/200;
-  for (int sample = 0; sample < bufferSize; ++sample) {
-    double a = 0;
-    a = f1.hires(fm[0].output(wavetable(sample, 512)), points[0].area(), 8);
-    a = f1.lores(a, points[0].area()+50, 8);
+	wta.update(width/2, height/2, depth/2, points[0].vertices);
+	fm.index = (points[0].velavrg()*1000)+1000;
+	
+    for (int sample = 0; sample < bufferSize; ++sample) {
+		
+	vector<double> levels = {0.2, 0.5};
 
-  	 mixer.assign(1, a);
-  	 mixer.setLevel(1, 0.2);
+	// map area of particles to filter bandwidth
+	bp.f1 = points[0].area()+50;
+	bp.f2 = points[0].area();
+	bp.q = 2;
+    mixer.assign(1, bp.output(fm.output(wavetable(sample, 512))));
+  	mixer.setLevel(1, levels[0]);
 
-    if (points[0].state == 1) {
-		  h1.setPitch(ofRandom(1000,1000));
-	    h1.setRelease(ofRandom(20,2000));
-      h1.useFilter = true;
-      h1.cutoff = 5000;
-      h1.trigger();
-    }
-    double b = h1.play();
-    b = m1.fastAtanDist(b, 4);
-    mixer.assign(2,b);
-    mixer.setLevel(2,ofRandom(0,0.5));
-
+	// trigger percussion sounds when particles are connected
+	perc.trigger(points[0].state == 1);
+	mixer.assign(2, dist.fastAtanDist(perc.output(), 4));
+	mixer.setLevel(2, levels[1]);
+		
     if(model[0].bang == true){
       k1.setPitch(100);
       k1.setRelease(ofRandom(50,200));
@@ -95,45 +90,41 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
   points[0].state = 0;
   model[0].bang = false;
   lines[0].bang = false;
-  acounter = (acounter + 1) % 100;
 }
-
-int bgalpha = 20;
 
 void ofApp::structure() {
 	int frame = ofGetFrameNum();
-    int change = 6000; // temporary: still need to implement a better way of sequencing the state changes
+    int change = 6000;
     if (frame % change == 0) states.changeState(states.getCurrent() + 1);
     switch (states.getCurrent()) {
         case 1:
-          bgalpha = 20;
-          granprob = 0;
-          light.disable();
-          numattractors = 1;
-          attractor[0].f = 2;
-          attractor[0].pos.set(0,0,0);
-          break;
+            bgalpha = 20;
+            granprob = 0;
+            light.disable();
+            numattractors = 1;
+            attractor[0].f = 2;
+            attractor[0].pos.set(0,0,0);
+            break;
         case 2:
             granprob = 1;
             break;
         case 3:
             attractor[0].f = -2;
-            if (frame % 6000 == 0) {
+            if (frame % 6000 == 0)
                 points[0].stop();
-            }
             break;
         case 4:
             model[0].active = true;
             break;
         case 5:
              if (frame % 6000 == 0) {
-                points[0].stop();
-                numattractors = 3;
-                attractor[0].f = 2;
-                attractor[1].f = -2;
-                attractor[2].f = 4;
-            }
-            break;
+				 points[0].stop();
+                 numattractors = 3;
+                 attractor[0].f = 2;
+                 attractor[1].f = -2;
+                 attractor[2].f = 4;
+             }
+             break;
         case 6:
             granprob = 0;
             if (model[0].vertexcounter == 0) model[0].active = false;
@@ -144,28 +135,28 @@ void ofApp::structure() {
             break;
         case 8:
             if (frame % 6000 == 0) {
-                numattractors = 2;
-                attractor[0].f = 4;
-                attractor[1].f = 2;
-                points[0].stop();
-            }
-            break;
+                 numattractors = 2;
+                 attractor[0].f = 4;
+                 attractor[1].f = 2;
+                 points[0].stop();
+             }
+             break;
         case 9:
-            numattractors = 0;
+             numattractors = 0;
           break;
         case 10:
-            bgalpha = 20;
-            lines[0].active = false;
-            granprob = 0;
-            numattractors = 0;
-            break;
+             bgalpha = 20;
+             lines[0].active = false;
+             granprob = 0;
+             numattractors = 0;
+             break;
         case 11:
-            states.changeState(1);
-            break;
+             states.changeState(1);
+             break;
         default:
-          states.changeState(1);
-          break;
-    }
+             states.changeState(1);
+             break;
+		}
 }
 
 void ofApp::update() {

@@ -4,18 +4,15 @@
 #include <iostream>
 
 class States {
-private:
-  int currentState;
-  int numStates;
 public:
-    States();
-    void genLengths();
-    void changeState(int newState);
-    void reset(){
-      currentState = 1;
-    }
-    int getCurrent();
+	States();
+	void genLengths();
+	void changeState(int newState);
+	void reset();
+	int getCurrent();
+private:
+	int currentState;
+	 int numStates;
 };
-
 
 #endif /* states_h */
