@@ -19,8 +19,8 @@ Bp::Bp() {
 }
 
 double Bp::output(double input) {
-	double hires = hp.hires(input, f2, q);
-	return lp.lores(hires, f1, q);
+	double hires = bp.hires(input, f2, q);
+	return bp.lores(hires, f1, q);
 }
 
 // Perc

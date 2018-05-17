@@ -15,7 +15,7 @@ struct Fm {
 // Bandpass filter formed with a lowpass and highpass filter
 struct Bp {
 	Bp();
-	maxiFilter lp, hp;
+	maxiFilter bp;
 	double f1, f2, q;
 	double output(double input);
 };
