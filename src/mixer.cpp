@@ -21,3 +21,4 @@ double Mixer::output() {
 	for (double d : outputs) sum += d;
 	return tanh(sum);
 }
+

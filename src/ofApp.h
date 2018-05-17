@@ -54,6 +54,7 @@ class ofApp : public ofBaseApp {
 		Fm fm;
 		Bp bp;
 	    Perc perc;
+		Kick kick;
 		maxiDistortion dist;
 		Mixer mixer;
         ofLight light;

@@ -31,10 +31,15 @@ struct Perc {
 	double output();
 };
 
+// Kick drum
 struct Kick {
 	Kick();
-	
+	maxiKick k;
+	int releaseMin, releaseMax;
+	bool distortion, filter, limiter;
+	double distortionLevel, cutoffMin, cutoffMax, resonanceMin, resonanceMax;
+	void trigger(bool input);
+	double output();
 };
-
 
 #endif /* instruments_h */

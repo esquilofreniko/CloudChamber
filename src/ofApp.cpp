@@ -1,6 +1,7 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
+	ofSetFullscreen(true);
     ofEnableLighting();
     ofSetVerticalSync(true);
     ofEnableAlphaBlending();
@@ -34,15 +35,15 @@ double ofApp::wavetable(const int& sample, const int bufferSize) {
 		return 0;
 }
 
+vector<double> levels = {0.2, 0.5, 0.2, 0.5}; // local mixer levels
+
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
-	wta.update(width/2, height/2, depth/2, points[0].vertices);
-	fm.index = (points[0].velavrg()*1000)+1000;
 	
+	wta.update(width/2, height/2, depth/2, points[0].vertices); // update wavetable array
+
     for (int sample = 0; sample < bufferSize; ++sample) {
 		
-	vector<double> levels = {0.2, 0.5};
-
-	// map area of particles to filter bandwidth
+	// map area of particles to filter bandwidth that filters fm/wavetable synth process
 	bp.f1 = points[0].area()+50;
 	bp.f2 = points[0].area();
 	bp.q = 2;
@@ -50,25 +51,14 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
   	mixer.setLevel(1, levels[0]);
 
 	// trigger percussion sounds when particles are connected
-	perc.trigger(points[0].state == 1);
+	perc.trigger(points[0].state);
 	mixer.assign(2, dist.fastAtanDist(perc.output(), 4));
 	mixer.setLevel(2, levels[1]);
 		
-    if(model[0].bang == true){
-      k1.setPitch(100);
-      k1.setRelease(ofRandom(50,200));
-      k1.useDistortion = true;
-      k1.distortion = ofRandom(4,4);
-      k1.useFilter = true;
-      k1.resonance = ofRandom(8,16);
-      k1.cutoff = ofRandom(10,10000);
-      k1.useLimiter = true;
-      k1.trigger();
-    }
-    double c = 0;
-    c = k1.play();
-    mixer.assign(3,c);
-    mixer.setLevel(3,0.2);
+	// trigger kick drum sounds when model is being generated
+	kick.trigger(model[0].bang);
+    mixer.assign(3, kick.output());
+	mixer.setLevel(3, levels[2]);
 
     if(lines[0].bang == true){
       s1.setPitch(ofRandom(2000,2000));
@@ -81,15 +71,15 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
     mixer.assign(4,d);
     mixer.setLevel(4,0.5);
 
-   // mix = dl1.dl(mix,4,0.5,0.5);
-
    // summed mixer output is sent to audio output
     output[sample * nChannels] =	    mixer.output();
 	output[sample * nChannels + 1] = 	output[sample * nChannels];
 	}
-  points[0].state = 0;
-  model[0].bang = false;
-  lines[0].bang = false;
+	
+	// reset states
+	points[0].state = 0;
+	model[0].bang = false;
+    lines[0].bang = false;
 }
 
 void ofApp::structure() {

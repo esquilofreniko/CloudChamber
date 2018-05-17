@@ -46,3 +46,36 @@ void Perc::trigger(bool input) {
 double Perc::output() {
 	return ofRandom(ampMin, ampMax) * p.play();
 }
+
+// Kick
+Kick::Kick() {
+	releaseMin = 50;
+	releaseMax = 200;
+	resonanceMin = 8;
+	resonanceMax = 16;
+	cutoffMin = 10;
+	cutoffMax = 10000;
+	distortionLevel = 4;
+	distortion = true;
+	filter = true;
+	limiter = true;
+}
+
+void Kick::trigger(bool input) {
+	if (input) {
+		k.useDistortion = distortion;
+		k.useFilter = filter;
+		k.useLimiter = limiter;
+		k.setRelease(ofRandom(releaseMin, releaseMax));
+		k.distortion = ofRandom(distortionLevel, distortionLevel);
+		k.resonance = ofRandom(resonanceMin, resonanceMax);
+		k.cutoff = ofRandom(cutoffMin, cutoffMax);
+		k.trigger();
+	}
+}
+
+double Kick::output() {
+	return k.play();
+}
+
+
