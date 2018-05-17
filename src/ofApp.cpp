@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
-	ofSetFullscreen(true);
+    ofSetFullscreen(true);
     ofEnableLighting();
     ofSetVerticalSync(true);
     ofEnableAlphaBlending();
@@ -58,7 +58,7 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
 	// trigger certain kick drum sounds when model is being generated
 	kick1.trigger(model[0].bang);
-  mixer.assign(3, kick1.output());
+    mixer.assign(3, kick1.output());
 	mixer.setLevel(3, levels[2]);
 
 	// trigger other kick drum sounds when lines are rendered
@@ -78,7 +78,7 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 	// reset states
 	points[0].state = 0;
 	model[0].bang = false;
-  lines[0].bang = false;
+    lines[0].bang = false;
 }
 
 void ofApp::structure() {
