@@ -19,7 +19,7 @@ void ofApp::setup() {
     points[0].init(width,height,depth);
     for(int i = 0; i < 4; i++)
 		attractor[i].init(width, height, depth);
-		ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
+	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
 }
 
 double ofApp::wavetable(const int& sample, const int bufferSize) {
@@ -105,7 +105,7 @@ void ofApp::structure() {
 		case 4:
 			model[0].active = true;
 			break;
-        case 5:
+		case 5:
 			if (frame % 6000 == 0) {
 				points[0].stop();
 				numattractors = 3;
@@ -128,7 +128,7 @@ void ofApp::structure() {
 				attractor[0].f = 4;
 				attractor[1].f = 2;
 				points[0].stop();
-             }
+			}
 			break;
 		case 9:
 			numattractors = 0;
