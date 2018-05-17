@@ -14,7 +14,7 @@ void ofApp::setup() {
     light.setPosition(0, 0, 0);
     light.setAttenuation(1, (0.000001), (0.000001));
     mesh[0].init(-width / 4, -height / 4, -depth / 4, width / 4, height / 4, depth / 4);
-    model[0].init("heart.obj", 1);
+    model[0].init("heart.obj", 0.5);
     light.disable();
     points[0].init(width,height,depth);
     for(int i = 0; i < 4; i++)

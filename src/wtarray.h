@@ -25,7 +25,6 @@ class WtArray{
       }
       for(int j=0;j<4;j++){
         std::sort(wtx[j],wtx[j+127]);
-        cout << wtx[j][127] << endl;
       }
     }
 };
