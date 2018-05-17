@@ -35,9 +35,11 @@ double ofApp::wavetable(const int& sample, const int bufferSize) {
 		return 0;
 }
 
-vector<double> levels = {0.2, 0.5, 0.2, 0.5}; // local mixer levels
+
 
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
+	
+	vector<double> levels = {0.2, 0.5, 0.2, 0.5}; // local mixer levels
 	
 	wta.update(width/2, height/2, depth/2, points[0].vertices); // update wavetable array
 
@@ -55,21 +57,19 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 	mixer.assign(2, dist.fastAtanDist(perc.output(), 4));
 	mixer.setLevel(2, levels[1]);
 		
-	// trigger kick drum sounds when model is being generated
-	kick.trigger(model[0].bang);
-    mixer.assign(3, kick.output());
+	// trigger certain kick drum sounds when model is being generated
+	kick1.trigger(model[0].bang);
+    mixer.assign(3, kick1.output());
 	mixer.setLevel(3, levels[2]);
 
-    if(lines[0].bang == true){
-      s1.setPitch(ofRandom(2000,2000));
-      s1.setRelease(50);
-      s1.useLimiter = true;
-      s1.trigger();
-    }
-    double d = 0;
-    d = s1.play();
-    mixer.assign(4,d);
-    mixer.setLevel(4,0.5);
+	// trigger other kick drum sounds when lines are rendered
+	kick2.k.setPitch(ofRandom(2000, 2000));
+	kick2.k.setRelease(50);
+	kick2.filter = false;
+	kick2.distortion = false;
+	kick2.trigger(lines[0].bang);
+	mixer.assign(4, kick2.output());
+	mixer.setLevel(4, levels[3]);
 
    // summed mixer output is sent to audio output
     output[sample * nChannels] =	    mixer.output();

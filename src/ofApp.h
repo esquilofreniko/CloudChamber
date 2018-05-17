@@ -37,12 +37,10 @@ class ofApp : public ofBaseApp {
         void gotMessage(ofMessage msg);
         void dragEvent(ofDragInfo dragInfo);
 
-		int initialBufferSize;
 		const int sampleRate = 44100;
 		const int bufferSize = 512;
 		void audioOut(float * output, int bufferSize, int nChannels);
 		double outputs[2];
-		double mix;
 
         int numattractors = 0;
         int bgreset = 0;
@@ -54,7 +52,8 @@ class ofApp : public ofBaseApp {
 		Fm fm;
 		Bp bp;
 	    Perc perc;
-		Kick kick;
+		Kick kick1;
+		Kick kick2;
 		maxiDistortion dist;
 		Mixer mixer;
         ofLight light;
@@ -72,12 +71,8 @@ class ofApp : public ofBaseApp {
 		int width = space.width;
 		int height = space.height;
 		int depth = space.depth;
-
         WtArray wta;
-        maxiOsc osc1;
         maxiOsc osc2;
         maxiDelayline dl1;
 	
-        maxiKick k1;
-        maxiKick s1;
 };
