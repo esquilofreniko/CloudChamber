@@ -14,8 +14,8 @@ double Fm::output(double modulator) {
 // Bp
 Bp::Bp() {
 	f1 = 100;
-	f2 = 10000;
-	q = 1;
+	f2 = 150;
+	q = 8;
 }
 
 double Bp::output(double input) {
@@ -77,5 +77,3 @@ void Kick::trigger(bool input) {
 double Kick::output() {
 	return k.play();
 }
-
-

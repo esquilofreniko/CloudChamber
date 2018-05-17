@@ -19,7 +19,7 @@ void ofApp::setup() {
     points[0].init(width,height,depth);
     for(int i = 0; i < 4; i++)
 		attractor[i].init(width, height, depth);
-	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
+		ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
 }
 
 double ofApp::wavetable(const int& sample, const int bufferSize) {
@@ -38,28 +38,28 @@ double ofApp::wavetable(const int& sample, const int bufferSize) {
 
 
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
-	
+
 	vector<double> levels = {0.2, 0.5, 0.2, 0.5}; // local mixer levels
-	
+
 	wta.update(width/2, height/2, depth/2, points[0].vertices); // update wavetable array
 
-    for (int sample = 0; sample < bufferSize; ++sample) {
-		
-	// map area of particles to filter bandwidth that filters fm/wavetable synth process
-	bp.f1 = points[0].area()+50;
-	bp.f2 = points[0].area();
-	bp.q = 2;
-    mixer.assign(1, bp.output(fm.output(wavetable(sample, 512))));
-  	mixer.setLevel(1, levels[0]);
+  for (int sample = 0; sample < bufferSize; ++sample) {
 
+	// map area of particles to filter bandwidth that filters fm/wavetable synth process
+	bp.f1 = points[0].area();
+	bp.f2 = points[0].area()+50;
+	bp.q = 8;
+	mixer.assign(1, bp.output(fm.output(wavetable(sample, 512))));
+
+	mixer.setLevel(1, levels[0]);
 	// trigger percussion sounds when particles are connected
 	perc.trigger(points[0].state);
 	mixer.assign(2, dist.fastAtanDist(perc.output(), 4));
 	mixer.setLevel(2, levels[1]);
-		
+
 	// trigger certain kick drum sounds when model is being generated
 	kick1.trigger(model[0].bang);
-    mixer.assign(3, kick1.output());
+  mixer.assign(3, kick1.output());
 	mixer.setLevel(3, levels[2]);
 
 	// trigger other kick drum sounds when lines are rendered
@@ -75,11 +75,11 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
     output[sample * nChannels] =	    mixer.output();
 	output[sample * nChannels + 1] = 	output[sample * nChannels];
 	}
-	
+
 	// reset states
 	points[0].state = 0;
 	model[0].bang = false;
-    lines[0].bang = false;
+  lines[0].bang = false;
 }
 
 void ofApp::structure() {
