@@ -49,8 +49,8 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 		bp.f2 = points[0].area()+50;
 		bp.q = 8;
 		mixer.assign(1, bp.output(fm.output(wavetable(sample, 512))));
-
 		mixer.setLevel(1, levels[0]);
+		
 		// trigger percussion sounds when particles are connected
 		perc.trigger(points[0].state);
 		mixer.assign(2, dist.fastAtanDist(perc.output(), 4));
