@@ -83,75 +83,77 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
 void ofApp::structure() {
 	int frame = ofGetFrameNum();
-    int change = 6000;
-    if (frame % change == 0) states.changeState(states.getCurrent() + 1);
-    switch (states.getCurrent()) {
-        case 1:
-            bgalpha = 20;
-            granprob = 0;
-            light.disable();
-            numattractors = 1;
-            attractor[0].f = 2;
-            attractor[0].pos.set(0,0,0);
-            break;
-        case 2:
-            granprob = 1;
-            break;
-        case 3:
-            attractor[0].f = -2;
-            if (frame % 6000 == 0)
-                points[0].stop();
-            break;
-        case 4:
-            model[0].active = true;
-            break;
+	int change = 6000;
+	if (frame % change == 0) states.changeState(states.getCurrent() + 1);
+	switch (states.getCurrent()) {
+		case 1:
+			bgalpha = 20;
+			granprob = 0;
+			light.disable();
+			numattractors = 1;
+			attractor[0].f = 2;
+			attractor[0].pos.set(0,0,0);
+			break;
+		case 2:
+			granprob = 1;
+			break;
+		case 3:
+			attractor[0].f = -2;
+			if (frame % 6000 == 0)
+				points[0].stop();
+			break;
+		case 4:
+			model[0].active = true;
+			break;
         case 5:
-             if (frame % 6000 == 0) {
-				 points[0].stop();
-                 numattractors = 3;
-                 attractor[0].f = 2;
-                 attractor[1].f = -2;
-                 attractor[2].f = 4;
-             }
-             break;
-        case 6:
-            granprob = 0;
-            if (model[0].vertexcounter == 0) model[0].active = false;
+			if (frame % 6000 == 0) {
+				points[0].stop();
+				numattractors = 3;
+				attractor[0].f = 2;
+				attractor[1].f = -2;
+				attractor[2].f = 4;
+            }
             break;
-        case 7:
-            lines[0].active = true;
-            if (model[0].vertexcounter == 0) model[0].active = false;
-            break;
-        case 8:
-            if (frame % 6000 == 0) {
-                 numattractors = 2;
-                 attractor[0].f = 4;
-                 attractor[1].f = 2;
-                 points[0].stop();
+		case 6:
+			granprob = 0;
+			if (model[0].vertexcounter == 0) model[0].active = false;
+			break;
+		case 7:
+			lines[0].active = true;
+			if (model[0].vertexcounter == 0) model[0].active = false;
+			break;
+		case 8:
+			if (frame % 6000 == 0) {
+				numattractors = 2;
+				attractor[0].f = 4;
+				attractor[1].f = 2;
+				points[0].stop();
              }
-             break;
-        case 9:
-             numattractors = 0;
-          break;
-        case 10:
-             bgalpha = 20;
-             lines[0].active = false;
-             granprob = 0;
-             numattractors = 0;
-             break;
-        case 11:
-             states.changeState(1);
-             break;
-        default:
-             states.changeState(1);
-             break;
+			break;
+		case 9:
+			numattractors = 0;
+			break;
+		case 10:
+			bgalpha = 20;
+			lines[0].active = false;
+			granprob = 0;
+			numattractors = 0;
+			break;
+		case 11:
+			states.changeState(1);
+			break;
+		default:
+			states.changeState(1);
+			break;
 		}
 }
 
 void ofApp::update() {
     structure(); // call the function that determines state changes over time
-    for (int i = 0; i < 4; ++i) attractor[i].light.disable();
-    if(timing.getFrame() % 800 == 0) lines[0].clear(width, height, depth, 1);
+    for (int i = 0; i < 4; ++i)
+		attractor[i].light.disable();
+    if(timing.getFrame() % 800 == 0)
+		lines[0].clear(width, height, depth, 1);
     lines[0].update(width, height, depth, 4);
     points[0].update(width, height, depth);
     model[0].render(0, -height / 16, 0, 2, 250, 5);
@@ -161,7 +163,8 @@ void ofApp::update() {
         attractor[i].update(25);
         points[0].attracted(attractor[i].pos, attractor[i].f, numattractors);
         for(int j = 0; j <= numattractors; j++)
-		    if (j != i) attractor[j].attracted(attractor[i].pos, attractor[i].f, numattractors);
+		    if (j != i)
+				attractor[j].attracted(attractor[i].pos, attractor[i].f, numattractors);
 	}
 }
 
@@ -171,7 +174,8 @@ void ofApp::draw(){
     space.drawBackground(0, bgalpha);
     space.drawWireframe(8, 25);
     points[0].draw(250, 250, granprob);
-    for (int i = 0; i < numattractors; ++i) attractor[i].draw(10,5);
+    for (int i = 0; i < numattractors; ++i)
+		attractor[i].draw(10,5);
     lines[0].draw(0, 0, 255, 25);
     model[0].draw(250, 50, 180, 180, 0.01);
     space.cam.end();
