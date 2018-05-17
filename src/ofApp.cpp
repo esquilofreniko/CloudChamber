@@ -40,11 +40,10 @@ double ofApp::wavetable(const int& sample, const int bufferSize) {
 void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 
 	vector<double> levels = {0.2, 0.5, 0.2, 0.5}; // local mixer levels
-
 	wta.update(width/2, height/2, depth/2, points[0].vertices); // update wavetable array
+	fm.index = (points[0].velavrg()*1000)+1000;
 
   for (int sample = 0; sample < bufferSize; ++sample) {
-	fm.index = (points[0].velavrg()*1000)+1000;
 	// map area of particles to filter bandwidth that filters fm/wavetable synth process
 	bp.f1 = points[0].area();
 	bp.f2 = points[0].area()+50;
