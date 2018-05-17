@@ -1,23 +1,23 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
-    ofSetFullscreen(true);
-    ofEnableLighting();
-    ofSetVerticalSync(true);
-    ofEnableAlphaBlending();
-    ofSetSmoothLighting(true);
-    ofSetBackgroundAuto(false);
-    ofSetBackgroundColor(30, 30, 30);
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    light.setup();
-    light.setPointLight();
-    light.setPosition(0, 0, 0);
-    light.setAttenuation(1, (0.000001), (0.000001));
-    mesh[0].init(-width / 4, -height / 4, -depth / 4, width / 4, height / 4, depth / 4);
-    model[0].init("heart.obj", 0.5);
-    light.disable();
-    points[0].init(width,height,depth);
-    for(int i = 0; i < 4; i++)
+	ofSetFullscreen(true);
+	ofEnableLighting();
+	ofSetVerticalSync(true);
+	ofEnableAlphaBlending();
+	ofSetSmoothLighting(true);
+	ofSetBackgroundAuto(false);
+	ofSetBackgroundColor(30, 30, 30);
+	ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+	light.setup();
+	light.setPointLight();
+	light.setPosition(0, 0, 0);
+	light.setAttenuation(1, (0.000001), (0.000001));
+	mesh[0].init(-width / 4, -height / 4, -depth / 4, width / 4, height / 4, depth / 4);
+	model[0].init("heart.obj", 0.5);
+	light.disable();
+	points[0].init(width,height,depth);
+	for(int i = 0; i < 4; i++)
 		attractor[i].init(width, height, depth);
 	ofSoundStreamSetup(2, 2, this, sampleRate, bufferSize, 4); // initialise audio
 }
@@ -43,8 +43,8 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 	wta.update(width/2, height/2, depth/2, points[0].vertices); // update wavetable array
 	fm.index = (points[0].velavrg()*1000)+1000;
 
-    for (int sample = 0; sample < bufferSize; ++sample) {
-	// map area of particles to filter bandwidth that filters fm/wavetable synth process
+	for (int sample = 0; sample < bufferSize; ++sample) {
+		// map area of particles to filter bandwidth that filters fm/wavetable synth process
 		bp.f1 = points[0].area();
 		bp.f2 = points[0].area()+50;
 		bp.q = 8;
@@ -113,7 +113,7 @@ void ofApp::structure() {
 				attractor[1].f = -2;
 				attractor[2].f = 4;
             }
-            break;
+			break;
 		case 6:
 			granprob = 0;
 			if (model[0].vertexcounter == 0) model[0].active = false;
@@ -149,44 +149,44 @@ void ofApp::structure() {
 }
 
 void ofApp::update() {
-    structure(); // call the function that determines state changes over time
-    for (int i = 0; i < 4; ++i)
+	structure(); // call the function that determines state changes over time
+	for (int i = 0; i < 4; ++i)
 		attractor[i].light.disable();
-    if(timing.getFrame() % 800 == 0)
+	if (timing.getFrame() % 800 == 0)
 		lines[0].clear(width, height, depth, 1);
-    lines[0].update(width, height, depth, 4);
-    points[0].update(width, height, depth);
-    model[0].render(0, -height / 16, 0, 2, 250, 5);
-    for(int i = 0; i < numattractors; ++i) {
+	lines[0].update(width, height, depth, 4);
+	points[0].update(width, height, depth);
+	model[0].render(0, -height / 16, 0, 2, 250, 5);
+	for(int i = 0; i < numattractors; ++i) {
 		attractor[i].limit(width, height, depth);
-        attractor[i].lighton();
-        attractor[i].update(25);
-        points[0].attracted(attractor[i].pos, attractor[i].f, numattractors);
-        for(int j = 0; j <= numattractors; j++)
-		    if (j != i)
+		attractor[i].lighton();
+		attractor[i].update(25);
+		points[0].attracted(attractor[i].pos, attractor[i].f, numattractors);
+		for(int j = 0; j <= numattractors; j++)
+			if (j != i)
 				attractor[j].attracted(attractor[i].pos, attractor[i].f, numattractors);
 	}
 }
 
 
 void ofApp::draw(){
-    space.cam.begin();
-    space.drawBackground(0, bgalpha);
-    space.drawWireframe(8, 25);
-    points[0].draw(250, 250, granprob);
-    for (int i = 0; i < numattractors; ++i)
+	space.cam.begin();
+	space.drawBackground(0, bgalpha);
+	space.drawWireframe(8, 25);
+	points[0].draw(250, 250, granprob);
+	for (int i = 0; i < numattractors; ++i)
 		attractor[i].draw(10,5);
-    lines[0].draw(0, 0, 255, 25);
-    model[0].draw(250, 50, 180, 180, 0.01);
-    space.cam.end();
-    timing.displayData();
+	lines[0].draw(0, 0, 255, 25);
+	model[0].draw(250, 50, 180, 180, 0.01);
+	space.cam.end();
+	timing.displayData();
 }
 
 void ofApp::keyPressed(int key){
 	space.movecam(key);
 	switch (key) {
 		case '1':
-		    space.framedraw = !space.framedraw;
+			space.framedraw = !space.framedraw;
 			break;
 		case '2':
 			for(int i = 0; i < 4; i++)
@@ -217,6 +217,7 @@ void ofApp::keyPressed(int key){
 		default:
 			break;
 	}
+	
 }
 
 void ofApp::keyReleased(int key){
