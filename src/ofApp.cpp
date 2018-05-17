@@ -43,42 +43,42 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
 	wta.update(width/2, height/2, depth/2, points[0].vertices); // update wavetable array
 	fm.index = (points[0].velavrg()*1000)+1000;
 
-  for (int sample = 0; sample < bufferSize; ++sample) {
+    for (int sample = 0; sample < bufferSize; ++sample) {
 	// map area of particles to filter bandwidth that filters fm/wavetable synth process
-	bp.f1 = points[0].area();
-	bp.f2 = points[0].area()+50;
-	bp.q = 8;
-	mixer.assign(1, bp.output(fm.output(wavetable(sample, 512))));
+		bp.f1 = points[0].area();
+		bp.f2 = points[0].area()+50;
+		bp.q = 8;
+		mixer.assign(1, bp.output(fm.output(wavetable(sample, 512))));
 
-	mixer.setLevel(1, levels[0]);
-	// trigger percussion sounds when particles are connected
-	perc.trigger(points[0].state);
-	mixer.assign(2, dist.fastAtanDist(perc.output(), 4));
-	mixer.setLevel(2, levels[1]);
+		mixer.setLevel(1, levels[0]);
+		// trigger percussion sounds when particles are connected
+		perc.trigger(points[0].state);
+		mixer.assign(2, dist.fastAtanDist(perc.output(), 4));
+		mixer.setLevel(2, levels[1]);
 
-	// trigger certain kick drum sounds when model is being generated
-	kick1.trigger(model[0].bang);
-    mixer.assign(3, kick1.output());
-	mixer.setLevel(3, levels[2]);
+		// trigger certain kick drum sounds when model is being generated
+		kick1.trigger(model[0].bang);
+		mixer.assign(3, kick1.output());
+		mixer.setLevel(3, levels[2]);
 
-	// trigger other kick drum sounds when lines are rendered
-	kick2.k.setPitch(ofRandom(2000, 2000));
-	kick2.k.setRelease(50);
-	kick2.filter = false;
-	kick2.distortion = false;
-	kick2.trigger(lines[0].bang);
-	mixer.assign(4, kick2.output());
-	mixer.setLevel(4, levels[3]);
+		// trigger other kick drum sounds when lines are rendered
+		kick2.k.setPitch(ofRandom(2000, 2000));
+		kick2.k.setRelease(50);
+		kick2.filter = false;
+		kick2.distortion = false;
+		kick2.trigger(lines[0].bang);
+		mixer.assign(4, kick2.output());
+		mixer.setLevel(4, levels[3]);
 
-   // summed mixer output is sent to audio output
-    output[sample * nChannels] =	    mixer.output();
-	output[sample * nChannels + 1] = 	output[sample * nChannels];
+		// summed mixer output is sent to audio output
+		output[sample * nChannels] =	    mixer.output();
+		output[sample * nChannels + 1] = 	output[sample * nChannels];
 	}
 
 	// reset states
 	points[0].state = 0;
 	model[0].bang = false;
-    lines[0].bang = false;
+	lines[0].bang = false;
 }
 
 void ofApp::structure() {
